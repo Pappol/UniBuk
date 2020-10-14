@@ -7,13 +7,13 @@ This is going to be a web application we will develop as both project and exam f
 > We need to develop an online service for e-commerce that will allow University students to sell, buy and search for used books, notes and resources. We want to deliver a web	version of this service and a client application.
 
 ## Project timeline
-| Date       | Milestone     | What to deliver     |
-| :------------- | :----------: | -----------: |
-|  5 - 12 October | Group Registration   | And Again    |
-| 15 October   | Main idea | Short Statement of the idea | 
-| 31 October | Design | Documentation design, API definition |
-| 25 - 30 November | Implementation (1st release) | Back-end aspects |
-| 15 December | Implementation (2nd release) | Front-end aspects |
+| Date             | Milestone                    | What to deliver                      |
+| :--------------: | :--------------------------: | :----------------------------------: |
+|  5 - 12 October  | Group Registration           | Team members name                    |
+| 15 October       | Main idea                    | Short Statement of the idea          | 
+| 31 October       | Design                       | Documentation design, API definition |
+| 25 - 30 November | Implementation (1st release) | Back-end aspects                     |
+| 15 December      | Implementation (2nd release) | Front-end aspects                    |
 
 ## Emoji-coded commits legend
 - 📝 New stuff has been added
