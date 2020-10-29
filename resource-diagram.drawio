@@ -1,0 +1,59 @@
+<mxfile host="65bd71144e" modified="2020-10-29T12:59:44.637Z" agent="5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Code/1.50.1 Chrome/83.0.4103.122 Electron/9.2.1 Safari/537.36" etag="iiKfOXYBNUuTNL0IAsVs" version="13.6.5">
+    <diagram id="1yO_Jc1BPOfT5nxPLUFG" name="Page-1">
+        <mxGraphModel dx="922" dy="759" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0">
+            <root>
+                <mxCell id="0"/>
+                <mxCell id="1" parent="0"/>
+                <mxCell id="PZ9piYDimuRyXfDXamoq-9" value="Book&#10;Any kind of publication&#10;featuring an ISBN code" style="swimlane;fontStyle=1;align=center;verticalAlign=top;childLayout=stackLayout;horizontal=1;startSize=70;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=1;marginBottom=0;fillColor=none;" parent="1" vertex="1">
+                    <mxGeometry x="130" y="200" width="160" height="180" as="geometry"/>
+                </mxCell>
+                <mxCell id="PZ9piYDimuRyXfDXamoq-10" value="+ identifier: ISBN&#10;+ provided: link to external&#10;shop&#10;+ should have list of courses,&#10;universities, professors&#10;that use it" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;" parent="PZ9piYDimuRyXfDXamoq-9" vertex="1">
+                    <mxGeometry y="70" width="160" height="110" as="geometry"/>
+                </mxCell>
+                <mxCell id="2" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" parent="1" source="PZ9piYDimuRyXfDXamoq-2" target="PZ9piYDimuRyXfDXamoq-9" edge="1">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="PZ9piYDimuRyXfDXamoq-1" value="Resource" style="swimlane;fontStyle=1;childLayout=stackLayout;horizontal=1;startSize=30;fillColor=none;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=1;marginBottom=0;" parent="1" vertex="1">
+                    <mxGeometry x="360" y="20" width="160" height="100" as="geometry"/>
+                </mxCell>
+                <mxCell id="PZ9piYDimuRyXfDXamoq-2" value="+ identifier&#10;+ aim&#10;+ rating&#10;+ reviews" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;" parent="PZ9piYDimuRyXfDXamoq-1" vertex="1">
+                    <mxGeometry y="30" width="160" height="70" as="geometry"/>
+                </mxCell>
+                <mxCell id="12" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="1" source="PZ9piYDimuRyXfDXamoq-2">
+                    <mxGeometry relative="1" as="geometry">
+                        <mxPoint x="600" y="200" as="targetPoint"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="13" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1">
+                    <mxGeometry relative="1" as="geometry">
+                        <mxPoint x="440" y="380" as="targetPoint"/>
+                        <mxPoint x="520" y="250.05882352941182" as="sourcePoint"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="18" value="Made by users" style="swimlane;fontStyle=1;childLayout=stackLayout;horizontal=1;startSize=26;fillColor=none;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=1;marginBottom=0;" vertex="1" parent="1">
+                    <mxGeometry x="520" y="200" width="160" height="90" as="geometry"/>
+                </mxCell>
+                <mxCell id="19" value="+ identifier: &#10;the tuple (uni, course, prof)" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;" vertex="1" parent="18">
+                    <mxGeometry y="26" width="160" height="64" as="geometry"/>
+                </mxCell>
+                <mxCell id="PZ9piYDimuRyXfDXamoq-13" value="Software&#10;any open source software&#10;available on github/gitlab" style="swimlane;fontStyle=1;align=center;verticalAlign=top;childLayout=stackLayout;horizontal=1;startSize=70;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=1;marginBottom=0;fillColor=none;" parent="1" vertex="1">
+                    <mxGeometry x="380" y="384" width="160" height="170" as="geometry"/>
+                </mxCell>
+                <mxCell id="PZ9piYDimuRyXfDXamoq-14" value="+ identifier: repo url&#10;+ provided: latest release or&#10;just repo url?" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;" parent="PZ9piYDimuRyXfDXamoq-13" vertex="1">
+                    <mxGeometry y="70" width="160" height="100" as="geometry"/>
+                </mxCell>
+                <mxCell id="PZ9piYDimuRyXfDXamoq-5" value="Notes&#10;kind of a gray area,&#10;but roughly any resource&#10;provided by prof.s" style="swimlane;fontStyle=1;align=center;verticalAlign=top;childLayout=stackLayout;horizontal=1;startSize=70;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=1;marginBottom=0;fillColor=none;" parent="1" vertex="1">
+                    <mxGeometry x="660" y="380" width="160" height="174" as="geometry"/>
+                </mxCell>
+                <mxCell id="PZ9piYDimuRyXfDXamoq-6" value="+ provided: document itself&#10;(pdf, doc, pptx...)&#10;+ needs author consent if&#10;they are a professor&#10;+ say whether it is required&#10;or it is just advised" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;" parent="PZ9piYDimuRyXfDXamoq-5" vertex="1">
+                    <mxGeometry y="70" width="160" height="104" as="geometry"/>
+                </mxCell>
+                <mxCell id="22" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0.618;entryY=-0.024;entryDx=0;entryDy=0;entryPerimeter=0;" edge="1" parent="1" source="19" target="PZ9piYDimuRyXfDXamoq-5">
+                    <mxGeometry relative="1" as="geometry">
+                        <mxPoint x="760" y="370" as="targetPoint"/>
+                    </mxGeometry>
+                </mxCell>
+            </root>
+        </mxGraphModel>
+    </diagram>
+</mxfile>

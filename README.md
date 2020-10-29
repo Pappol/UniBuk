@@ -6,6 +6,9 @@ This is going to be a web application we will develop as both project and exam f
 ## Statement of our main project idea
 > We need to develop an online service for e-commerce that will allow University students to sell, buy and search for used books, notes and resources. We want to deliver a web	version of this service and a client application.
 
+## 
+![resource-diagram](./resource-diagram.png)
+
 ## Project timeline
 | Date             | Milestone                    | What to deliver                      |
 | :--------------: | :--------------------------: | :----------------------------------: |
