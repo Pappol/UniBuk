@@ -14,9 +14,13 @@ This is going to be a web application we will develop as both project and exam f
 | :--------------: | :--------------------------: | :----------------------------------: |
 |  5 - 12 October  | Group Registration           | Team members name                    |
 | 15 October       | Main idea                    | Short Statement of the idea          | 
-| 31 October       | Design                       | Product backlog, mochup |
+| 31 October       | Design                       | Documentation design, API definition |
 | 25 - 30 November | Implementation (1st release) | Back-end aspects                     |
 | 15 December      | Implementation (2nd release) | Front-end aspects                    |
+
+## Mockup UI
+Come strumento per realizzare il mockup abbiamo scelto Figma, in modo da facilitare la collaborazione da remoto. Il progetto è disponibile, sempre aggiornato,  a questo link: https://www.figma.com/file/xhdmM3btgecZYUBP0xJzaj/Untitled?node-id=0%3A1
+Per le foto degli utenti abbiamo utilizzato il sito https://thispersondoesnotexist.com/, che sfrutta un AI per creare volti di individui che non esistono realmente.
 
 ## Emoji-coded commits legend
 - 📝 New stuff has been added
