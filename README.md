@@ -14,7 +14,7 @@ This is going to be a web application we will develop as both project and exam f
 | :--------------: | :--------------------------: | :----------------------------------: |
 |  5 - 12 October  | Group Registration           | Team members name                    |
 | 15 October       | Main idea                    | Short Statement of the idea          | 
-| 31 October       | Design                       | Documentation design, API definition |
+| 31 October       | Design                       | Product backlog, Mockup |
 | 25 - 30 November | Implementation (1st release) | Back-end aspects                     |
 | 15 December      | Implementation (2nd release) | Front-end aspects                    |
 
