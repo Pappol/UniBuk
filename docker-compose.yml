@@ -1,0 +1,9 @@
+version: "3.8"
+services:
+  node:
+    build: node
+    command: node server.js
+    volumes:
+      - ./node:/usr/src/app
+    ports:
+      - "8080:8080"
