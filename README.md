@@ -24,9 +24,9 @@ Per le foto degli utenti abbiamo utilizzato il sito https://thispersondoesnotexi
 
 ## Emoji-coded commits legend
 - 📝 `:memo:` New stuff has been added
-- 👀 Something has been updated
+- 👀 `:eyes:` Something has been updated
 - 🔨 `:hammer:` Some techincal fix has been made
-- 🌵 Some fine details have been appointed
+- 🌵 `:cactus:` Some fine details have been appointed
 
 ## Our team
 ``` plaintext
