@@ -23,9 +23,9 @@ Come strumento per realizzare il mockup abbiamo scelto Figma, in modo da facilit
 Per le foto degli utenti abbiamo utilizzato il sito https://thispersondoesnotexist.com/, che sfrutta un AI per creare volti di individui che non esistono realmente.
 
 ## Emoji-coded commits legend
-- 📝 New stuff has been added
+- 📝 `:memo:` New stuff has been added
 - 👀 Something has been updated
-- 🔨 Some techincal fix has been made
+- 🔨 `:hammer:` Some techincal fix has been made
 - 🌵 Some fine details have been appointed
 
 ## Our team
