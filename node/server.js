@@ -1,13 +1,15 @@
-'use strict';
+import express from 'express';
+import morgan from 'morgan';
 
-const express = require('express');
+const app = express();
+
+// Log packet
+app.use(morgan('dev'))
 
 // Constants
 const PORT = 8080;
 const HOST = '0.0.0.0';
 
-// App
-const app = express();
 app.get('/', (req, res) => {
   res.send('Hello World');
 });
