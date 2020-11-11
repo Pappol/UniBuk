@@ -17,7 +17,7 @@ Per le foto degli utenti abbiamo utilizzato il sito https://thispersondoesnotexi
 Come flusso di lavoro abbiamo deciso di usare Gitflow con struttura mostrara in figura qui sotto
 
 
-![GitWorkflow](./gitFlow.png)
+![GitWorkflow](./img/gitFlow.png)
 
 
 Abbiamo però deciso di omettere l'hotfix poiché il nostro lavoro non ne necessita non essendo un servizio in utilizzo.
