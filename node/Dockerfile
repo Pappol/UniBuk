@@ -12,4 +12,4 @@ USER node
 RUN npm install && npm cache clean --force --loglevel=error
 COPY --chown=node:node . .
 
-CMD [ "npm", "start"]
+CMD [ "npm", "run", "dev"]
