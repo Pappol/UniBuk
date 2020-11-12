@@ -285,15 +285,13 @@ components:
         contents:
             $ref: '#/components/schemas/Contents'
         favourites:
-          type: array
-          items:
-            type: object
-            properties:
-            #leggermente cambiate da quelle di pips
-              favContent:
-                $ref: '#/components/schemas/Contents'
-              favBooks:
-                $ref: '#/components/schemas/Book'
+          type: object
+          properties:
+          #leggermente cambiate da quelle di pips
+            favContent:
+              $ref: '#/components/schemas/Contents'
+            favBooks:
+              $ref: '#/components/schemas/Books'
       required:
         - _id
         - email
