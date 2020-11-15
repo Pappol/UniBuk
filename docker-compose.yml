@@ -7,3 +7,7 @@ services:
       - ./node:/usr/src/app
     ports:
       - "8080:8080"
+  frontend:
+    build: app
+    ports:
+      - "8000"
