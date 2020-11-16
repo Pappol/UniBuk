@@ -38,7 +38,7 @@ const bookSchema = mongoose.Schema({
       ref: 'Content'
     }
   ],
-  rate: Number,
+  tags: [String],
   comments: [
     {
       rank: Number,
