@@ -11,8 +11,12 @@ const contentSchema = mongoose.Schema({
     required: true,
   },
   url: {
-    type: Number,
+    type: String,
     required: true,
+  },
+  description: {
+    type: String,
+    required: true
   },
   validFor: [
     {
@@ -26,6 +30,17 @@ const contentSchema = mongoose.Schema({
       ref: "Book",
     },
   ],
+  rate: Number,
+  comments: [
+    {
+      rank: Number,
+      text: String,
+      author: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'User'
+      }
+    }
+  ]
 });
 
 module.exports = mongoose.model("Content", contentSchema);

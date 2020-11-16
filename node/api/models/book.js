@@ -22,16 +22,33 @@ const bookSchema = mongoose.Schema({
     type: String,
     required: true,
   },
+  description: {
+    type: String,
+    required: true
+  },
   validFor: [
     {
       university: String,
       course: String,
     },
   ],
-  contents: [{
-    type: mongoose.Schema.Types.ObjectId,
-    ref: 'Content'
-  }]
+  contents: [
+    {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'Content'
+    }
+  ],
+  rate: Number,
+  comments: [
+    {
+      rank: Number,
+      text: String, 
+      author: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'User'
+      }
+    }
+  ]
 });
 
 module.exports = mongoose.model("Book", bookSchema);

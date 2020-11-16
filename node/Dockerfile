@@ -9,7 +9,7 @@ COPY --chown=node:node package*.json ./
 # Run commands as node user
 USER node
 
-RUN npm install && npm cache clean --force --loglevel=error
+RUN npm install
 COPY --chown=node:node . .
 
-CMD [ "npm", "run", "dev" ]
+CMD [ "npm", "start" ]

@@ -17,22 +17,24 @@ const userSchema = mongoose.Schema({
 		course: String,
 		year: Number
   },
-  // university: String,
-  // course: String,
-  // year: Number,
   verified: Boolean,
-	contents: [{
-    type: mongoose.Schema.Types.ObjectId,
-    ref: 'Content'
-  }],
-  favourites: [{
-    type: mongoose.Schema.Types.ObjectId,
-    ref: 'Content'
-  },
-  {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: 'Books'
-  }]
+	contents: [
+    {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'Content'
+    }
+  ],
+  favourites: [
+    {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'Content'
+    },
+    {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'Books'
+    }
+  ],
+  contacts: [String]
 });
 
 module.exports = mongoose.model("User", userSchema);

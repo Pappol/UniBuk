@@ -4,3 +4,7 @@ services:
     build: node
     ports:
       - "8080:8080"
+    environment:
+      - MONGO_ATLAS_PW=arara
+      - MONGO_ATLAS_NAME=se2-draft
+      - JWT_KEY=mpk
