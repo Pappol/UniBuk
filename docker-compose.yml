@@ -2,6 +2,5 @@ version: "3"
 services:
   node:
     build: node
-    command: npm start
     ports:
       - "8080:8080"
