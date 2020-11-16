@@ -5,6 +5,11 @@ const contentSchema = mongoose.Schema({
   creator: {
     type: mongoose.Schema.Types.ObjectId,
     ref: "User",
+    required: true
+  },
+  date: {
+    type: Number,
+    required: true
   },
   name: {
     type: String,

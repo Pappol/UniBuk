@@ -4,7 +4,7 @@ const Book = require("../models/book");
 
 exports.books_get_all = (req, res, next) => {
   Book.find()
-    .select("isbn title author _id")
+    // .select("isbn title author description _id")
     .exec()
     .then((docs) => {
       const response = {
@@ -16,6 +16,9 @@ exports.books_get_all = (req, res, next) => {
             author: doc.author,
             year: doc.year,
             editor: doc.editor,
+            description: doc.description,
+            tags: doc.tags,
+            comments: doc.comments,
             _id: doc._id,
             request: {
               type: "GET",
@@ -37,7 +40,7 @@ exports.books_get_all = (req, res, next) => {
 exports.books_get_book = (req, res, next) => {
   const id = req.params.bookId;
   Book.findById(id)
-		.select("isbn title author _id validFor")
+		// .select("isbn title author description _id validFor")
     .exec()
     .then((doc) => {
       console.log("Gathered from database", doc);

@@ -20,8 +20,8 @@ mongoose.connect(
 mongoose.Promise = global.Promise;
 
 // importing routes
-const booksRoutes = require('./api/routes/books');
 const contentsRoutes = require('./api/routes/contents');
+const booksRoutes = require('./api/routes/books');
 const userRoutes = require('./api/routes/user');
 
 app.use(morgan("dev"));
@@ -48,8 +48,8 @@ app.use((req, res, next) => {
 });
 
 // main routes
-app.use('/books', booksRoutes);
 app.use('/contents', contentsRoutes);
+app.use('/books', booksRoutes);
 app.use('/user', userRoutes);
 
 // default route
