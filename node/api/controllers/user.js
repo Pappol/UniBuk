@@ -24,6 +24,9 @@ exports.user_signup = (req, res, next) => {
               _id: new mongoose.Types.ObjectId(),
               email: req.body.email,
               password: hash,
+              username: req.username,
+              firstName: req.firstName,
+              lastName: req.lastName,
               studentCreds: {
                 university: req.body.studentCreds.university,
                 course: req.body.studentCreds.course,
