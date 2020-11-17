@@ -64,28 +64,33 @@ paths:
   
   /users/{id}:
   
-    get: 
-      description: Obtain information about a specific user
-      parameters:
-        - in: path
-          name: id
-          required: true
-          description: The id of the user
-          schema: 
-            type: string
-            example: mongoose auto generated
-      responses:
-        '200':
-          description: Success pull of one user
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/User'
-        '404':
-          $ref: '#/components/responses/NotFound'
-        '500':
-          $ref: '#/components/responses/DbError'
-          
+#    get: 
+#      description: Obtain information about a specific user
+#      parameters:
+#        - in: path
+#          name: id
+#          required: true
+#          description: The id of the user
+#          schema: 
+#            type: string
+#            example: mongoose auto generated
+#      responses:
+#        '200':
+#          description: Success pull of one user
+#          content:
+#            application/json:
+#              schema:
+#                $ref: '#/components/schemas/User'
+#        '404':
+#          $ref: '#/components/responses/NotFound'
+#        '500':
+#          $ref: '#/components/responses/DbError'
+
+#    patch:
+#      description: Edits a specific user from the database
+#      parameters:
+#      responses:
+
     delete:
       description: Delete a specific user from the database
       parameters:
@@ -163,13 +168,13 @@ paths:
         '500':
           $ref: '#/components/responses/DbError'
     
-    post:
-      description: Insert a new content in the database
-      responses:
-        '201': 
-          $ref: '#/components/responses/Created'
-        '500':
-          $ref: '#/components/responses/DbError'
+#    post:
+#      description: Insert a new content in the database
+#      responses:
+#        '201': 
+#          $ref: '#/components/responses/Created'
+#        '500':
+#          $ref: '#/components/responses/DbError'
   
   /contents/{id}:
     
@@ -189,37 +194,37 @@ paths:
         '500':
           $ref: '#/components/responses/DbError'
     
-    patch:
-      description: Change the content of a specific content
-      parameters:
-        - in: path
-          name: id
-          required: true
-          description: The id of the book
-          schema:
-            type: string
-            example: mongose auto generated
-      responses:
-        '404':
-            $ref: '#/components/responses/NotFound'
-        '500':
-          $ref: '#/components/responses/DbError'
+#    patch:
+#      description: Change the content of a specific content
+#      parameters:
+#        - in: path
+#          name: id
+#          required: true
+#          description: The id of the book
+#          schema:
+#            type: string
+#            example: mongose auto generated
+#      responses:
+#        '404':
+#          $ref: '#/components/responses/NotFound'
+#        '500':
+#          $ref: '#/components/responses/DbError'
     
-    delete:
-      description: Delete a specific content from the database
-      parameters:
-        - in: path
-          name: id
-          required: true
-          description: The id of the book
-          schema:
-            type: string
-            example: mongose auto generated
-      responses:
-        '404':
-          $ref: '#/components/responses/NotFound'
-        '500':
-          $ref: '#/components/responses/DbError'
+#    delete:
+#      description: Delete a specific content from the database
+#      parameters:
+#        - in: path
+#          name: id
+#          required: true
+#          description: The id of the book
+#          schema:
+#            type: string
+#            example: mongose auto generated
+#      responses:
+#        '404':
+#          $ref: '#/components/responses/NotFound'
+#        '500':
+#          $ref: '#/components/responses/DbError'
     
 components:
   schemas:
@@ -264,6 +269,15 @@ components:
         email:
           type: string
           example: myemali@example.com
+        username:
+          type: string
+          example: th3h4ck3r
+        firstName:
+          type: string
+          example: Mario
+        lastName:
+          type: string
+          example: Rossi
         password:
           type: string
           example: lihv9wflnns
@@ -292,6 +306,11 @@ components:
               $ref: '#/components/schemas/Contents'
             favBooks:
               $ref: '#/components/schemas/Books'
+        contacts:
+          type: array
+          items:
+            type: string
+            example: www.github.com/RossiMario
       required:
         - _id
         - email
@@ -325,13 +344,22 @@ components:
         editor:
           type: string
           example: Mondadori
+        description:
+          type: string
+          example: the storic book for LFC course
         validFor:
           type: array
           items:
            $ref: '#/components/schemas/ValidFor'
-        #questa non l'ho capita (sono i content relativi a quel libro?)
         contents:
             $ref: '#/components/schemas/Contents'
+        tags:
+          type: array
+          items:
+            type: string
+            example: LFC
+        comments:
+          $ref: '#/components/schemas/Comments'
       required:
         - _id
         - isbn
@@ -339,6 +367,7 @@ components:
         - author
         - year
         - editor
+        - description
     
     Contents: 
       description: Array of contents info
@@ -353,19 +382,40 @@ components:
         _id:
           type: string
           example: mongoose auto generated
+        date:
+          type: number
+          example: 17.11.2020
+        creator:
+          $ref: '#/components/schemas/User'
         name:
           type: string
           example: Dispensa Calcolatori
         url:
           type: number
           example: 429426
+        description:
+          type: string
+          example: How to beat Calcolatori @UniTN
         validFor:
           type: array
           items:
             $ref: '#/components/schemas/ValidFor'
         books:
           $ref: '#/components/schemas/Books'
-            
+        tags: 
+          type: array
+          items:
+            type: string
+            example: Calcolatori
+        comments:
+          $ref: '#/components/schemas/Comments'
+      requred:
+        - _id
+        - creator
+        - date
+        - name
+        - url
+        - description
     
     ValidFor:
       description: Model of the validity location of a resource
@@ -377,6 +427,24 @@ components:
         course:
           type: string
           example: LFC
+    Comments:
+      descriptio: Array of Comment items
+      type: array
+      items:
+        $ref: '#/components/schemas/Comment'
+      
+    Comment:
+      description: Model for a comment item
+      type: object
+      properties:
+        rank: 
+          type: number
+          example: 4
+        text: 
+          type: string
+          example: so useful!!
+        author:
+          $ref: '#/components/schemas/User'
 
   responses:
   
