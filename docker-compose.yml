@@ -10,4 +10,4 @@ services:
   frontend:
     build: app
     ports:
-      - "8000"
+      - "3000"
