@@ -1,18 +1,12 @@
-import express from 'express';
-import morgan from 'morgan';
-
-const app = express();
-
-// Log packet
-app.use(morgan('dev'))
+'use strict';
+const http = require('http');
+const app = require('./app');
 
 // Constants
-const PORT = 8080;
-const HOST = '0.0.0.0';
+const PORT = process.env.PORT || 8080;
+const HOST = 'localhost';
 
-app.get('/', (req, res) => {
-  res.send('Hello World');
-});
+const server = http.createServer(app);
 
-app.listen(PORT, HOST);
+server.listen(PORT);
 console.log(`Running on http://${HOST}:${PORT}`);

@@ -6,7 +6,7 @@ This is going to be a web application we will develop as both project and exam f
 > We need to develop an online service for e-commerce that will allow University students to sell, buy and search for used books, notes and resources. We want to deliver a web	version of this service and a client application.
 
 ## Resource diagram
-![resource-diagram](./resource-diagram.png)
+![resource-diagram](./img/resource-diagram.png)
 
 ## Mockup UI
 Come strumento per realizzare il mockup abbiamo scelto Figma, in modo da facilitare la collaborazione da remoto. Il progetto è disponibile, sempre aggiornato,  a questo link: https://www.figma.com/file/xhdmM3btgecZYUBP0xJzaj/Untitled?node-id=0%3A1
