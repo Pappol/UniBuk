@@ -1,29 +1,24 @@
 import React from 'react';
 import './Book.css'
 
-const book = (props) => {
+import Card from 'react-bootstrap/Card'
+import Button from 'react-bootstrap/Button'
+
+const Book = (props) => {
     return (
-        <div className = 'Book'>
-            <h5>ISBN</h5>
-            <p>{props.isbn}</p>
-            <br></br>
-            <h5>Title</h5>
-            <p>{props.title}</p>
-            <br></br>
-            <h5>Author</h5>
-            <p>{props.author}</p>
-            <br></br>
-            <h5>Year</h5>
-            <p>{props.year}</p>
-            <br></br>
-            <h5>Editor</h5>
-            <p>{props.editor}</p>
-            <br></br>
-            <h5>Description</h5>
-            <p>{props.description}</p>
-            <br></br>
-        </div> 
+        <>
+            <Card className = 'mb-4 box-shadow' >
+                <Card.Header>{props.isbn}</Card.Header>
+                <Card.Img variant='top' src =''></Card.Img>
+                <Card.Body>
+                    <Card.Title>{props.title}</Card.Title>
+                    <Card.Subtitle className="mb-2 text-muted">{props.author}</Card.Subtitle>
+                    <Card.Text>{props.description}</Card.Text>
+                    <Button variant="primary">Visualizza</Button>
+                </Card.Body>
+            </Card>
+        </>
     );
 };
 
-export default book;
+export default Book;

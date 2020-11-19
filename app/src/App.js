@@ -1,28 +1,44 @@
 import React, {Component} from 'react';
+import ReactDOM from 'react-dom'
+
 import './App.css';
 import Book from './Book/Book';
+
+import Button from 'react-bootstrap/Button'
+import Container from 'react-bootstrap/Container'
+import CardColumns from 'react-bootstrap/CardColumns'
+import Row from 'react-bootstrap/Row'
+import Col from 'react-bootstrap/Col'
 
 var a = 0;
 var b = 1;
 
 class App extends Component {
   state = {
-    books: [
-      {isbn: '1234', title: 'Dragon Book', author: 'qu4gl14', year: '1964', editor: 'boh', description: 'lfc'},
-      {isbn: '2345', title: 'Harry Potter', author: 'JKR', year: '2000', editor: 'boh', description: 'leviosa non leviosà'},
-      {isbn: '3456', title: 'il signore degli anelli', author: 'gandalf', year: '1347', editor: 'boh', description: 'epic sax guy'},
-      {isbn: '42', title: 'guida galattica per autostoppisti', author: '42', year: '42', editor: '42', description: '42'}
-    ]
+    count: 0,
+    books: []
+  }
+
+  CreateBooks = (props) => {
+    let items = [];
+    for(let i=0; i<props.times; i++)
+      items.push( React.createElement(Col, {
+        children: React.createElement(Book, this.state.books[i]),
+        className: 'md-4'
+        } )
+      )
+    return <Row>{items}</Row>
   }
 
   submitHandler = event => {
     event.preventDefault();
-    alert('Ora ti mostro i libri!');
-    fetch('http://localhost:8080/boooks')
+    //alert('Ora ti mostro i libri!');
+    fetch('http://localhost:8080/books')
       .then( res => res.json() )
       .then(
         (results) => {
           this.setState({
+            count: results.count,
             books: results.books
           });
         },
@@ -32,6 +48,7 @@ class App extends Component {
           });
         }
       )
+      .then(ReactDOM.render(<this.CreateBooks times = {this.state.count}></this.CreateBooks>, document.getElementById('booksList')))
   }
 
   nextPageHandler = () => {
@@ -42,15 +59,15 @@ class App extends Component {
 
   render(){
     return (
-      <div className = 'App'>
+      <Container className='p-0'>
         <h1>All Books</h1>
-        <button onClick = {this.nextPageHandler}>Next</button>
-        <button onClick = {this.submitHandler}>Get books</button>
-        <Book className = 'Book' isbn = {this.state.books[0].isbn} title = {this.state.books[0].title} author = {this.state.books[0].author} year = {this.state.books[0].year} editor = {this.state.books[0].editor} description = {this.state.books[0].description} />
-        <Book className = 'Book' isbn = {this.state.books[1].isbn} title = {this.state.books[1].title} author = {this.state.books[1].author} year = {this.state.books[1].year} editor = {this.state.books[1].editor} description = {this.state.books[1].description} />
-        <Book className = 'Book' isbn = {this.state.books[2].isbn} title = {this.state.books[2].title} author = {this.state.books[2].author} year = {this.state.books[2].year} editor = {this.state.books[2].editor} description = {this.state.books[2].description} />
-        <Book className = 'Book' isbn = {this.state.books[3].isbn} title = {this.state.books[3].title} author = {this.state.books[3].author} year = {this.state.books[3].year} editor = {this.state.books[3].editor} description = {this.state.books[3].description} />
-      </div>
+        <Button variant = 'primary' onClick = {this.nextPageHandler}>Next</Button>
+        <Button variant = 'primary' onClick = {this.submitHandler}>Get books</Button>
+        <br />
+        <div id = 'booksList'>
+          <this.CreateBooks times = {this.state.count}></this.CreateBooks>
+        </div>
+      </Container>
     );
   }
 }
