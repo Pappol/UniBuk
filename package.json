@@ -1,1 +1,6 @@
-{}
+{
+    "scripts": {
+      "test": "cd node; jest"
+    }
+  }
+  
