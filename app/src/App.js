@@ -1,17 +1,9 @@
-import React, {Component} from 'react';
-import ReactDOM from 'react-dom'
+import React, { Component } from 'react';
 
+import { BrowserRouter, Link, Route } from 'react-router-dom';
 import './App.css';
 import Book from './Book/Book';
-
-import Button from 'react-bootstrap/Button'
-import Container from 'react-bootstrap/Container'
-import CardColumns from 'react-bootstrap/CardColumns'
-import Row from 'react-bootstrap/Row'
-import Col from 'react-bootstrap/Col'
-
-var a = 0;
-var b = 1;
+import Books from './Books/Books';
 
 class App extends Component {
   state = {
@@ -19,55 +11,32 @@ class App extends Component {
     books: []
   }
 
-  CreateBooks = (props) => {
-    let items = [];
-    for(let i=0; i<props.times; i++)
-      items.push( React.createElement(Col, {
-        children: React.createElement(Book, this.state.books[i]),
-        className: 'md-4'
-        } )
-      )
-    return <Row>{items}</Row>
-  }
+  // nextPageHandler = () => {
+  //   console.log('TODO: implement');
+  // }
 
-  submitHandler = event => {
-    event.preventDefault();
-    //alert('Ora ti mostro i libri!');
-    fetch('http://localhost:8080/books')
-      .then( res => res.json() )
-      .then(
-        (results) => {
-          this.setState({
-            count: results.count,
-            books: results.books
-          });
-        },
-        (error) => {
-          this.setState({
-            error
-          });
-        }
-      )
-      .then(ReactDOM.render(<this.CreateBooks times = {this.state.count}></this.CreateBooks>, document.getElementById('booksList')))
-  }
-
-  nextPageHandler = () => {
-    console.log('click' + a + '' + b);
-    a += 2;
-    b += 2;
-  }
-
-  render(){
+  render() {
     return (
-      <Container className='p-0'>
-        <h1>All Books</h1>
-        <Button variant = 'primary' onClick = {this.nextPageHandler}>Next</Button>
-        <Button variant = 'primary' onClick = {this.submitHandler}>Get books</Button>
-        <br />
-        <div id = 'booksList'>
-          <this.CreateBooks times = {this.state.count}></this.CreateBooks>
-        </div>
-      </Container>
+      <BrowserRouter>
+
+        <h1>UniBuk</h1>
+        <p>Questa scritta rimarrà in tutto il sito, potrebbe essere sosituita da una TopBar</p>
+
+        <Route path="/" exact={true}>
+          <p>Questa è la Root (/), clicca il link sotto per cambiare pagina</p>
+          <Link to={`/books/`}>
+            <p>VAI A /books/</p>
+          </Link>
+        </Route>
+
+        <Route path="/books/" exact={true}>
+          <Books />
+        </Route>
+
+        <Route path="/books/:bookId">
+          <Book>{this.props._id}</Book>
+        </Route>
+      </BrowserRouter>
     );
   }
 }
