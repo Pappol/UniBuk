@@ -1,44 +1,32 @@
 import React, { Component } from 'react';
-
-import { BrowserRouter, Link, Route } from 'react-router-dom';
+import { BrowserRouter, Route, Switch } from 'react-router-dom';
+import About from './About/About';
 import './App.css';
-import Book from './Book/Book';
-import Books from './Books/Books';
+import Home from './Home/Home';
+import Navbar from './Navbar/Navbar';
+import Resources from './Resources/Resources';
+import Users from './Users/Users'
 
-class App extends Component {
-  state = {
-    count: 0,
-    books: []
-  }
-
-  // nextPageHandler = () => {
-  //   console.log('TODO: implement');
-  // }
-
+export default class App extends Component {
   render() {
     return (
       <BrowserRouter>
-
-        <h1>UniBuk</h1>
-        <p>Questa scritta rimarrà in tutto il sito, potrebbe essere sosituita da una TopBar</p>
-
-        <Route path="/" exact={true}>
-          <p>Questa è la Root (/), clicca il link sotto per cambiare pagina</p>
-          <Link to={`/books/`}>
-            <p>VAI A /books/</p>
-          </Link>
-        </Route>
-
-        <Route path="/books/" exact={true}>
-          <Books />
-        </Route>
-
-        <Route path="/books/:bookId">
-          <Book>{this.props._id}</Book>
-        </Route>
+        <Navbar />
+        <Switch>
+          <Route path="/about">
+            <About />
+          </Route>
+          <Route path="/resources">
+            <Resources />
+          </Route>
+          <Route path="/users">
+            <Users />
+          </Route>
+          <Route path="/">
+            <Home />
+          </Route>
+        </Switch>
       </BrowserRouter>
     );
   }
 }
-
-export default App;
