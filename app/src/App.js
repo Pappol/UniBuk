@@ -1,11 +1,12 @@
 import React, { Component } from 'react';
 import { BrowserRouter, Route, Switch } from 'react-router-dom';
-import About from './About/About';
+import About from './components/About/About';
 import './App.css';
-import Home from './Home/Home';
-import Navbar from './Navbar/Navbar';
-import Resources from './Resources/Resources';
-import Users from './Users/Users'
+import Home from './components/Home/Home';
+import Navbar from './components/Navbar/Navbar';
+import Resources from './components/Resources/Resources';
+import Users from './components/Users/Users'
+import { Login, Signup } from './components/Auth/index';
 
 export default class App extends Component {
   render() {
@@ -13,18 +14,12 @@ export default class App extends Component {
       <BrowserRouter>
         <Navbar />
         <Switch>
-          <Route path="/about">
-            <About />
-          </Route>
-          <Route path="/resources">
-            <Resources />
-          </Route>
-          <Route path="/users">
-            <Users />
-          </Route>
-          <Route path="/">
-            <Home />
-          </Route>
+          <Route path="/about" component={About}/>
+          <Route path="/resources" component={Resources}/>
+          <Route path="/users" component={Users}/>
+          <Route path="/user/login" component={Login}/>
+          <Route path="/user/signup" component={Signup}/>
+          <Route path="/" component={Home}/>
         </Switch>
       </BrowserRouter>
     );
