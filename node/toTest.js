@@ -6,4 +6,4 @@ const toTest = {
     .then(res => res.data)
     .catch(err => 'Error with the get')
 }
-module.exports = toTest;
+module.exports = toTest; 
