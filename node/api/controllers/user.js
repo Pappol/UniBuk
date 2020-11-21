@@ -24,15 +24,19 @@ exports.user_signup = (req, res, next) => {
               _id: new mongoose.Types.ObjectId(),
               email: req.body.email,
               password: hash,
-              username: req.username,
-              firstName: req.firstName,
-              lastName: req.lastName,
-              studentCreds: {
-                university: req.body.studentCreds.university,
-                course: req.body.studentCreds.course,
-                year: req.body.studentCreds.year,
-              },
+              username: req.body.username,
+              firstName: req.body.firstName,
+              lastName: req.body.lastName,
             });
+            if (req.studentCreds) {
+              user.update({
+                studentCreds: {
+                  university: req.body.studentCreds.university,
+                  course: req.body.studentCreds.course,
+                  year: req.body.studentCreds.year,
+                }
+              })
+            }
 
             user
               .save()
