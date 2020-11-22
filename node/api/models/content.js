@@ -23,6 +23,10 @@ const contentSchema = mongoose.Schema({
     type: String,
     required: true
   },
+  contentImage: {
+    type: String,
+    required: true
+  },
   validFor: [
     {
       university: String,

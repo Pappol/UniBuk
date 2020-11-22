@@ -17,6 +17,8 @@ exports.books_get_all = (req, res, next) => {
             year: doc.year,
             editor: doc.editor,
             description: doc.description,
+            bookImage: doc.bookImage,
+            validFor: doc.validFor,
             tags: doc.tags,
             comments: doc.comments,
             _id: doc._id,
