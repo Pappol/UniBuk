@@ -16,6 +16,7 @@ exports.contents_get_all = (req, res, next) => {
               name: doc.name,
               url: doc.url,
               description: doc.description,
+              contentImage:doc.contentImage,
               validFor: doc.validFor,
               tags: doc.tags,
               comments: doc.comments,

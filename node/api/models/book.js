@@ -26,6 +26,10 @@ const bookSchema = mongoose.Schema({
     type: String,
     required: true
   },
+  bookImage: {
+    type: String,
+    required: true
+  },
   validFor: [
     {
       university: String,
