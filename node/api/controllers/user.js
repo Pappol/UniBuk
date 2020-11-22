@@ -4,11 +4,10 @@ const jwt = require("jsonwebtoken");
 
 const User = require("../models/user");
 
-
 exports.users_get_user = (req, res, next) => {
   const id = req.params.userId;
   User.findById(id)
-		// .select("firstName lastName _id validFor")
+    // .select("firstName lastName _id validFor")
     .exec()
     .then((doc) => {
       console.log("Gathered from database", doc);
@@ -34,12 +33,10 @@ exports.users_get_user = (req, res, next) => {
     });
 };
 
-
 exports.user_signup = (req, res, next) => {
   User.find({ email: req.body.email })
     .exec()
     .then((user) => {
-
       if (user.length >= 1) {
         return res.status(409).json({
           message: "Mail exists",
@@ -131,7 +128,36 @@ exports.user_login = (req, res, next) => {
 };
 
 exports.user_update = (req, res, next) => {
-	console.log('todo');
+  const id = req.params.userId;
+  const updateOps = {};
+  for (const ops of req.body) {
+    updateOps[ops.propName] = ops.value;
+  }
+  User.update(
+    {
+      _id: id,
+    },
+    {
+      $set: updateOps,
+    }
+  )
+    .exec()
+    .then((result) => {
+      console.log(result);
+      res.status(200).json({
+        message: "user updated",
+        request: {
+          type: "GET",
+          url: 'http"//localhost:3000/users' + id,
+        },
+      });
+    })
+    .catch((err) => {
+      console.log(err);
+      res.status(500).json({
+        error: err,
+      });
+    });
 };
 
 exports.user_delete = (req, res, next) => {
