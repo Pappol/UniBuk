@@ -3,9 +3,9 @@ import Jumbotron from 'react-bootstrap/esm/Jumbotron';
 
 import Container from 'react-bootstrap/Container'
 import Switch from 'react-bootstrap/esm/Switch';
+import { withRouter } from 'react-router-dom';
 
-export default class UserDetails extends Component {
-
+class UserDetails extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -35,3 +35,5 @@ export default class UserDetails extends Component {
     )
   }
 }
+
+export default withRouter(UserDetails);
