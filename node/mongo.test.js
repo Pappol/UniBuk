@@ -16,11 +16,7 @@ describe('insert', () => {
           useCreateIndex: true
         }
       );
-      //mongoose.Promise = global.Promise;
-      db = await connection.once('open', function() {
-        console.log('connected db');
-      });
-    }); 
+s    }); 
   
     afterAll(async () => {
       await connection.close();
@@ -47,6 +43,6 @@ describe('insert', () => {
                     });
   
       const insertedUser = await User.find({_id: mockUser._id});
-      expect(insertedUser).toEqual(mockUser);
+      expect(""+insertedUser).toEqual(""+mockUser);
     });
   });
