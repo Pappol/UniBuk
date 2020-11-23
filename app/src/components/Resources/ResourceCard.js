@@ -11,8 +11,7 @@ class ResourceCard extends Component {
     return (
       <Card className='mb-4 box-shadow'>
         <Card.Header>{resource.author}{resource.creator}</Card.Header>
-        {/* sta cosa delle immagini poi bisogna farla un po' meno hardcodata */}
-        <Card.Img variant='top' src='http://localhost:8080/uploads/books/db.jpg'></Card.Img>
+        <Card.Img variant='top' src={`http://localhost:8080/${resource.bookImage}`}></Card.Img>
         <Card.Body>
           <Card.Title>{resource.title}{resource.name}</Card.Title>
           <Card.Subtitle className="mb-2 text-muted">{resource.date}{resource.year}</Card.Subtitle>
