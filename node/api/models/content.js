@@ -23,7 +23,7 @@ const contentSchema = mongoose.Schema({
     type: String,
     required: true
   },
-  contentImage: {
+  image: {
     type: String,
     required: true
   },

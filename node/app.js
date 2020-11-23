@@ -25,7 +25,7 @@ const booksRoutes = require('./api/routes/books');
 const userRoutes = require('./api/routes/user');
 
 app.use(morgan("dev"));
-
+app.use('/uploads', express.static('uploads'));
 app.use(
   bodyParser.urlencoded({
     extended: false,
