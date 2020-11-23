@@ -1,0 +1,20 @@
+a {
+    color: #f8f9fa;
+    text-decoration: none;
+    text-transform:  none;
+    text-emphasis: none;
+}
+
+a:hover {
+    color: #f8f9fa;
+    text-decoration: none;
+    text-transform:  none;
+    text-emphasis: none;
+}
+
+.active {
+    color: #ffffff;
+    text-decoration: none;
+    text-transform:  none;
+    text-emphasis: none;
+}

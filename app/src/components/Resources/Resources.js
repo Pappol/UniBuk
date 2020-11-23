@@ -18,15 +18,21 @@ class Resources extends Component {
   }
 
   componentDidMount() {
-    this.getResources();
+    this.getResources("books");
   }
 
-  getResources = async (event) => {
-    const res = await fetch('http://localhost:8080/books');
+  getResources = async (kind) => {
+    const res = await fetch(`http://localhost:8080/${kind}`);
     const json = await res.json();
-    this.setState({
-      resources: json.books
-    });
+    if (kind === 'books') {
+      this.setState({
+        resources: json.books
+      }); 
+    } else if(kind === 'contents') {
+      this.setState({
+        resources: json.contents
+      });  
+    }
   }
 
   render() {
@@ -39,7 +45,8 @@ class Resources extends Component {
         <Route path="/resources">
           <Container className='p-0' >
             <h1>All Resources</h1>
-            <Button variant='primary' onClick={this.getResources}>Aggiorna risorse</Button>
+            <Button variant='primary' onClick={() => this.getResources("books")}>Libri</Button>
+            <Button variant='primary' onClick={() => this.getResources("contents")}>Contenuti</Button>
             {
               resources.map(resource => (
                 <Row key={resource._id}>
