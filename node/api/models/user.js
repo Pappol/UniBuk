@@ -1,5 +1,15 @@
 const mongoose = require("mongoose");
 
+// This is the model page for the users in the database
+    /*
+      this is the typical user class
+      contains more than the typical user class
+        universities credentials 
+        a reference to the content that the user has created
+        a reference to all the books or content saved by the user
+    */
+
+    
 const userSchema = mongoose.Schema({
   _id: mongoose.Schema.Types.ObjectId,
   email: {

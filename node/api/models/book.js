@@ -1,5 +1,17 @@
 const mongoose = require("mongoose");
 
+// This is the model page for the books in the database
+    /*
+      each book has all the propreties to recognise the book itself like an image and the ISBN code 
+      the field validFor is a instrument to connect various universities and courses with the book for the user to 
+      always find the best book for his/her course
+
+      another foundamental filed for the book is the tags fields to guarantee better search performance and coherence
+
+      comments are also very important for the user to choose whitch book fits the best his pourpuses
+    */
+   
+
 const bookSchema = mongoose.Schema({
   _id: mongoose.Schema.Types.ObjectId,
   isbn: {
