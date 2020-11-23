@@ -6,12 +6,38 @@ import Button from 'react-bootstrap/Button'
 import { Link, withRouter } from 'react-router-dom';
 
 class ResourceCard extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      creatorName: String
+    };
+  }
+
+  componentDidMount() {
+    this.getCreatorName();
+  }
+
+  getCreatorName = async () => {
+    if(this.props.resource.creator) {
+      const res = await fetch(`http://localhost:8080/user/${this.props.resource.creator}`);
+      const json = await res.json();
+      this.setState({
+        creatorName: json.user.username
+      });
+    } else {
+      this.setState({
+        creatorName: null
+      });
+    }
+  }
+
   render() {
     const { resource, match } = this.props;
+    console.log(this.props.resource);
     return (
       <Card className='mb-4 box-shadow'>
-        <Card.Header>{resource.author}{resource.creator}</Card.Header>
-        <Card.Img variant='top' src={`http://localhost:8080/${resource.bookImage}`}></Card.Img>
+        <Card.Header>{resource.author}{this.state.creatorName}</Card.Header>
+        <Card.Img variant='top' src={`http://localhost:8080/${resource.image}`}></Card.Img>
         <Card.Body>
           <Card.Title>{resource.title}{resource.name}</Card.Title>
           <Card.Subtitle className="mb-2 text-muted">{resource.date}{resource.year}</Card.Subtitle>
