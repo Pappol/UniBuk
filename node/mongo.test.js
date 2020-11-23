@@ -9,22 +9,18 @@ describe('insert', () => {
   
     beforeAll(async () => {
       connection = await mongoose.connect(
-        "mongodb+srv://dbadmin:" +
-          process.env.MONGO_ATLAS_PW +
-          "@cluster0.lgrig.mongodb.net/" +
-          process.env.MONGO_ATLAS_NAME +
-          "?retryWrites=true&w=majority",
+        "mongodb+srv://dbadmin:arara@cluster0.lgrig.mongodb.net/se2-draft?retryWrites=true&w=majority",
         {
           useNewUrlParser: true,
           useUnifiedTopology: true,
           useCreateIndex: true
         }
       );
-      mongoose.Promise = global.Promise;
+      //mongoose.Promise = global.Promise;
       db = await connection.once('open', function() {
         console.log('connected db');
       });
-    });
+    }); 
   
     afterAll(async () => {
       await connection.close();
@@ -32,6 +28,12 @@ describe('insert', () => {
     });
   
     it('User create test', async () => {  
+      if(User.find({email: 'Ciaobello@gmail.com'})){
+        const deletedUser = await User.deleteOne({ email: 'Ciaobello@gmail.com' }, function (err) {
+          if (err) return handleError(err);
+          console.log('tester deleter');
+        });
+      }
       const mockUser = new User( {_id:new mongoose.Types.ObjectId(),
                         email: 'Ciaobello@gmail.com', 
                         username: 'pappol',
