@@ -7,7 +7,7 @@ describe('api.test', () => {
     let server;
 
     beforeAll( () => {
-        const port = process.env.PORT || 3000;
+        const port = process.env.PORT || 8080;
         return new Promise( (resolve, reject) => {
             server = app.listen(port, resolve());
             console.log(`Server listening on port ${port}`);

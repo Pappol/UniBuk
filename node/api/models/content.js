@@ -1,5 +1,15 @@
 const mongoose = require("mongoose");
 
+
+// This is the model page for the content in the database
+    /*
+      this model is similar to the book model has all the data to be recognised including the creator, like books it has the information
+      of univeristies and courses, tags and the commets of the users
+
+      a big difference from the books is that the contents contains references to the books like a bibliography 
+    */
+   
+
 const contentSchema = mongoose.Schema({
   _id: mongoose.Schema.Types.ObjectId,
   creator: {
@@ -23,7 +33,7 @@ const contentSchema = mongoose.Schema({
     type: String,
     required: true
   },
-  contentImage: {
+  image: {
     type: String,
     required: true
   },
