@@ -1,33 +1,34 @@
 const app = require('./app');
+const http = require('http');
 const fetch = require("node-fetch");
-const url = "http://localhost:8080/user/signup";
+const mongoose = require("mongoose");
+
+const url = "http://127.0.0.1:8080/user/signup";
 
 describe('api.test', () => {
-
     let server;
+    const PORT = process.env.PORT || 8080;
+    const HOST = 'localhost';
 
-    beforeAll( () => {
-        const port = process.env.PORT || 8080;
-        return new Promise( (resolve, reject) => {
-            server = app.listen(port, resolve());
-            console.log(`Server listening on port ${port}`);
-        });
-
-    });
+    beforeAll(async () => {
+        
+        server = http.createServer(app);
+        server.listen(PORT);
+      }); 
     
-    afterAll( (done) => {
-        console.log(`Closing server`);
-        server.close( done() );
-    });
+      afterAll(async () => {
+        await server.close();
+      });
 
     it('works with post', async () => {
-        expect.assertions(1)
+        //expect.assertions(1)
         var response = await fetch(url, {
             method: 'POST',
-            body: JSON.stringify({email: 'Ciaobello@gmail.com', 
+            body: JSON.stringify({_id:new mongoose.Types.ObjectId(),
+                                email: 'ally@gmail.com', 
                                  username: 'pappol',
                                  firstName: 'riccardo',
-                                 lastName: 'parola',
+                                 lastName: 'P',
                                  password: 'alligatore24'}),
             headers: {
             'Content-Type': 'application/json',
