@@ -13,11 +13,7 @@ exports.users_get_user = (req, res, next) => {
       console.log("Gathered from database", doc);
       if (doc) {
         res.status(200).json({
-          user: doc,
-          request: {
-            type: "GET",
-            url: "http://localhost:3000/user/",
-          },
+          user: doc
         });
       } else {
         res.status(404).json({
@@ -44,7 +40,7 @@ exports.user_signup = (req, res, next) => {
       } else {
         bcrypt.hash(req.body.password, 10, (err, hash) => {
           if (err) {
-            return res.status(500).json({
+            return res.status(501).json({
               error: err,
             });
           } else {
@@ -88,13 +84,13 @@ exports.user_login = (req, res, next) => {
     .exec()
     .then((user) => {
       if (user.length < 1) {
-        return res.status(401).json({
+        return res.status(403).json({
           message: "Auth failed",
         });
       }
       bcrypt.compare(req.body.password, user[0].password, (err, result) => {
         if (err) {
-          return res.status(401).json({
+          return res.status(402).json({
             message: "Auth failed",
           });
         }
@@ -146,10 +142,6 @@ exports.user_update = (req, res, next) => {
       console.log(result);
       res.status(200).json({
         message: "user updated",
-        request: {
-          type: "GET",
-          url: 'http"//localhost:3000/users' + id,
-        },
       });
     })
     .catch((err) => {

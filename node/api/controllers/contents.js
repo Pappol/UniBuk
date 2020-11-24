@@ -20,11 +20,7 @@ exports.contents_get_all = (req, res, next) => {
               validFor: doc.validFor,
               tags: doc.tags,
               comments: doc.comments,
-              _id: doc._id,
-              request: {
-                type: "GET",
-                url: "http://localhost:3000/contents/" + doc._id,
-              },
+              _id: doc._id
             };
           }),
         };
@@ -47,11 +43,7 @@ exports.contents_get_all = (req, res, next) => {
         console.log("Gathered from database", doc);
         if (doc) {
           res.status(200).json({
-            content: doc,
-            request: {
-              type: "GET",
-              url: "http://localhost:3000/contents/",
-            },
+            content: doc
           });
         } else {
           res.status(404).json({
