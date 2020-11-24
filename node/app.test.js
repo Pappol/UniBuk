@@ -1,3 +1,4 @@
+'use strict';
 const app = require('./app');
 const http = require('http');
 const fetch = require("node-fetch");
