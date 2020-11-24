@@ -1,9 +1,14 @@
 import React, { Component } from 'react';
-import Jumbotron from 'react-bootstrap/esm/Jumbotron';
-
-import Container from 'react-bootstrap/Container'
-import Switch from 'react-bootstrap/esm/Switch';
 import { withRouter } from 'react-router-dom';
+
+import InsertCreds from './InsertCreds';
+
+import Button from 'react-bootstrap/Button';
+import Jumbotron from 'react-bootstrap/esm/Jumbotron';
+import Accordion from 'react-bootstrap/Accordion';
+import Card from 'react-bootstrap/Card'
+
+
 
 class UserDetails extends Component {
   constructor(props) {
@@ -26,12 +31,33 @@ class UserDetails extends Component {
   render() {
     const { resource } = this.state;
     return (
+      <>
         <Jumbotron className = 'mx-5 my-5'>
+
           <h3> Profilo Utente </h3>
           <h4>UserDetails</h4>
-          <p>e-mail: {resource.email}</p>
+            <p>e-mail: {resource.email}</p>
+            <p>name: {resource.firstName}</p>
+            <p>surname: {resource.lastName}</p>
           <h4>Student Creeds</h4>
-        </Jumbotron>      
+            {/*<p>{resource.studentCreds}</p>*/}
+            <Accordion>
+              <Card>
+                <Card.Header>
+                  <Accordion.Toggle as={Button} variant = 'link' eventKey = '0'>
+                    Change Creds
+                  </Accordion.Toggle>
+                </Card.Header>
+                <Accordion.Collapse eventKey = '0'>
+                  <Card.Body>
+                    <InsertCreds />
+                  </Card.Body>
+                </Accordion.Collapse>
+              </Card> 
+            </Accordion>  
+        </Jumbotron> 
+         
+      </> 
     )
   }
 }
