@@ -13,6 +13,7 @@ class Resources extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      type: 'none',
       resources: []
     }
   }
@@ -26,23 +27,27 @@ class Resources extends Component {
     const json = await res.json();
     if (kind === 'books') {
       this.setState({
+        type: 'book',
         resources: json.books
       }); 
     } else if(kind === 'contents') {
       this.setState({
+        type: 'content',
         resources: json.contents
       });  
     }
+  }
+
+  getResourceType = () => {
+    console.log(this.state.type);
+    return this.state.type;
   }
 
   render() {
     const { resources } = this.state;
     return (
       <Switch>
-        <Route path={`${this.props.match.path}/:resourceId`}>
-          <ResourceDetails />
-        </Route>
-        <Route path="/resources">
+        <Route exact path="/resources">
           <Container className='p-0' >
             <h1>All Resources</h1>
             <Button variant='primary' onClick={() => this.getResources("books")}>Libri</Button>
@@ -57,6 +62,9 @@ class Resources extends Component {
               ))
             }
           </Container>
+        </Route>
+        <Route exact path={`${this.props.match.path}/:resourceId`}>
+          <ResourceDetails resourceType = {this.state.type}/>
         </Route>
       </Switch>
     );

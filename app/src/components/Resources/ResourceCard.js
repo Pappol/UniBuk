@@ -33,7 +33,6 @@ class ResourceCard extends Component {
 
   render() {
     const { resource, match } = this.props;
-    console.log(this.props.resource);
     return (
       <Card className='mb-4 box-shadow'>
         <Card.Header>{resource.author}{this.state.creatorName}</Card.Header>
