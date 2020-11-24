@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { Link } from 'react-router-dom';
-import Axios from 'axios';
+import axios from 'axios';
 
 import Form from 'react-bootstrap/Form'
 import Jumbotron from 'react-bootstrap/Jumbotron'
@@ -15,10 +15,11 @@ export class Login extends Component {
       password: this.password
     }
     console.table(data);
-    Axios.post('http://localhost:8080/user/login', data)
+    axios.post('http://localhost:8080/user/login', data)
       .then(res => {
         console.log(res);
-        localStorage.setItem('token', res.token);
+        localStorage.setItem('token', res.data.token);
+        console.log(localStorage);
       })
       .catch(err => {
         console.log(err);
