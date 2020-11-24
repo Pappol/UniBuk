@@ -38,14 +38,16 @@ class Resources extends Component {
     }
   }
 
+  getResourceType = () => {
+    console.log(this.state.type);
+    return this.state.type;
+  }
+
   render() {
     const { resources } = this.state;
     return (
       <Switch>
-        <Route path={`${this.props.match.path}/:resourceId`}>
-          <ResourceDetails resourceType = {resources.type}/>
-        </Route>
-        <Route path="/resources">
+        <Route exact path="/resources">
           <Container className='p-0' >
             <h1>All Resources</h1>
             <Button variant='primary' onClick={() => this.getResources("books")}>Libri</Button>
@@ -60,6 +62,9 @@ class Resources extends Component {
               ))
             }
           </Container>
+        </Route>
+        <Route exact path={`${this.props.match.path}/:resourceId`}>
+          <ResourceDetails resourceType = {this.state.type}/>
         </Route>
       </Switch>
     );
