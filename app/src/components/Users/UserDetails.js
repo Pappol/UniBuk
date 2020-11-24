@@ -14,7 +14,9 @@ class UserDetails extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      resource: {}
+      user: {
+        studentCreds: {}
+      }
     }
   }
 
@@ -24,23 +26,25 @@ class UserDetails extends Component {
     const res = await fetch(`http://localhost:8080/user/${match.params.userId}`);
     const json = await res.json();
     this.setState({
-      resource: json.user,
+      user: json.user,
     });
   }
 
   render() {
-    const { resource } = this.state;
+    const { user } = this.state;
     return (
       <>
         <Jumbotron className = 'mx-5 my-5'>
 
           <h3> Profilo Utente </h3>
-          <h4>UserDetails</h4>
-            <p>e-mail: {resource.email}</p>
-            <p>name: {resource.firstName}</p>
-            <p>surname: {resource.lastName}</p>
-          <h4>Student Creeds</h4>
-            {/*<p>{resource.studentCreds}</p>*/}
+          <h4>Dettagli utente</h4>
+            <p>e-mail: {user.email}</p>
+            <p>name: {user.firstName}</p>
+            <p>surname: {user.lastName}</p>
+          <h4>Dati universitari</h4>
+            <p>Università: {user.studentCreds.university}</p>
+            <p>Corso di Laurea: {user.studentCreds.course}</p>
+            <p>Anno di corso: {user.studentCreds.year}</p>
             <Accordion>
               <Card>
                 <Card.Header>
