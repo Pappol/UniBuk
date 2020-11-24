@@ -13,6 +13,7 @@ class Resources extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      type: 'none',
       resources: []
     }
   }
@@ -26,10 +27,12 @@ class Resources extends Component {
     const json = await res.json();
     if (kind === 'books') {
       this.setState({
+        type: 'book',
         resources: json.books
       }); 
     } else if(kind === 'contents') {
       this.setState({
+        type: 'content',
         resources: json.contents
       });  
     }
@@ -40,7 +43,7 @@ class Resources extends Component {
     return (
       <Switch>
         <Route path={`${this.props.match.path}/:resourceId`}>
-          <ResourceDetails />
+          <ResourceDetails resourceType = {resources.type}/>
         </Route>
         <Route path="/resources">
           <Container className='p-0' >
