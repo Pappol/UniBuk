@@ -2,6 +2,7 @@ const mongoose = require("mongoose");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const User = require("./api/models/user");
+const Content = require("./api/models/content");
 
 describe("insert", () => {
   let connection;
@@ -132,5 +133,30 @@ describe("insert", () => {
       expect("" + updatedUser).not.toEqual("" + mockUser);
     }
   });
+
+  it("Create content", async () => {
+    if (Content.find({ name: "MyBestContent" })) {
+      await Content.deleteOne(
+        { name: "MyBestContent" },
+        function (err) {
+          if (err) return handleError(err);
+        }
+      );
+    }
+    const mockContent = new Content({
+      _id: new mongoose.Types.ObjectId(),
+      name: "MyBestContent",
+      url: "example.com",
+      description: "DescriptionExample",
+      image: "pathExample",
+      date: new Date(),
+      creator: "5fab1591d9fe8e536c4df412"
+    });
+    await mockContent.save();
+
+    const insertedUser = await Content.find({ _id: mockContent._id });
+    expect("" + insertedUser).toEqual("" + mockContent);
+  });
+
 
 });

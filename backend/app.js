@@ -1,16 +1,12 @@
 const express = require("express");
-const app = express();
 const morgan = require("morgan");
 const bodyParser = require("body-parser");
 const mongoose = require("mongoose");
 
+const app = express();
+
 // DB connection setup
-mongoose.connect(
-  "mongodb+srv://dbadmin:" +
-    process.env.MONGO_ATLAS_PW +
-    "@cluster0.lgrig.mongodb.net/" +
-    process.env.MONGO_ATLAS_NAME +
-    "?retryWrites=true&w=majority",
+mongoose.connect(`mongodb+srv://dbadmin:${process.env.MONGO_ATLAS_PW}@cluster0.lgrig.mongodb.net/${process.env.MONGO_ATLAS_NAME}?retryWrites=true&w=majority`,
   {
     useNewUrlParser: true,
     useUnifiedTopology: true,
