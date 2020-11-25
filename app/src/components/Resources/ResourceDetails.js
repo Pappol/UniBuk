@@ -20,7 +20,7 @@ class Navbar extends Component {
 
   async componentDidMount() {
     const { match } = this.props;
-    const res = await fetch(`http://localhost:8080/${this.props.resourceType}s/${match.params.resourceId}`);
+    const res = await fetch(`${process.env.REACT_APP_BACKEND_URL}/${this.props.resourceType}s/${match.params.resourceId}`);
     const json = await res.json();
     if(this.props.resourceType === 'book'){
       this.setState({
@@ -42,21 +42,21 @@ class Navbar extends Component {
         <Jumbotron className = 'mx-5 my-5'>
           <ListGroup variant = 'flush' className = 'bg-transparent text-dark'> 
           <h3>Book Info</h3>
-            <ListGroup.Item><Image src={`http://localhost:8080/${resource.image}`} thumbnail></Image></ListGroup.Item>
+            <ListGroup.Item><Image src={`${process.env.REACT_APP_BACKEND_URL}/${resource.image}`} thumbnail></Image></ListGroup.Item>
             <ListGroup.Item>author: {resource.author}</ListGroup.Item>
             <ListGroup.Item>description: {resource.description}</ListGroup.Item>
             <ListGroup.Item>isbn: {resource.isbn}</ListGroup.Item>
             <ListGroup.Item>title: {resource.title}</ListGroup.Item>
             <p></p>
     
-            <h3>Questi sono i miei taggg</h3>
+            <h3>Tag</h3>
             {
               resource.tags.map(tag => (
                 <ListGroup.Item>{tag}</ListGroup.Item>
               ))
             }
             <p></p>
-            <h3>Questi sono i miei commentiiii</h3>
+            <h3>Commenti</h3>
             {
               resource.comments.map(comment => (
                 <ListGroup>
@@ -73,7 +73,7 @@ class Navbar extends Component {
        <Jumbotron>
          <ListGroup>
           <h3>Content Info</h3>
-          <ListGroup.Item><Image src={`http://localhost:8080/${resource.image}`} thumbnail></Image></ListGroup.Item>
+          <ListGroup.Item><Image src={`${process.env.REACT_APP_BACKEND_URL}/${resource.image}`} thumbnail></Image></ListGroup.Item>
           <ListGroup.Item>creator: {resource.creator}</ListGroup.Item>
           <ListGroup.Item>date: {resource.date}</ListGroup.Item>
           <ListGroup.Item>name: {resource.name}</ListGroup.Item>

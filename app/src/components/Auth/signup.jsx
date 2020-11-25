@@ -19,7 +19,7 @@ export class Signup extends Component {
             lastName: this.lastName
         }
         console.table(data);
-        Axios.post('http://localhost:8080/user/signup', data)
+        Axios.post(`${process.env.REACT_APP_BACKEND_URL}/user/signup`, data)
             .then(res => {
                 console.log(res);
             })

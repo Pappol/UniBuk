@@ -19,7 +19,7 @@ class ResourceCard extends Component {
 
   getCreatorName = async () => {
     if(this.props.resource.creator) {
-      const res = await fetch(`http://localhost:8080/user/${this.props.resource.creator}`);
+      const res = await fetch(`${process.env.REACT_APP_BACKEND_URL}/user/${this.props.resource.creator}`);
       const json = await res.json();
       this.setState({
         creatorName: json.user.username
@@ -36,7 +36,7 @@ class ResourceCard extends Component {
     return (
       <Card className='mb-4 box-shadow'>
         <Card.Header>{resource.author}{this.state.creatorName}</Card.Header>
-        <Card.Img variant='top' src={`http://localhost:8080/${resource.image}`}></Card.Img>
+        <Card.Img variant='top' src={`${process.env.REACT_APP_BACKEND_URL}/${resource.image}`}></Card.Img>
         <Card.Body>
           <Card.Title>{resource.title}{resource.name}</Card.Title>
           <Card.Subtitle className="mb-2 text-muted">{resource.date}{resource.year}</Card.Subtitle>

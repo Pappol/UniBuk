@@ -23,7 +23,7 @@ class Resources extends Component {
   }
 
   getResources = async (kind) => {
-    const res = await fetch(`http://localhost:8080/${kind}`);
+    const res = await fetch(`${process.env.REACT_APP_BACKEND_URL}/${kind}`);
     const json = await res.json();
     if (kind === 'books') {
       this.setState({

@@ -23,7 +23,7 @@ class UserDetails extends Component {
   async componentDidMount() {
     const { match } = this.props;
     console.log(this.props)
-    const res = await fetch(`http://localhost:8080/user/${match.params.userId}`);
+    const res = await fetch(`${process.env.REACT_APP_BACKEND_URL}/user/${match.params.userId}`);
     const json = await res.json();
     this.setState({
       user: json.user,

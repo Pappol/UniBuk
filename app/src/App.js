@@ -10,6 +10,7 @@ import { Login, Signup } from './components/Auth/index';
 
 export default class App extends Component {
   render() {
+    console.log("process.env.REACT_APP_BACKEND_URL", process.env.REACT_APP_BACKEND_URL);
     return (
       <BrowserRouter>
         <Navbar />

@@ -16,7 +16,7 @@ export class Login extends Component {
       password: this.password
     }
     console.table(data);
-    axios.post('http://localhost:8080/user/login', data)
+    axios.post(`${process.env.REACT_APP_BACKEND_URL}/user/login`, data)
       .then(res => {
         console.log(res);
         localStorage.setItem('token', res.data.token);
