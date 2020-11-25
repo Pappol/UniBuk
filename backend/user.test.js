@@ -17,7 +17,7 @@ describe("insert", () => {
     );
   });
 
-  afterEach(async () => {});
+  afterEach(async () => { });
 
   afterAll(async () => {
     await connection.close();
@@ -34,8 +34,13 @@ describe("insert", () => {
     } 
 
     expect(err).toBeNull();
-    
-  })
+  });
+
+  it("User does not get test", async () => {
+    const user = { email: "doesnotexist@example.com" }
+    const res = await User.find(user);
+    expect(res).toEqual([]);
+  });
 
   it("User create test", async () => {
     if (User.find({ email: "Ciaobello@gmail.com" })) {
@@ -119,12 +124,12 @@ describe("insert", () => {
       await mockUser.save().catch((err) => {
         console.log(err);
       });
-      
+
       const updatedUser = await User.updateOne(
-        { email: "john.doe@gmail.com "},
+        { email: "john.doe@gmail.com " },
         { username: "jonjon" }
-        );
-      expect(""+updatedUser).not.toEqual(""+mockUser);
+      );
+      expect("" + updatedUser).not.toEqual("" + mockUser);
     }
   });
 
