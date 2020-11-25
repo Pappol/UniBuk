@@ -9,6 +9,7 @@ import Button from 'react-bootstrap/Button'
 export class Signup extends Component {
 
     handleSubmit = e => {
+        let errflag = false;
         e.preventDefault();
         const data = {
             email: this.email,
@@ -22,8 +23,15 @@ export class Signup extends Component {
             .then(res => {
                 console.log(res);
             })
+            .then((errflag) => {
+                if(!errflag){
+                  alert('Successfully signed up');
+                }
+              })
             .catch(err => {
                 console.log(err);
+                alert(err);
+                errflag = true
             });
     }
 

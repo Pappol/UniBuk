@@ -9,6 +9,7 @@ import Button from 'react-bootstrap/Button'
 export class Login extends Component {
 
   handleSubmit = e => {
+    let errflag = false;
     e.preventDefault();
     const data = {
       email: this.email,
@@ -21,9 +22,16 @@ export class Login extends Component {
         localStorage.setItem('token', res.data.token);
         console.log(localStorage);
       })
+      .then((errflag) => {
+        if(!errflag){
+          alert('Successfully logged in');
+        }
+      })
       .catch(err => {
         console.log(err);
-      });
+        alert(err);
+        errflag = true
+      })
   }
 
   render() {
