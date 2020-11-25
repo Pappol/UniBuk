@@ -1,9 +1,16 @@
 version: "3"
 services:
-  node:
-    build: node
-    command: node server.js
-    volumes:
-      - ./node:/usr/src/app
+  backend:
+    build: backend
     ports:
       - "8080:8080"
+    environment:
+      - MONGO_ATLAS_PW=arara
+      - MONGO_ATLAS_NAME=se2-draft
+      - JWT_KEY=mpk
+  frontend:
+    build: app
+    ports:
+      - "3000:3000"
+    environment:
+      - REACT_APP_BACKEND_URL=https://localhost:8080
