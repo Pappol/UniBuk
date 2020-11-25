@@ -23,6 +23,20 @@ describe("insert", () => {
     await connection.close();
   });
 
+  it("User get test", async () => {
+    let err = null;
+
+    try {
+      const imAboolean = await User.find({ email: "Ciaobello@gmail.com" });
+    }
+    catch (error) {
+      err = error;
+    } 
+
+    expect(err).toBeNull();
+    
+  })
+
   it("User create test", async () => {
     if (User.find({ email: "Ciaobello@gmail.com" })) {
       const deletedUser = await User.deleteOne(
