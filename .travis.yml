@@ -1,4 +1,4 @@
 language: node_js
 node_js:
   - "15"
-before_install: cd node
+before_install: cd backend
