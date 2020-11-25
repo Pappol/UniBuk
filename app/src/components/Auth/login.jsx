@@ -23,7 +23,7 @@ export class Login extends Component {
         console.log(localStorage);
       })
       .then((errflag) => {
-        if(!errflag){
+        if (!errflag) {
           alert('Successfully logged in');
         }
       })
@@ -37,7 +37,7 @@ export class Login extends Component {
   render() {
 
     return (
-      <Jumbotron className = 'mx-auto mt-5'>
+      <Jumbotron className='mx-auto mt-5'>
 
         <h3>SignIn</h3>
 
@@ -45,12 +45,12 @@ export class Login extends Component {
 
           <Form.Group controlId="formGroupEmail">
             <Form.Label>Email address</Form.Label>
-            <Form.Control type="email" placeholder="Enter email" onChange={e => this.email = e.target.value}/>
+            <Form.Control type="email" placeholder="Enter email" onChange={e => this.email = e.target.value} />
           </Form.Group>
-          
+
           <Form.Group controlId="formGroupPassword">
             <Form.Label>Password</Form.Label>
-            <Form.Control type="password" placeholder="Password" onChange={e => this.password = e.target.value}/>
+            <Form.Control type="password" placeholder="Password" onChange={e => this.password = e.target.value} />
           </Form.Group>
 
           <Button variant="primary" type="submit" block>
@@ -58,7 +58,7 @@ export class Login extends Component {
           </Button>
 
           <br />
-          <Link to = '/user/signup' className = 'text-primary'>Don't have an account? Sign-up</Link>
+          <Link to='/user/signup' className='text-primary'>Don't have an account? Sign-up</Link>
 
         </Form>
       </Jumbotron>

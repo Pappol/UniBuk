@@ -24,10 +24,10 @@ export class Signup extends Component {
                 console.log(res);
             })
             .then((errflag) => {
-                if(!errflag){
-                  alert('Successfully signed up');
+                if (!errflag) {
+                    alert('Successfully signed up');
                 }
-              })
+            })
             .catch(err => {
                 console.log(err);
                 alert(err);
@@ -39,43 +39,43 @@ export class Signup extends Component {
         if (pw !== this.password) {
             console.log('password does not match');
         } else {
-            console.log('sagra');
+            //console.log('sagra');
         }
     }
 
     render() {
         return (
-            <Jumbotron className = 'mx-auto mt-5'>
+            <Jumbotron className='mx-auto mt-5'>
                 <h3>Sign Up</h3>
                 <Form onSubmit={this.handleSubmit}>
                     <Form.Group controlId="formGroupName">
                         <Form.Label>First name</Form.Label>
-                        <Form.Control type="text" placeholder="Enter first name" onChange={e => this.firstName = e.target.value}/>
+                        <Form.Control type="text" placeholder="Enter first name" onChange={e => this.firstName = e.target.value} />
                     </Form.Group>
 
                     <Form.Group controlId="formGroupLastName">
                         <Form.Label>Last name</Form.Label>
-                        <Form.Control type="text" placeholder="Enter last name" onChange={e => this.lastName = e.target.value}/>
+                        <Form.Control type="text" placeholder="Enter last name" onChange={e => this.lastName = e.target.value} />
                     </Form.Group>
 
                     <Form.Group controlId="formGroupUsername">
                         <Form.Label>Username</Form.Label>
-                        <Form.Control type="text" placeholder="Enter Username" onChange={e => this.username = e.target.value}/>
+                        <Form.Control type="text" placeholder="Enter Username" onChange={e => this.username = e.target.value} />
                     </Form.Group>
 
                     <Form.Group controlId="formGroupEmail">
                         <Form.Label>Email address</Form.Label>
-                        <Form.Control type="email" placeholder="Enter email" onChange={e => this.email = e.target.value}/>
+                        <Form.Control type="email" placeholder="Enter email" onChange={e => this.email = e.target.value} />
                     </Form.Group>
 
                     <Form.Group controlId="formGroupPassword">
                         <Form.Label>Password</Form.Label>
-                        <Form.Control type="password" placeholder="Password" onChange={e => this.password = e.target.value}/>
+                        <Form.Control type="password" placeholder="Password" onChange={e => this.password = e.target.value} />
                     </Form.Group>
 
                     <Form.Group controlId="formGroupPassword">
                         <Form.Label>Confirm password</Form.Label>
-                        <Form.Control type="password" placeholder="Confirm password" onChange={e => this.checkPw(e.target.value)}/>
+                        <Form.Control type="password" placeholder="Confirm password" onChange={e => this.checkPw(e.target.value)} />
                     </Form.Group>
                     {/*
                     <Form.Group controlId="formGroupUni">
@@ -87,12 +87,12 @@ export class Signup extends Component {
                     <Form.Group controlId="formGroupUni">
                         <Form.Label>University</Form.Label>
                         <Form.Control as="select" defaultValue="Università di Trento" onChange={e => this.uni = e.target.value}>
-                        <option>Università di Trento</option>
-                        <option>Università di Padova</option>
-                        <option>Università di Roma</option>
-                        <option>Università di Pisa</option>
-                        <option>Università di Milano</option>
-                        <option>Università di Torino</option>
+                            <option>Università di Trento</option>
+                            <option>Università di Padova</option>
+                            <option>Università di Roma</option>
+                            <option>Università di Pisa</option>
+                            <option>Università di Milano</option>
+                            <option>Università di Torino</option>
                         </Form.Control>
                     </Form.Group>
 
@@ -101,11 +101,11 @@ export class Signup extends Component {
                     </Button>
                 </Form>
                 <br />
-            <Link to = '/user/login' className = 'text-primary'>Already have an account? LogIn</Link>
+                <Link to='/user/login' className='text-primary'>Already have an account? LogIn</Link>
 
             </Jumbotron>
-            
-            
+
+
         );
     }
 }

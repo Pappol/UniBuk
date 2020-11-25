@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { withRouter } from 'react-router-dom';
-
+import { Link } from 'react-router-dom';
 import InsertCreds from './InsertCreds';
 
 import Button from 'react-bootstrap/Button';
@@ -32,6 +32,16 @@ class UserDetails extends Component {
 
   render() {
     const { user } = this.state;
+    if( typeof(user) === typeof(undefined)) { 
+          return (
+            <Jumbotron className = 'mx-5 my-5'>
+              <h2>Sorry but that ID is missing :( </h2>
+              <Link to = { '/users' }>
+                Go back
+              </Link>
+            </Jumbotron>
+          );
+        }
     return (
       <>
         <Jumbotron className = 'mx-5 my-5'>
