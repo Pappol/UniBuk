@@ -58,4 +58,34 @@ exports.contents_get_all = (req, res, next) => {
         });
       });
   };
+
+  exports.edit_content = (req, res, next) => {
+    const id = req.params.contentId;
+    const updateOps = {};
+    for (const ops of req.body) {
+      updateOps[ops.propName] = ops.value;
+    }
+    Content.update(
+      {
+        _id: id,
+      },
+      {
+        $set: updateOps,
+      }
+    )
+      .exec()
+      .then((result) => {
+        console.log('NEW CONTENT');
+        console.log(result);
+        res.status(200).json({
+          message: "content updated",
+        });
+      })
+      .catch((err) => {
+        console.log(err);
+        res.status(500).json({
+          error: err,
+        });
+      });
+  };
   
