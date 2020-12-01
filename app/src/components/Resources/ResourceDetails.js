@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import Row from 'react-bootstrap/esm/Row';
 import ReactDOM from 'react-dom';
 import { withRouter } from 'react-router-dom';
+import Review from './Review';
 
 import Jumbotron from 'react-bootstrap/Jumbotron'
 import ListGroup from 'react-bootstrap/ListGroup'
@@ -59,12 +60,14 @@ class Navbar extends Component {
             <h3>Commenti</h3>
             {
               resource.comments.map(comment => (
-                <ListGroup>
-                  <ListGroup.Item>author: {comment.author}</ListGroup.Item>
-                  <ListGroup.Item>{comment.text}</ListGroup.Item>
-                </ListGroup>
-              ))
-            }
+              // <ListGroup>
+              //   <ListGroup.Item>author: {comment.author}</ListGroup.Item>
+              //   <ListGroup.Item>rank: {comment.rank}</ListGroup.Item>
+              //   <ListGroup.Item>{comment.text}</ListGroup.Item>
+              // </ListGroup>
+              <Review review={comment} />
+            ))
+          }
           </ListGroup>
         </Jumbotron>
       );
@@ -82,12 +85,12 @@ class Navbar extends Component {
           <h3>Questi sono i miei commentiiii</h3>
           {
             resource.comments.map(comment => (
-              <ListGroup>
-                <ListGroup.Item>author: {comment.author}</ListGroup.Item>
-                <ListGroup.Item>rank: {comment.rank}</ListGroup.Item>
-                <ListGroup.Item>{comment.text}</ListGroup.Item>
-                <p></p>
-              </ListGroup>
+              // <ListGroup>
+              //   <ListGroup.Item>author: {comment.author}</ListGroup.Item>
+              //   <ListGroup.Item>rank: {comment.rank}</ListGroup.Item>
+              //   <ListGroup.Item>{comment.text}</ListGroup.Item>
+              // </ListGroup>
+              <Review review={comment} />
             ))
           }
          </ListGroup>
