@@ -1,4 +1,5 @@
 const mongoose = require("mongoose");
+const content = require("../models/content");
 
 const Content = require("../models/content");
 
@@ -59,3 +60,24 @@ exports.contents_get_all = (req, res, next) => {
       });
   };
   
+exports.contents_filter_by_name = async (req, res) => {
+  const name = req.params.contentName;
+  try {
+    contents = await Content.find({ name: name });
+  } catch (err) {
+    console.log(err);
+    res.status(500).json({
+      error: err,
+    });
+    return;
+  }
+  if (contents) {
+    res.status(200).json({
+      content: contents
+    });
+  } else {
+    res.status(404).json({
+      message: "No valid entry found for provided name",
+    });
+  }
+}
