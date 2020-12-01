@@ -1,6 +1,6 @@
 openapi: '3.0.2'
 info:
-  version: '1.0.0'
+  version: '2.0.0'
   title: UniBuk
   description: We need to develop an online service for University book suggestions and content sharing that will allow University students ton get information about  books, notes and resources they can use in their courses, as well as donwload contents shared by other users. We want to deliver a web version of this service and a client application.
   contact:
