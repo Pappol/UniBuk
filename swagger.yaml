@@ -1,6 +1,6 @@
 openapi: '3.0.2'
 info:
-  version: '1.0.0'
+  version: '2.0.0'
   title: UniBuk
   description: We need to develop an online service for University book suggestions and content sharing that will allow University students ton get information about  books, notes and resources they can use in their courses, as well as donwload contents shared by other users. We want to deliver a web version of this service and a client application.
   contact:
@@ -422,21 +422,53 @@ paths:
                     type: string
                     example: database error type
     
-#    patch:
-#      description: Change the content of a specific content
-#      parameters:
-#        - in: path
-#          name: id
-#          required: true
-#          description: The id of the book
-#          schema:
-#            type: string
-#            example: mongose auto generated
-#      responses:
-#        '404':
-#          $ref: '#/components/responses/NotFound'
-#        '500':
-#          $ref: '#/components/responses/DbError'
+    patch:
+      description: Edits a specific content from the database
+      requestBody:
+        required: true
+        content:
+          applicationn/json:
+            schema:
+              type: array
+              items: 
+                type: object
+                properties:
+                  propName:
+                    type: string
+                    example: name
+                  value:
+                    type: object #could be other than object (object is the most generic allowed)
+                    example: the best paper of the world
+      parameters:
+        - in: path
+          name: id
+          required: true
+          description: The id of the content
+          schema:
+            type: string
+            example: mongoose auto generated
+      responses:
+        '200':
+          description: content update
+          content: 
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+              example: 
+                message: Content updated
+        '500':
+          description: update failed in the database
+          content: 
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error: 
+                    type: string
+                    example: database error type
     
 #    delete:
 #      description: Delete a specific content from the database
