@@ -1,5 +1,8 @@
+import axios from 'axios';
+
 import React, { Component } from 'react';
 import Row from 'react-bootstrap/esm/Row';
+import Col from 'react-bootstrap/Col'
 import ReactDOM from 'react-dom';
 import { withRouter } from 'react-router-dom';
 
@@ -8,12 +11,14 @@ import ResourceTag from './ResourceTag'
 import Jumbotron from 'react-bootstrap/Jumbotron'
 import ListGroup from 'react-bootstrap/ListGroup'
 import Image from 'react-bootstrap/Image'
-import Container from 'react-bootstrap/Container'
+import Form from 'react-bootstrap/Form'
+import Button from 'react-bootstrap/Button'
 
 class Navbar extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      newTag: '',
       resource: {
         tags: [],
         comments: []
@@ -36,13 +41,44 @@ class Navbar extends Component {
       });
     }
   }
+
+  handleSubmit = async e => {
+    e.preventDefault();
+    const { match } = this.props;
+    let tagsArr = this.state.resource.tags;
+    tagsArr = tagsArr.concat( this.state.newTag );
+
+    const token = "Bearer " + localStorage.token;
+    const headers = {
+      'Content-type': 'application/json',
+      'Authorization': token
+    }
+    const data = [
+      {
+        "propName": "tags",
+        "value": tagsArr
+      }
+    ];
+
+    await axios.patch(`${process.env.REACT_APP_BACKEND_URL}/${this.props.resourceType}s/${match.params.resourceId}`, data, {
+      headers: headers
+    });
+
+    await this.setState({
+      tags: tagsArr,
+    });
+    console.log(this.state);
+  }
   
 
   render() {
-    const { resource } = this.state;
+    const { newTag, resource } = this.state;
+
     if(this.props.resourceType === 'book'){
       return (
+
         <Jumbotron className = 'mx-5 my-5'>
+
           <ListGroup variant = 'flush' className = 'bg-transparent text-dark'> 
           <h3>Book Info</h3>
             <ListGroup.Item><Image src={`${process.env.REACT_APP_BACKEND_URL}/${resource.image}`} thumbnail></Image></ListGroup.Item>
@@ -55,11 +91,10 @@ class Navbar extends Component {
             <h3>Tag</h3>
             <ListGroup horizontal>
               {
-                resource.tags.map(tag => (
+                this.state.resource.tags.map(tag => (
                   <ResourceTag text = {tag}> </ResourceTag>
                 ))
               }
-              <ResourceTag text = '+ add' variant = 'info'></ResourceTag>
             </ListGroup>
             <p></p>
             <h3>Commenti</h3>
@@ -85,6 +120,28 @@ class Navbar extends Component {
           <ListGroup.Item>name: {resource.name}</ListGroup.Item>
           <ListGroup.Item>description: {resource.description}</ListGroup.Item>
           <p/>
+
+          <h3>Tag</h3>
+            <ListGroup horizontal>
+              {
+                resource.tags.map(tag => (
+                  <ResourceTag text = {tag}> </ResourceTag>
+                ))
+              }
+              <ResourceTag text = 'add' option = '+' variant = 'info' onClick = { () => this.showForm()}></ResourceTag>
+            </ListGroup>
+            <Form onSubmit = {this.handleSubmit}>
+              <Form.Row>
+                <Col>
+                  <Form.Control placeholder = 'inserisci tag' onChange = { e => this.state.newTag = e.target.value}/>                
+                </Col>
+                <Col>
+                  <Button variant = 'primary' type = 'submit'> Aggiungi </Button>
+                </Col>
+              </Form.Row>
+            </Form>
+          <p/>
+
           <h3>Questi sono i miei commentiiii</h3>
           {
             resource.comments.map(comment => (
