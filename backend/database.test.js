@@ -158,5 +158,32 @@ describe("insert", () => {
     expect("" + insertedUser).toEqual("" + mockContent);
   });
 
+  it("Should edit content", async() => {
+    if(Content.find({ name: "MyBestContent" })){
+      const findContent = await Content.find({ name: "MyBestContent" });
+      const updatedContent = await Content.updateOne(
+        { name: findContent.name + 'new' }
+      )
+      
+      expect(''+updatedContent).not.toEqual(''+findContent);
+    } 
+    else {
+      const mockContent = new Content({
+        _id: new mongoose.Types.ObjectId(),
+        name: "MyBestContent",
+        url: "example.com",
+        description: "DescriptionExample",
+        image: "pathExample",
+        date: new Date(),
+        creator: "5fab1591d9fe8e536c4df412"
+      });
+      await mockContent.save();
 
+      const updatedContent = await Content.updateOne(
+        { name: findContent.name + 'new' }
+      )
+
+      expect(''+updatedContent).not.toEqual(''+mockContent);
+    }
+  });
 });
