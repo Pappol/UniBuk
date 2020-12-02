@@ -3,9 +3,12 @@ import Row from 'react-bootstrap/esm/Row';
 import ReactDOM from 'react-dom';
 import { withRouter } from 'react-router-dom';
 
+import ResourceTag from './ResourceTag'
+
 import Jumbotron from 'react-bootstrap/Jumbotron'
 import ListGroup from 'react-bootstrap/ListGroup'
 import Image from 'react-bootstrap/Image'
+import Container from 'react-bootstrap/Container'
 
 class Navbar extends Component {
   constructor(props) {
@@ -50,11 +53,14 @@ class Navbar extends Component {
             <p></p>
     
             <h3>Tag</h3>
-            {
-              resource.tags.map(tag => (
-                <ListGroup.Item>{tag}</ListGroup.Item>
-              ))
-            }
+            <ListGroup horizontal>
+              {
+                resource.tags.map(tag => (
+                  <ResourceTag text = {tag}> </ResourceTag>
+                ))
+              }
+              <ResourceTag text = '+ add' variant = 'info'></ResourceTag>
+            </ListGroup>
             <p></p>
             <h3>Commenti</h3>
             {
