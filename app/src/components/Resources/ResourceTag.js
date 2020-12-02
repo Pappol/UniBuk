@@ -15,7 +15,14 @@ class ResourceTag extends Component {
     render() {
         
         return(
-            <Link> <h4> <Badge pill variant = {this.props.variant || 'primary'} className = 'mx-1'> {this.props.text} </Badge></h4> </Link>
+            <Link> 
+              <h4> 
+                <Badge pill variant = {this.props.variant || 'primary'} className = 'mx-1'> 
+                  {/*<h6> <Badge pill variant = 'light'> {this.props.option} </Badge>  </h6>*/}
+                  { this.props.text }
+                </Badge>
+              </h4>
+            </Link>
         );
     };
 }
