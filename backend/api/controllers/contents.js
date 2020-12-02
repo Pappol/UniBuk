@@ -63,7 +63,8 @@ exports.contents_get_all = (req, res, next) => {
 exports.contents_filter_by_name = async (req, res) => {
   const name = req.params.contentName;
   try {
-    contents = await Content.find({ name: name });
+    contents = await Content.find({ "name": { "$regex": name } });
+    console.log(contents);
   } catch (err) {
     console.log(err);
     res.status(500).json({
