@@ -341,6 +341,55 @@ paths:
                   error: 
                     type: string
                     example: database error type
+                    
+  /books/{id}/reviews:
+    patch:
+      description: Add a new comment/review to a book with provided {id}
+      requestBody:
+        required: true
+        content:
+          applicationn/json:
+            schema:
+              type: array
+              items: 
+                type: object
+                properties:
+                  propName:
+                    type: string
+                    example: username
+                  value:
+                    type: object #could be other than object (object is the most generic allowed)
+                    example: salt bae
+      parameters:
+        - in: path
+          name: id
+          required: true
+          description: The id of the book
+          schema:
+            type: string
+            example: mongoose auto generated
+      responses:
+        '200':
+          description: Review has been successfully added
+          content: 
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+              example: 
+                message: Added review
+        '500':
+          description: update failed in the database
+          content: 
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error: 
+                    type: string
+                    example: database error type
   
   /contents:
   
@@ -413,6 +462,55 @@ paths:
                     example: No valid entry found for provided ID
         '500':
           description: find failed in the database
+          content: 
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error: 
+                    type: string
+                    example: database error type
+                    
+  /contents/{id}/reviews:
+    patch:
+      description: Add a new comment/review to a content with provided {id}
+      requestBody:
+        required: true
+        content:
+          applicationn/json:
+            schema:
+              type: array
+              items: 
+                type: object
+                properties:
+                  propName:
+                    type: string
+                    example: username
+                  value:
+                    type: object #could be other than object (object is the most generic allowed)
+                    example: salt bae
+      parameters:
+        - in: path
+          name: id
+          required: true
+          description: The id of the content
+          schema:
+            type: string
+            example: mongoose auto generated
+      responses:
+        '200':
+          description: Review has been successfully added
+          content: 
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+              example: 
+                message: Added review
+        '500':
+          description: update failed in the database
           content: 
             application/json:
               schema:
