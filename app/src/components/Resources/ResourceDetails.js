@@ -1,9 +1,7 @@
 import axios from 'axios';
 
 import React, { Component } from 'react';
-import Row from 'react-bootstrap/esm/Row';
 import Col from 'react-bootstrap/Col'
-import ReactDOM from 'react-dom';
 import { withRouter } from 'react-router-dom';
 
 import ResourceTag from './ResourceTag'
@@ -45,8 +43,7 @@ class Navbar extends Component {
   handleSubmit = async e => {
     e.preventDefault();
     const { match } = this.props;
-    let tagsArr = this.state.resource.tags;
-    tagsArr = tagsArr.concat( this.state.newTag );
+    let taggg = this.state.newTag.split(',');
 
     const token = "Bearer " + localStorage.token;
     const headers = {
@@ -56,7 +53,7 @@ class Navbar extends Component {
     const data = [
       {
         "propName": "tags",
-        "value": tagsArr
+        "value": taggg
       }
     ];
 
@@ -67,7 +64,7 @@ class Navbar extends Component {
     this.setState(prevState => ({
       resource: {
         ...prevState.resource,
-        tags: tagsArr
+        tags: taggg
       }
     }));
 
@@ -76,7 +73,7 @@ class Navbar extends Component {
   
 
   render() {
-    const { newTag, resource } = this.state;
+    const { resource } = this.state;
 
     if(this.props.resourceType === 'book'){
       return (
@@ -125,19 +122,19 @@ class Navbar extends Component {
           <ListGroup.Item>description: {resource.description}</ListGroup.Item>
           <p/>
 
-          <h3>Tag</h3>
+          <h3>Tag <h4>(edit) </h4> </h3>
             <ListGroup horizontal>
               {
                 resource.tags.map(tag => (
-                  <ResourceTag text = {tag}> </ResourceTag>
+                  <ResourceTag text = {tag} />
                 ))
               }
-              <ResourceTag text = 'add' option = '+' variant = 'info' onClick = { () => this.showForm()}></ResourceTag>
+              {/* <ResourceTag text = 'add' option = '+' variant = 'info' onClick = { () => this.showForm()} /> */}
             </ListGroup>
             <Form onSubmit = {this.handleSubmit}>
               <Form.Row>
                 <Col>
-                  <Form.Control placeholder = 'inserisci tag' onChange = { e => this.state.newTag = e.target.value}/>                
+                  <Form.Control  placeholder = 'Your tags is empity :(' defaultValue = {this.state.resource.tags} onChange = { e => this.state.newTag = e.target.value} />              
                 </Col>
                 <Col>
                   <Button variant = 'primary' type = 'submit'> Aggiungi </Button>
