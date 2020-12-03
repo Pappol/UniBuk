@@ -48,19 +48,19 @@ class Resources extends Component {
     return (
       <Switch>
         <Route exact path="/resources">
-          <Container className='p-0' >
+          <Container className='p-0' fluid="md">
             <h1>All Resources</h1>
             <Button variant='primary' onClick={() => this.getResources("books")}>Libri</Button>
             <Button variant='primary' onClick={() => this.getResources("contents")}>Contenuti</Button>
-            {
-              resources.map(resource => (
-                <Row key={resource._id}>
-                  <Col className='col-sm-12 col-md-6 col-lg-4'>
-                    <ResourceCard resource={resource} />
-                  </Col>
-                </Row>
-              ))
-            }
+            <Row >
+              {
+                resources.map(resource => (
+                    <Col className='col-sm-12 col-md-6 col-lg-4'>
+                      <ResourceCard resource={resource} />
+                    </Col>
+                ))
+              }
+            </Row>
           </Container>
         </Route>
         <Route exact path={`${this.props.match.path}/:resourceId`}>
