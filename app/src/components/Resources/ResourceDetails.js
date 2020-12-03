@@ -64,9 +64,13 @@ class Navbar extends Component {
       headers: headers
     });
 
-    await this.setState({
-      tags: tagsArr,
-    });
+    this.setState(prevState => ({
+      resource: {
+        ...prevState.resource,
+        tags: tagsArr
+      }
+    }));
+
     console.log(this.state);
   }
   
