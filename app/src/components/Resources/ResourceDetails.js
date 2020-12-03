@@ -122,7 +122,7 @@ class Navbar extends Component {
           <ListGroup.Item>description: {resource.description}</ListGroup.Item>
           <p/>
 
-          <h3>Tag <h4>(edit) </h4> </h3>
+          <h3>Tag</h3>
             <ListGroup horizontal>
               {
                 resource.tags.map(tag => (
