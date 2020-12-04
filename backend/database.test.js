@@ -18,13 +18,12 @@ describe("insert", () => {
     );
   });
 
-  afterEach(async () => { });
-
-  afterAll(async () => {
-    await connection.close();
+  afterAll(done => {
+    mongoose.connection.close();
+    done();
   });
 
-  it("User get test", async () => {
+  it("User get test", async (done) => {
     let err = null;
 
     try {
@@ -35,15 +34,17 @@ describe("insert", () => {
     } 
 
     expect(err).toBeNull();
+    done();
   });
 
-  it("User does not get test", async () => {
+  it("User does not get test", async (done) => {
     const user = { email: "doesnotexist@example.com" }
     const res = await User.find(user);
     expect(res).toEqual([]);
+    done();
   });
 
-  it("User create test", async () => {
+  it("User create test", async (done) => {
     if (User.find({ email: "Ciaobello@gmail.com" })) {
       const deletedUser = await User.deleteOne(
         { email: "Ciaobello@gmail.com" },
@@ -67,9 +68,10 @@ describe("insert", () => {
 
     const insertedUser = await User.find({ _id: mockUser._id });
     expect("" + insertedUser).toEqual("" + mockUser);
+    done();
   });
 
-  it("User delete test", async () => {
+  it("User delete test", async (done) => {
     if (User.find({ email: "Ciaobello@gmail.com" })) {
       const deletedUser = await User.deleteOne(
         { email: "Ciaobello@gmail.com" },
@@ -100,9 +102,10 @@ describe("insert", () => {
         }
       );
     }
+    done();
   });
 
-  it("Should update user's info", async () => {
+  it("Should update user's info", async (done) => {
     if (User.find({ email: "john.doe@gmail.com" })) {
       const deletedUser = await User.deleteOne(
         { email: "john.doe@gmail.com" },
@@ -132,9 +135,10 @@ describe("insert", () => {
       );
       expect("" + updatedUser).not.toEqual("" + mockUser);
     }
+    done();
   });
 
-  it("Create content", async () => {
+  it("Create content", async (done) => {
     if (Content.find({ name: "MyBestContent" })) {
       await Content.deleteOne(
         { name: "MyBestContent" },
@@ -156,7 +160,6 @@ describe("insert", () => {
 
     const insertedUser = await Content.find({ _id: mockContent._id });
     expect("" + insertedUser).toEqual("" + mockContent);
+    done();
   });
-
-
 });

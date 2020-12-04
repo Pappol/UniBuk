@@ -610,6 +610,10 @@ components:
           example: mongoose auto generated
         creator:
           $ref: '#/components/schemas/User'
+        co_creators:
+            type: array
+            items:
+              $ref: '#/components/schemas/User'
         date:
           type: number
           example: 17.11.2020
