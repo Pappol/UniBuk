@@ -1,17 +1,20 @@
 language: node_js
 node_js:
   - "15"
-
 services:
   - docker
+# branches:
+#   only:
+#     - master
 before_install:
+  - cd backend
+install:
+  - npm install
+script:
+  - npm test
+after_success:
   - docker build -t registry.heroku.com/unibuk-backend/web backend
   - docker ps -a
   - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin registry.heroku.com
-
-before_script:
-  - cd backend
-
-after_success:
   - docker push registry.heroku.com/unibuk-backend/web
   - ./publish-to-heroku.sh
