@@ -102,6 +102,8 @@ paths:
                 properties:
                   token: 
                     type: string
+                  id:
+                    type: string
                   message:
                     type: string
                 required:
@@ -110,6 +112,7 @@ paths:
               example: 
                 token: yqw98q48y9w4fyp9gy4hrvpr89hqp484qgfg p9qgf4
                 message: Auth Successful
+                id: 5fab15fdd9fe8e536c4df414
         '401':
           description: wrong credentials
           content: 
