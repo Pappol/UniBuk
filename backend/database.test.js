@@ -21,7 +21,7 @@ describe("insert", () => {
   afterEach(async () => { });
 
   afterAll(async () => {
-    await connection.close();
+    await mongoose.connection.close();
   });
 
   it("User get test", async () => {
@@ -135,7 +135,7 @@ describe("insert", () => {
   });
 
   it("Create content", async () => {
-    if (Content.find({ name: "MyBestContent" })) {
+    if (await Content.find({ name: "MyBestContent" })) {
       await Content.deleteOne(
         { name: "MyBestContent" },
         function (err) {
