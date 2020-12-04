@@ -10,6 +10,7 @@ before_install:
 
 after_install:
   - docker push registry.heroku.com/unibuk-backend/web
-
-script:
   - ./publish-to-heroku.sh
+
+# script:
+#   - 
