@@ -507,11 +507,21 @@ components:
                 $ref: '#/components/schemas/Content'
               book:
                 $ref: '#/components/schemas/Book'
-        contacts:
-          type: array
-          items:
-            type: string
-            example: www.github.com/RossiMario
+        Links:
+          type: object
+          properties:
+            website: 
+              type: string
+              example: www.mywebsite.com
+            contactEmail:
+              type: string
+              example: myemail@gmail.com
+            linkedin:
+              type: string
+              example: www.linkedin.com/mypage
+            gitHub:
+              type: string
+              example: www.github.com/mypage
       required:
         - _id
         - email

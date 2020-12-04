@@ -57,7 +57,6 @@ const userSchema = mongoose.Schema({
       ref: 'Books'
     }
   ],
-  contacts: [String],
   links: [
     {
       website: String,
