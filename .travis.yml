@@ -1,4 +1,10 @@
-language: node_js
-node_js:
-  - "15"
-before_install: cd backend
+# language: node_js
+# node_js:
+#   - "15"
+services:
+  - docker
+before_install:
+- docker build -t registry.heroku.com/unibuk-backend/web backend
+- docker ps -a
+- echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin registry.heroku.com
+- docker push registry.heroku.com/unibuk-backend/web
