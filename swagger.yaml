@@ -644,6 +644,9 @@ components:
         description:
           type: string
           example: How to beat Calcolatori @UniTN
+        image:
+          type: string
+          example: imgurl.com/contentphoto
         validFor:
           type: array
           items:
@@ -684,3 +687,4 @@ components:
         - name
         - url
         - description
+        - image
