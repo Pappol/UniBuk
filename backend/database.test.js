@@ -2,6 +2,7 @@ const mongoose = require("mongoose");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const User = require("./api/models/user");
+const Book = require("./api/models/book");
 const Content = require("./api/models/content");
 
 describe("insert", () => {
@@ -18,7 +19,7 @@ describe("insert", () => {
     );
   });
 
-  afterEach(async () => { });
+  afterEach(async () => {});
 
   afterAll(async () => {
     await connection.close();
@@ -29,16 +30,15 @@ describe("insert", () => {
 
     try {
       const imAboolean = await User.find({ email: "Ciaobello@gmail.com" });
-    }
-    catch (error) {
+    } catch (error) {
       err = error;
-    } 
+    }
 
     expect(err).toBeNull();
   });
 
   it("User does not get test", async () => {
-    const user = { email: "doesnotexist@example.com" }
+    const user = { email: "doesnotexist@example.com" };
     const res = await User.find(user);
     expect(res).toEqual([]);
   });
@@ -136,12 +136,9 @@ describe("insert", () => {
 
   it("Create content", async () => {
     if (Content.find({ name: "MyBestContent" })) {
-      await Content.deleteOne(
-        { name: "MyBestContent" },
-        function (err) {
-          if (err) return handleError(err);
-        }
-      );
+      await Content.deleteOne({ name: "MyBestContent" }, function (err) {
+        if (err) return handleError(err);
+      });
     }
     const mockContent = new Content({
       _id: new mongoose.Types.ObjectId(),
@@ -150,7 +147,7 @@ describe("insert", () => {
       description: "DescriptionExample",
       image: "pathExample",
       date: new Date(),
-      creator: "5fab1591d9fe8e536c4df412"
+      creator: "5fab1591d9fe8e536c4df412",
     });
     await mockContent.save();
 
@@ -158,5 +155,41 @@ describe("insert", () => {
     expect("" + insertedUser).toEqual("" + mockContent);
   });
 
-
+  it("should add a review to a content", async () => {
+    const mockContent = new Content({
+      _id: new mongoose.Types.ObjectId(),
+      name: "MyBestContent",
+      url: "example.com",
+      description: "DescriptionExample",
+      image: "pathExample",
+      date: new Date(),
+      creator: "5fab1591d9fe8e536c4df412",
+    });
+    await mockContent.save();
+    const review = [
+      {
+        propName: "comments",
+        value: {
+          author: "5fbe79324c63a6000fa72651",
+          rank: 4,
+          text: "sampleReview",
+        },
+      },
+    ];
+    await Content.updateOne(
+      {
+        _id: mockContent._id,
+      },
+      {
+        $push: review,
+      }
+    );
+    const updatedContent = await Content.find({_id: mockContent._id});
+    expect("" + updatedContent.comments).not.toBe(null);
+    await Content.deleteOne({ _id: updatedContent._id }, (err) => {
+      if (err) {
+        return handleError(err);
+      }
+    });
+  });
 });
