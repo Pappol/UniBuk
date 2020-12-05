@@ -7,6 +7,8 @@ import Navbar from './components/Navbar/Navbar';
 import Resources from './components/Resources/Resources';
 import Users from './components/Users/Users'
 import { Login, Signup } from './components/Auth/index';
+import Search from './components/Search/Search'
+import { Container } from 'react-bootstrap';
 
 export default class App extends Component {
   render() {
@@ -14,14 +16,17 @@ export default class App extends Component {
     return (
       <BrowserRouter>
         <Navbar />
-        <Switch>
-          <Route path="/about" component={About}/>
-          <Route path="/resources" component={Resources}/>
-          <Route path="/users" component={Users}/>
-          <Route path="/user/login" component={Login}/>
-          <Route path="/user/signup" component={Signup}/>
-          <Route path="/" component={Home}/>
-        </Switch>
+        <Container className="mt-3">
+          <Switch>
+            <Route path="/about" component={About} />
+            <Route path="/resources" component={Resources} />
+            <Route path="/users" component={Users} />
+            <Route path="/user/login" component={Login} />
+            <Route path="/user/signup" component={Signup} />
+            <Route path="/search" component={Search}></Route>
+            <Route path="/" component={Home} />
+          </Switch>
+        </Container>
       </BrowserRouter>
     );
   }
