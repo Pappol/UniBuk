@@ -1,8 +1,8 @@
-const express = require("express");
-const router = express.Router();
-const multer = require('multer');
+import { Router } from "express";
+const router = Router();
+import multer, { diskStorage } from 'multer';
 
-const storage = multer.diskStorage({
+const storage = diskStorage({
     destination: function(req, file, cb) {
         cb(null, './uploads/contents');
     },
@@ -30,10 +30,9 @@ const upload = multer({
     fileFilter: fileFilter
 });
 
-const ContentsController = require('../controllers/contents');
+import { contents_get_all, contents_get_content } from '../controllers/contents.js';
  
-router.get('/', ContentsController.contents_get_all);
-router.get('/:contentId', ContentsController.contents_get_content);
-router.get('/search/:contentName', ContentsController.contents_filter_by_name);
+router.get('/', contents_get_all);
+router.get('/:contentId', contents_get_content);
 
-module.exports = router;
+export default router;

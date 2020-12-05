@@ -1,12 +1,11 @@
-'use strict';
-const http = require('http');
-const app = require('./app');
+import { createServer } from 'http';
+import app from './app.js';
 
 // Constants
 const PORT = process.env.PORT || 8080;
 const HOST = 'localhost';
 
-const server = http.createServer(app);
+const server = createServer(app);
 
 server.listen(PORT);
 console.log(`Running on http://${HOST}:${PORT}`);

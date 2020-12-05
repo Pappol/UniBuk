@@ -1,4 +1,4 @@
-const mongoose = require("mongoose");
+import mongoose from 'mongoose';
 
 // This is the model page for the users in the database
     /*
@@ -60,4 +60,4 @@ const userSchema = mongoose.Schema({
   contacts: [String]
 });
 
-module.exports = mongoose.model("User", userSchema);
+export default mongoose.model("User", userSchema);

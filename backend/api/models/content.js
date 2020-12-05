@@ -1,4 +1,4 @@
-const mongoose = require("mongoose");
+import mongoose from 'mongoose';
 
 
 // This is the model page for the content in the database
@@ -62,4 +62,4 @@ const contentSchema = mongoose.Schema({
   ]
 });
 
-module.exports = mongoose.model("Content", contentSchema);
+export default mongoose.model("Content", contentSchema);

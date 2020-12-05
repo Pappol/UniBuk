@@ -4,6 +4,7 @@
   "main": "index.js",
   "author": "",
   "license": "ISC",
+  "type": "module",
   "scripts": {
     "test": "jest",
     "start": "node server.js",
