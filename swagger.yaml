@@ -373,14 +373,59 @@ paths:
                   error: 
                     type: string
                     example: database error type
-    
-#    post:
-#      description: Insert a new content in the database
-#      responses:
-#        '201': 
-#          $ref: '#/components/responses/Created'
-#        '500':
-#          $ref: '#/components/responses/DbError'
+
+    post: 
+      description: Creates a new content in the database
+      requestBody: 
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                creator: 
+                  type: string
+                date: 
+                  type: number
+                name: 
+                  type: string
+                url: 
+                  type: string
+                dscription: 
+                  type: string
+                image:
+                  type: string
+      responses:
+        '201':
+          description: success
+          content: 
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message: 
+                    type: string
+                    example: Content created
+        '409':
+          description: Mail altrady exists
+          content: 
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message: 
+                    type: string
+                    example: Content with that name already exists
+        '500':
+          description: dabase error
+          content: 
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error: 
+                    type: string
+                    example: database error type
   
   /contents/{id}:
     
