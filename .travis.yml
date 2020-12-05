@@ -6,17 +6,21 @@ services:
 # branches:
 #   only:
 #     - master
+cache:
+  directories:
+    - backend/node_modules
 before_install:
   - cd backend
 install:
   - npm install
 script:
   - npm test
-after_success:
   - cd ..
+after_success:
+  - ./scripts/check-branch.sh
   - docker build -t registry.heroku.com/unibuk/web app
   - docker build -t registry.heroku.com/unibuk-backend/web backend
   - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin registry.heroku.com
   - docker push registry.heroku.com/unibuk/web
   - docker push registry.heroku.com/unibuk-backend/web
-  - ./publish-to-heroku.sh
+  - ./scripts/publish-to-heroku.sh
