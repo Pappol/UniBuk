@@ -21,7 +21,7 @@ class Resources extends Component {
   }
 
   componentDidMount() {
-    this.getResources(this.state.type);
+    this.getResources(localStorage.kind || "books");
   }
 
   getResources = async (kind) => {
@@ -32,11 +32,13 @@ class Resources extends Component {
         type: "book",
         resources: json.books,
       });
+      localStorage.setItem('kind', "books");
     } else if (kind === "contents") {
       this.setState({
         type: "content",
         resources: json.contents,
       });
+      localStorage.setItem('kind', "contents");
     }
   };
 
