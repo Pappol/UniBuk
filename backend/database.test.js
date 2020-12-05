@@ -3,6 +3,7 @@ const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const User = require("./api/models/user");
 const Content = require("./api/models/content");
+const  Axios = require('axios');
 
 describe("insert", () => {
   let connection;
@@ -156,6 +157,64 @@ describe("insert", () => {
 
     const insertedUser = await Content.find({ _id: mockContent._id });
     expect("" + insertedUser).toEqual("" + mockContent);
+  });
+
+  it("Sould not create duplicate content", async () => {
+    if(Content.find({ name: "MyBestContent", creator: "5fab1591d9fe8e536c4df412" })) {
+      let resMessage = '';
+
+      const duplicateContent = {
+        name: "MyBestContent",
+        url: "example.com new",
+        description: "DescriptionExample new",
+        image: "pathExample new",
+        date: new Date(),
+        creator: "5fab1591d9fe8e536c4df412"
+      };
+
+      await Axios.post('http://localhost:8080/contents', duplicateContent)
+      .then( res => {
+        resMessage = res.body.message;
+      })
+      .catch(err => {
+        resMessage = err.message;
+      })
+
+      expect(''+resMessage).toEqual('Request failed with status code 409');
+    }
+    else { 
+      let resMessage = '';
+
+      const mockContent = new Content({
+        _id: new mongoose.Types.ObjectId(),
+        name: "MyBestContent",
+        url: "example.com",
+        description: "DescriptionExample",
+        image: "pathExample",
+        date: new Date(),
+        creator: "5fab1591d9fe8e536c4df412"
+      });
+      await mockContent.save();
+
+      const duplicateContent = {
+        name: "MyBestContent",
+        url: "example.com new",
+        description: "DescriptionExample new",
+        image: "pathExample new",
+        date: new Date(),
+        creator: "5fab1591d9fe8e536c4df412"
+      };
+      
+      await Axios.post('http://localhost:8080/contents', duplicateContent)
+      .then( res => {
+        resMessage = res.body.message;
+      })
+      .catch(err => {
+        resMessage = err.message;
+      })
+
+      expect(''+resMessage).toEqual('Request failed with status code 409');
+    }
   });
 
   it("Should edit content", async() => {
