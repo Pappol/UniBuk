@@ -1,5 +1,4 @@
 import React, { Component } from "react";
-import ListGroup from "react-bootstrap/ListGroup";
 import StarRatings from "react-star-ratings";
 
 class Review extends Component {
@@ -30,11 +29,16 @@ class Review extends Component {
     const { review } = this.props;
     const { author } = this.state;
     return (
-      <ListGroup>
-        <ListGroup.Item>author: {author}</ListGroup.Item>
-        <StarRatings rating={review.rank} starDimension="20px" starRatedColor="blue" />
-        <ListGroup.Item>{review.text}</ListGroup.Item>
-      </ListGroup>
+      <>
+        <h5>{author}</h5>
+        <StarRatings
+          rating={review.rank}
+          starDimension="15px"
+          starSpacing="2px"
+          starRatedColor="blue"
+        />
+        <p>{review.text}</p>
+      </>
     );
   }
 }

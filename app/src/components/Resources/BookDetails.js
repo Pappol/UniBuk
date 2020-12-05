@@ -127,9 +127,13 @@ class BookDetail extends Component {
             </Form.Group>
           </Form>
           <br />
-          {resource.comments.map((comment) => (
-            <Review review={comment} />
-          ))}
+          <ListGroup variant="flush">
+            {resource.comments.map((comment) => (
+              <ListGroup.Item>
+                <Review review={comment} />
+              </ListGroup.Item>
+            ))}
+          </ListGroup>
         </ListGroup>
       </Jumbotron>
     );
