@@ -12,8 +12,24 @@ class ResourceAddNew extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      show: this.props.show
+      show: this.props.show,
+      appunti: 'outline-light',
+      software: 'outline-light'
     }
+  }
+
+  appContent = () => {
+    this.setState({
+      appunti: 'light',
+      software: 'outline-light'
+    })
+  }
+
+  softContent = () => {
+    this.setState({
+      appunti: 'outline-light',
+      software: 'light'
+    })
   }
 
   render() {
@@ -25,8 +41,8 @@ class ResourceAddNew extends Component {
         <Modal.Body className = 'bg-primary text-light'>
             <Form>
               <Form.Row>
-                <Col> <Button variant = 'light' block> Appunti </Button> </Col>
-                <Col> <Button variant = 'light' block> Software </Button> </Col>
+                <Col> <Button variant = {this.state.appunti} onClick = {this.appContent} block> Appunti </Button> </Col>
+                <Col> <Button variant = {this.state.software} onClick = {this.softContent} block> Software </Button> </Col>
               </Form.Row> <br/>
               <Form.Control placeholder = 'Titolo' /> <br/>
               <Form.Control as = 'textarea' row = {3} placeholder = 'Descrizione' /> <br/>
