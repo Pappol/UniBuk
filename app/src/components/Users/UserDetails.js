@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { withRouter } from 'react-router-dom';
 import { Link } from 'react-router-dom';
 import InsertCreds from './InsertCreds';
+import ResourceAddNew from './ResourceAddNew'
 
 import Button from 'react-bootstrap/Button';
 import Jumbotron from 'react-bootstrap/esm/Jumbotron';
@@ -14,6 +15,7 @@ class UserDetails extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      seen: false,
       user: {
         studentCreds: {}
       }
@@ -28,7 +30,21 @@ class UserDetails extends Component {
     this.setState({
       user: json.user,
     });
+    console.log('Popup seen -> '+ this.state.seen);
   }
+
+  showAdd = () => {
+    this.setState({
+      seen: true
+    });
+  };
+
+  hideAdd = () => {
+    this.setState({
+      seen: false
+    });
+  };
+
 
   render() {
     const { user } = this.state;
@@ -55,20 +71,26 @@ class UserDetails extends Component {
             <p>Università: {user.studentCreds.university}</p>
             <p>Corso di Laurea: {user.studentCreds.course}</p>
             <p>Anno di corso: {user.studentCreds.year}</p>
-            <Accordion>
-              <Card>
-                <Card.Header>
-                  <Accordion.Toggle as={Button} variant = 'link' eventKey = '0'>
-                    Change Creds
-                  </Accordion.Toggle>
-                </Card.Header>
-                <Accordion.Collapse eventKey = '0'>
-                  <Card.Body>
-                    <InsertCreds userId={this.props.match.params.userId}/>
-                  </Card.Body>
-                </Accordion.Collapse>
-              </Card> 
-            </Accordion>  
+          
+          <Accordion>
+            <Card>
+              <Card.Header>
+                <Accordion.Toggle as={Button} variant = 'link' eventKey = '0'>
+                  Change Creds
+                </Accordion.Toggle>
+              </Card.Header>
+              <Accordion.Collapse eventKey = '0'>
+                <Card.Body>
+                  <InsertCreds userId={this.props.match.params.userId}/>
+                </Card.Body>
+              </Accordion.Collapse>
+            </Card> 
+          </Accordion>  
+
+          <br/>          
+          <Button variant = 'primary' onClick = {this.showAdd}> Nuovo Contenuto </Button>
+          {this.state.seen ? <ResourceAddNew  toggle = {this.hideAdd} show = {this.state.seen} /> : null}
+
         </Jumbotron> 
          
       </> 
