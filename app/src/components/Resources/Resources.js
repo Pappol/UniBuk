@@ -5,11 +5,11 @@ import Container from "react-bootstrap/Container";
 import Row from "react-bootstrap/Row";
 import { Route, Switch } from "react-router-dom";
 import ResourceCard from "./ResourceCard";
-import BookDetails from "./BookDetails";
-import ContentDetails from "./ContentDetails";
+import ResourceDetails from "./ResourceDetails";
 import { withRouter } from "react-router-dom";
+import ResourceDetails from "./ResourceDetails";
 
-var resourcePage;
+// var resourcePage;
 
 class Resources extends Component {
   constructor(props) {
@@ -42,14 +42,14 @@ class Resources extends Component {
     }
   };
 
-  getResourcePage = () => {
-    if (this.state.type === 'book') {
-      resourcePage = <BookDetails />;
-    } else if (this.state.type === 'content') {
-      resourcePage = <ContentDetails />;
-    }
-    return resourcePage;
-  };
+  // getResourcePage = () => {
+  //   if (this.state.type === 'book') {
+  //     resourcePage = <BookDetails />;
+  //   } else if (this.state.type === 'content') {
+  //     resourcePage = <ContentDetails />;
+  //   }
+  //   return resourcePage;
+  // };
 
   render() {
     const { resources } = this.state;
@@ -74,7 +74,7 @@ class Resources extends Component {
           </Container>
         </Route>
         <Route exact path={`${this.props.match.path}/:resourceId`}>
-          {this.getResourcePage}
+          <ResourceDetails />
         </Route>
       </Switch>
     );
