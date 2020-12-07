@@ -90,17 +90,20 @@ class BookDetail extends Component {
     } else {
       this.state.myUniOnly = true;
       let temp_review = [];
-      this.state.reviewsDisplay.map(async (review) => {
+      for (const review of this.state.reviewsDisplay) {
         let res = await fetch(
           `${process.env.REACT_APP_BACKEND_URL}/user/${review.author}`
         );
         let json = await res.json();
         if (localStorage.myUni === json.user.studentCreds.university) {
-          temp_review = [...temp_review, review];
+          temp_review = await [...temp_review, review];
+          console.table(temp_review);
+          console.log("===============");
         }
-        await this.setState({
-          reviewsDisplay: temp_review,
-        });
+      }
+      await console.table(temp_review);
+      await this.setState({
+        reviewsDisplay: temp_review,
       });
     }
   };
@@ -166,7 +169,6 @@ class BookDetail extends Component {
           </Form>
           <ListGroup variant="flush">
             {this.state.reviewsDisplay.map((review) => (
-              console.log(review),
               <ListGroup.Item>
                 <Review review={review} />
               </ListGroup.Item>
