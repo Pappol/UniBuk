@@ -159,6 +159,59 @@ describe("insert", () => {
     expect("" + insertedUser).toEqual("" + mockContent);
   });
 
+  it("Should create a content with axios", async () => {
+    let resMessage = '';
+
+    if(Content.find({ name: "MyBestContent", creator: "5fab1591d9fe8e536c4df412" })) {
+
+      const deleteContent = await Content.deleteOne(
+        { name: "MyBestContent", creator: "5fab1591d9fe8e536c4df412" }
+      )
+
+      const content = {
+        _id: new mongoose.Types.ObjectId(),
+        name: "MyBestContent",
+        url: "example.com",
+        description: "DescriptionExample",
+        image: "pathExample",
+        date: 2020,
+        creator: "5fab1591d9fe8e536c4df412"
+      };
+
+      await Axios.post('http://localhost:8080/contents', content)
+        .then( res => {
+          console.log(res);
+          resMessage = res.data.message;
+        })
+        .catch(err => {
+          resMessage = err.message;
+        })
+
+      expect(''+resMessage).toEqual('Content created');
+
+    } else {
+        const content = {
+          _id: new mongoose.Types.ObjectId(),
+          name: "MyBestContent",
+          url: "example.com",
+          description: "DescriptionExample",
+          image: "pathExample",
+          date: 2020,
+          creator: "5fab1591d9fe8e536c4df412"
+        };
+
+        await Axios.post('http://localhost:8080/contents', content)
+          .then( res => {
+            resMessage = res.data.message;
+          })
+          .catch(err => {
+            resMessage = err.message;
+          })
+
+        expect(''+resMessage).toEqual('Content created');
+    }
+  })
+
   it("Sould not create duplicate content", async () => {
     if(Content.find({ name: "MyBestContent", creator: "5fab1591d9fe8e536c4df412" })) {
       let resMessage = '';
@@ -168,13 +221,13 @@ describe("insert", () => {
         url: "example.com new",
         description: "DescriptionExample new",
         image: "pathExample new",
-        date: new Date(),
+        date: 2020,
         creator: "5fab1591d9fe8e536c4df412"
       };
 
       await Axios.post('http://localhost:8080/contents', duplicateContent)
       .then( res => {
-        resMessage = res.body.message;
+        resMessage = res.data.message;
       })
       .catch(err => {
         resMessage = err.message;
@@ -191,7 +244,7 @@ describe("insert", () => {
         url: "example.com",
         description: "DescriptionExample",
         image: "pathExample",
-        date: new Date(),
+        date: 2020,
         creator: "5fab1591d9fe8e536c4df412"
       });
       await mockContent.save();
@@ -207,7 +260,7 @@ describe("insert", () => {
       
       await Axios.post('http://localhost:8080/contents', duplicateContent)
       .then( res => {
-        resMessage = res.body.message;
+        resMessage = res.data.message;
       })
       .catch(err => {
         resMessage = err.message;
