@@ -48,6 +48,7 @@ class UserDetails extends Component {
 
   render() {
     const { user } = this.state;
+    const { match } = this.props;
     if( typeof(user) === typeof(undefined)) { 
           return (
             <Jumbotron className = 'mx-5 my-5'>
@@ -89,7 +90,7 @@ class UserDetails extends Component {
 
           <br/>          
           <Button variant = 'primary' onClick = {this.showAdd}> Nuovo Contenuto </Button>
-          {this.state.seen ? <ResourceAddNew  toggle = {this.hideAdd} show = {this.state.seen} /> : null}
+          {this.state.seen ? <ResourceAddNew  toggle = {this.hideAdd} show = {this.state.seen} match = {match}/> : null}
 
         </Jumbotron> 
          
