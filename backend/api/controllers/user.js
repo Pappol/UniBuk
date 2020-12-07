@@ -13,7 +13,7 @@ exports.users_get_user = (req, res, next) => {
       console.log("Gathered from database", doc);
       if (doc) {
         res.status(200).json({
-          user: doc
+          user: doc,
         });
       } else {
         res.status(404).json({
@@ -58,8 +58,8 @@ exports.user_signup = (req, res, next) => {
                   university: req.body.studentCreds.university,
                   course: req.body.studentCreds.course,
                   year: req.body.studentCreds.year,
-                }
-              })
+                },
+              });
             }
 
             user
@@ -112,7 +112,8 @@ exports.user_login = (req, res, next) => {
           return res.status(200).json({
             message: "Auth successful",
             token: token,
-            id: user[0]._id
+            id: user[0]._id,
+            university: user[0].studentCreds.university,
           });
         }
         res.status(401).json({

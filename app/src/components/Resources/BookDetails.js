@@ -18,7 +18,9 @@ class BookDetail extends Component {
         tags: [],
         comments: [],
       },
+      reviewsDisplay: [],
       rate: 0,
+      myUniOnly: false,
     };
   }
 
@@ -31,6 +33,7 @@ class BookDetail extends Component {
     const json = await res.json();
     this.setState({
       resource: json.book,
+      reviewsDisplay: json.book.comments,
     });
   }
 
@@ -78,6 +81,30 @@ class BookDetail extends Component {
       });
   };
 
+  showMyUni = async (e) => {
+    if (this.state.myUniOnly) {
+      this.state.myUniOnly = false;
+      await this.setState({
+        reviewsDisplay: this.state.resource.comments,
+      });
+    } else {
+      this.state.myUniOnly = true;
+      let temp_review = [];
+      this.state.reviewsDisplay.map(async (review) => {
+        let res = await fetch(
+          `${process.env.REACT_APP_BACKEND_URL}/user/${review.author}`
+        );
+        let json = await res.json();
+        if (localStorage.myUni === json.user.studentCreds.university) {
+          temp_review = [...temp_review, review];
+        }
+        await this.setState({
+          reviewsDisplay: temp_review,
+        });
+      });
+    }
+  };
+
   render() {
     const { resource } = this.state;
     return (
@@ -91,10 +118,10 @@ class BookDetail extends Component {
               thumbnail
             ></Image>
           </ListGroup.Item>
-          <ListGroup.Item>author: {resource.author}</ListGroup.Item>
-          <ListGroup.Item>description: {resource.description}</ListGroup.Item>
-          <ListGroup.Item>isbn: {resource.isbn}</ListGroup.Item>
-          <ListGroup.Item>title: {resource.title}</ListGroup.Item>
+          <ListGroup.Item>{resource.author}</ListGroup.Item>
+          <ListGroup.Item>{resource.title}</ListGroup.Item>
+          <ListGroup.Item>{resource.description}</ListGroup.Item>
+          <ListGroup.Item>ISBN: {resource.isbn}</ListGroup.Item>
 
           <h3>Tag</h3>
           {resource.tags.map((tag) => (
@@ -127,10 +154,21 @@ class BookDetail extends Component {
             </Form.Group>
           </Form>
           <br />
+          <Form>
+            <div key="myUni" className="mb-3">
+              <Form.Check
+                custom
+                id="myUni"
+                label="Show comments only from my University"
+                onChange={this.showMyUni}
+              />
+            </div>
+          </Form>
           <ListGroup variant="flush">
-            {resource.comments.map((comment) => (
+            {this.state.reviewsDisplay.map((review) => (
+              console.log(review),
               <ListGroup.Item>
-                <Review review={comment} />
+                <Review review={review} />
               </ListGroup.Item>
             ))}
           </ListGroup>
