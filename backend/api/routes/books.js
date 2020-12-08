@@ -36,5 +36,7 @@ const BooksController = require('../controllers/books');
 router.get('/', BooksController.books_get_all);
 router.get('/:bookId', BooksController.books_get_book);
 router.patch('/:bookId/reviews', checkAuth, BooksController.books_add_review);
+router.patch('/:bookId/questions', checkAuth, BooksController.books_add_question);
+router.patch('/:bookId/questions/:questionId/', checkAuth, BooksController.books_add_answer);
 
 module.exports = router;

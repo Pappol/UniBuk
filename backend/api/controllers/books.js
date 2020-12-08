@@ -66,11 +66,9 @@ exports.books_add_review = (req, res, next) => {
   for (const ops of req.body) {
     updateOps[ops.propName] = ops.value;
   }
-  Book.updateOne(
-    {
-      $push: updateOps
-    }
-  )
+  Book.updateOne({
+    $push: updateOps,
+  })
     .exec()
     .then((result) => {
       res.status(200).json({
@@ -84,3 +82,30 @@ exports.books_add_review = (req, res, next) => {
       });
     });
 };
+
+exports.books_add_question = (req, res, next) => {
+  const id = req.params.bookId;
+  const updateOps = {};
+  for (const ops of req.body) {
+    updateOps[ops.propName] = ops.value;
+  }
+  Book.updateOne({
+    $push: updateOps,
+  })
+    .exec()
+    .then((result) => {
+      res.status(200).json({
+        message: "added question",
+      });
+    })
+    .catch((err) => {
+      console.log(err);
+      res.status(500).json({
+        error: err,
+      });
+    });
+};
+
+exports.books_add_answer = (req, res, next) => {
+  console.log('todo');
+}
