@@ -7,7 +7,6 @@ import { Route, Switch } from "react-router-dom";
 import ResourceCard from "./ResourceCard";
 import ResourceDetails from "./ResourceDetails";
 import { withRouter } from "react-router-dom";
-import ResourceDetails from "./ResourceDetails";
 
 // var resourcePage;
 
