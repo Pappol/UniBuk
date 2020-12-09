@@ -20,6 +20,8 @@ export class Login extends Component {
       .then(res => {
         console.log(res);
         localStorage.setItem('token', res.data.token);
+        localStorage.setItem('myId', res.data.id);
+        localStorage.setItem('myUni', res.data.university);
         console.log(localStorage);
       })
       .then((errflag) => {
