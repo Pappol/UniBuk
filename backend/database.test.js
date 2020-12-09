@@ -4,7 +4,7 @@ import jwt from 'jsonwebtoken';
 import User from './api/models/user.js';
 import Content from './api/models/content';
 
-describe("insert", () => {
+describe("Database", () => {
   let connection;
 
   beforeAll(async () => {
@@ -18,7 +18,39 @@ describe("insert", () => {
     );
   });
 
-  afterEach(async () => { });
+  const testObjects = [
+    new User({
+      _id: new mongoose.Types.ObjectId(),
+      email: "email@example.com",
+      username: "Username",
+      firstName: "Name",
+      lastName: "LastName",
+      password: "Password",
+    }),
+    new Content({
+      _id: new mongoose.Types.ObjectId(),
+      creator: "5fab1591d9fe8e536c4df412",
+      date: new Date(),
+      name: "MyBestContent",
+      url: "example.com",
+      description: "DescriptionExample",
+      image: "pathExample",
+    })
+  ]
+
+  beforeEach(async () => {
+    for (const obj of testObjects) {
+      // Insert each object inside database
+      await obj.save(() => {});
+    }
+  });
+
+  afterEach(async () => {
+    for (const obj of testObjects) {
+      // Remove each object inside database
+      await obj.remove();
+    }
+  });
 
   afterAll(async () => {
     await connection.close();
@@ -157,6 +189,4 @@ describe("insert", () => {
     const insertedUser = await Content.find({ _id: mockContent._id });
     expect("" + insertedUser).toEqual("" + mockContent);
   });
-
-
 });
