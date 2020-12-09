@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import { FormControl, InputGroup, Button, Container, Row } from 'react-bootstrap';
 import { Link, Route, Switch, withRouter } from 'react-router-dom';
 import SearchList from './SearchList.js';
 
