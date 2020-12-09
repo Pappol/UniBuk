@@ -30,7 +30,6 @@ class UserDetails extends Component {
     this.setState({
       user: json.user,
     });
-    console.log('Popup seen -> '+ this.state.seen);
   }
 
   showAdd = () => {
@@ -68,11 +67,14 @@ class UserDetails extends Component {
             <p>e-mail: {user.email}</p>
             <p>name: {user.firstName}</p>
             <p>surname: {user.lastName}</p>
-          <h4>Dati universitari</h4>
-            <p>Università: {user.studentCreds.university}</p>
-            <p>Corso di Laurea: {user.studentCreds.course}</p>
-            <p>Anno di corso: {user.studentCreds.year}</p>
-          
+          { typeof(user.studentCreds) !== 'undefined' ? 
+            <>
+            <h4>Dati universitari</h4>
+              <p>Università: {user.studentCreds.university}</p>
+              <p>Corso di Laurea: {user.studentCreds.course}</p>
+              <p>Anno di corso: {user.studentCreds.year}</p>
+            </> 
+          : null }
           {localStorage.myId === match.params.userId ?
           <>
             <Accordion>
