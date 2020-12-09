@@ -5,6 +5,8 @@ import Col from 'react-bootstrap/Col'
 import { withRouter } from 'react-router-dom';
 
 import ResourceTag from './ResourceTag'
+import ResourceShow from './ResourceShow'
+import ResourceEdit from './ResourceEdit'
 
 import Jumbotron from 'react-bootstrap/Jumbotron'
 import ListGroup from 'react-bootstrap/ListGroup'
@@ -17,6 +19,7 @@ class Navbar extends Component {
     super(props);
     this.state = {
       newTag: '',
+      edit: false,
       resource: {
         tags: [],
         comments: []
@@ -71,6 +74,11 @@ class Navbar extends Component {
     console.log(this.state);
   }
   
+  showEdit = () => {
+    this.setState({
+      edit: !this.state.edit,
+    });
+  };
 
   render() {
     const { resource } = this.state;
@@ -115,12 +123,11 @@ class Navbar extends Component {
        <Jumbotron>
          <ListGroup>
           <h3>Content Info</h3>
-          <ListGroup.Item><Image src={ `${resource.image}`.startsWith('http://') || `${resource.image}`.startsWith('https://') ? resource.image : `${process.env.REACT_APP_BACKEND_URL}/${resource.image}`} thumbnail></Image></ListGroup.Item>
-          <ListGroup.Item>link: <a href = {resource.url}>{resource.url}</a></ListGroup.Item>
-          <ListGroup.Item>creator: {resource.creator}</ListGroup.Item>
-          <ListGroup.Item>date: {resource.date}</ListGroup.Item>
-          <ListGroup.Item>name: {resource.name}</ListGroup.Item>
-          <ListGroup.Item>description: {resource.description}</ListGroup.Item>
+          { this.state.edit ?
+          <ResourceEdit toggle = {this.showEdit} image = {resource.image} link = {resource.url} creator = {resource.creator} date = {resource.date} name = {resource.name} description = {resource.description}/>
+          :
+          <ResourceShow toggle = {this.showEdit} image = {resource.image} link = {resource.url} creator = {resource.creator} date = {resource.date} name = {resource.name} description = {resource.description}/>
+          }
           <p/>
 
           <h3>Tag</h3>
