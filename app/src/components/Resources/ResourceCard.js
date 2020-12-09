@@ -36,7 +36,7 @@ class ResourceCard extends Component {
     return (
       <Card className='mb-4 box-shadow'>
         <Card.Header>{resource.author}{this.state.creatorName}</Card.Header>
-        <Card.Img variant='top' src={`${process.env.REACT_APP_BACKEND_URL}/${resource.image}`}></Card.Img>
+        <Card.Img variant='top' src={ `${resource.image}`.startsWith('http://') || `${resource.image}`.startsWith('https://') ? resource.image : `${process.env.REACT_APP_BACKEND_URL}/${resource.image}`}></Card.Img>
         <Card.Body>
           <Card.Title>{resource.title}{resource.name}</Card.Title>
           <Card.Subtitle className="mb-2 text-muted">{resource.date}{resource.year}</Card.Subtitle>

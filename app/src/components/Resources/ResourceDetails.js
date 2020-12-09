@@ -82,7 +82,7 @@ class Navbar extends Component {
 
           <ListGroup variant = 'flush' className = 'bg-transparent text-dark'> 
           <h3>Book Info</h3>
-            <ListGroup.Item><Image src={`${process.env.REACT_APP_BACKEND_URL}/${resource.image}`} thumbnail></Image></ListGroup.Item>
+            <ListGroup.Item><Image src={ `${resource.image}`.startsWith('http://') || `${resource.image}`.startsWith('https://') ? resource.image : `${process.env.REACT_APP_BACKEND_URL}/${resource.image}`} thumbnail></Image></ListGroup.Item>
             <ListGroup.Item>author: {resource.author}</ListGroup.Item>
             <ListGroup.Item>description: {resource.description}</ListGroup.Item>
             <ListGroup.Item>isbn: {resource.isbn}</ListGroup.Item>
@@ -115,7 +115,7 @@ class Navbar extends Component {
        <Jumbotron>
          <ListGroup>
           <h3>Content Info</h3>
-          <ListGroup.Item><Image src={`${process.env.REACT_APP_BACKEND_URL}/${resource.image}`} thumbnail></Image></ListGroup.Item>
+          <ListGroup.Item><Image src={ `${resource.image}`.startsWith('http://') || `${resource.image}`.startsWith('https://') ? resource.image : `${process.env.REACT_APP_BACKEND_URL}/${resource.image}`} thumbnail></Image></ListGroup.Item>
           <ListGroup.Item>link: <a href = {resource.url}>{resource.url}</a></ListGroup.Item>
           <ListGroup.Item>creator: {resource.creator}</ListGroup.Item>
           <ListGroup.Item>date: {resource.date}</ListGroup.Item>
