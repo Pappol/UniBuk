@@ -74,7 +74,7 @@ class Navbar extends Component {
 
   render() {
     const { resource } = this.state;
-
+    console.log(resource)
     if(this.props.resourceType === 'book'){
       return (
 
@@ -116,6 +116,7 @@ class Navbar extends Component {
          <ListGroup>
           <h3>Content Info</h3>
           <ListGroup.Item><Image src={`${process.env.REACT_APP_BACKEND_URL}/${resource.image}`} thumbnail></Image></ListGroup.Item>
+          <ListGroup.Item>link: <a href = {resource.url}>{resource.url}</a></ListGroup.Item>
           <ListGroup.Item>creator: {resource.creator}</ListGroup.Item>
           <ListGroup.Item>date: {resource.date}</ListGroup.Item>
           <ListGroup.Item>name: {resource.name}</ListGroup.Item>
@@ -131,16 +132,18 @@ class Navbar extends Component {
               }
               {/* <ResourceTag text = 'add' option = '+' variant = 'info' onClick = { () => this.showForm()} /> */}
             </ListGroup>
-            <Form onSubmit = {this.handleSubmit}>
-              <Form.Row>
-                <Col>
-                  <Form.Control  placeholder = 'Your tags is empity :(' defaultValue = {this.state.resource.tags} onChange = { e => this.state.newTag = e.target.value} />              
-                </Col>
-                <Col>
-                  <Button variant = 'primary' type = 'submit'> Aggiungi </Button>
-                </Col>
-              </Form.Row>
-            </Form>
+            {localStorage.myId === resource.creator ?
+              <Form onSubmit = {this.handleSubmit}>
+                <Form.Row>
+                  <Col>
+                    <Form.Control  placeholder = 'Your tags is empity :(' defaultValue = {this.state.resource.tags} onChange = { e => this.state.newTag = e.target.value} />              
+                  </Col>
+                  <Col>
+                    <Button variant = 'primary' type = 'submit'> Aggiungi </Button>
+                  </Col>
+                </Form.Row>
+              </Form>
+            : null}
           <p/>
 
           <h3>Questi sono i miei commentiiii</h3>

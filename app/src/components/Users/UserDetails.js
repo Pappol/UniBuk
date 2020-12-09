@@ -73,23 +73,28 @@ class UserDetails extends Component {
             <p>Corso di Laurea: {user.studentCreds.course}</p>
             <p>Anno di corso: {user.studentCreds.year}</p>
           
-          <Accordion>
-            <Card>
-              <Card.Header>
-                <Accordion.Toggle as={Button} variant = 'link' eventKey = '0'>
-                  Change Creds
-                </Accordion.Toggle>
-              </Card.Header>
-              <Accordion.Collapse eventKey = '0'>
-                <Card.Body>
-                  <InsertCreds userId={this.props.match.params.userId}/>
-                </Card.Body>
-              </Accordion.Collapse>
-            </Card> 
-          </Accordion>  
+          {localStorage.myId === match.params.userId ?
+          <>
+            <Accordion>
+              <Card>
+                <Card.Header>
+                  <Accordion.Toggle as={Button} variant = 'link' eventKey = '0'>
+                    Change Creds
+                  </Accordion.Toggle>
+                </Card.Header>
+                <Accordion.Collapse eventKey = '0'>
+                  <Card.Body>
+                    <InsertCreds userId={this.props.match.params.userId}/>
+                  </Card.Body>
+                </Accordion.Collapse>
+              </Card> 
+            </Accordion>  
 
-          <br/>          
-          <Button variant = 'primary' onClick = {this.showAdd}> Nuovo Contenuto </Button>
+            <br/>          
+            <Button variant = 'primary' onClick = {this.showAdd}> Nuovo Contenuto </Button>
+          </>
+          : null}
+          
           {this.state.seen ? <ResourceAddNew  toggle = {this.hideAdd} show = {this.state.seen} match = {match}/> : null}
 
         </Jumbotron> 
