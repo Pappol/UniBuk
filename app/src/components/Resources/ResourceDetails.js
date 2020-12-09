@@ -80,6 +80,21 @@ class Navbar extends Component {
     });
   };
 
+  changeState = (newState) => {
+    console.log(newState)
+    this.setState(prevState => ({
+      resource: {
+        ...prevState.resource,
+        image: newState.image,
+        link: newState.link,
+        creator: newState.creator,
+        date: newState.date,
+        name: newState.name,
+        description: newState.description
+      }
+    }));
+  };
+
   render() {
     const { resource } = this.state;
     console.log(resource)
@@ -124,7 +139,7 @@ class Navbar extends Component {
          <ListGroup>
           <h3>Content Info</h3>
           { this.state.edit ?
-          <ResourceEdit toggle = {this.showEdit} image = {resource.image} link = {resource.url} creator = {resource.creator} date = {resource.date} name = {resource.name} description = {resource.description}/>
+          <ResourceEdit toggle = {this.showEdit} change = {this.changeState} genProps = {this.props} image = {resource.image} link = {resource.url} creator = {resource.creator} date = {resource.date} name = {resource.name} description = {resource.description}/>
           :
           <ResourceShow toggle = {this.showEdit} image = {resource.image} link = {resource.url} creator = {resource.creator} date = {resource.date} name = {resource.name} description = {resource.description}/>
           }
