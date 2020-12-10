@@ -1,3 +1,6 @@
+env:
+  global:
+    - MONGO_CONN_STRING=mongodb+srv://dbadmin:SZARo4oZEL1gIHEZ@cluster0.lgzom.mongodb.net/testing?retryWrites=true&w=majority
 language: node_js
 node_js:
   - "15"
