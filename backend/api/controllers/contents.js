@@ -59,14 +59,14 @@ exports.contents_get_content = (req, res, next) => {
     });
 };
 
-exports.contents_update_book = (req, res, next) => {
+exports.contents_update_content = (req, res, next) => {
   const id = req.params.contentId;
   const updateOps = {};
   for (const ops of req.body) {
     updateOps[ops.propName] = ops.value;
   }
   Content.updateOne(
-    { _id: contentId },
+    { _id: id },
     {
       $push: updateOps,
     }

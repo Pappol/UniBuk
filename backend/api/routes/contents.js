@@ -35,7 +35,7 @@ const ContentsController = require('../controllers/contents');
  
 router.get('/', ContentsController.contents_get_all);
 router.get('/:contentId', ContentsController.contents_get_content);
-router.patch('/:contentId', checkAuth, ContentsController.contents_update_book);
+router.patch('/:contentId', checkAuth, ContentsController.contents_update_content);
 router.patch('/:contentId/questions/:questionId/', checkAuth, ContentsController.contents_add_answer);
 
 module.exports = router;

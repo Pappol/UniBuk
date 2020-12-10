@@ -75,7 +75,7 @@ class BookDetail extends Component {
     console.log(this.props);
     axios
       .patch(
-        `${process.env.REACT_APP_BACKEND_URL}/${localStorage.kind}/${this.props.match.params.resourceId}/reviews`,
+        `${process.env.REACT_APP_BACKEND_URL}/${localStorage.kind}/${this.props.match.params.resourceId}`,
         data,
         {
           headers: headers,
@@ -94,7 +94,7 @@ class BookDetail extends Component {
     if (this.state.myUniOnly) {
       this.state.myUniOnly = false;
       await this.setState({
-        reviewsDisplay: this.state.resource.comments,
+        reviewsDisplay: this.state.resource.questions,
       });
     } else {
       this.state.myUniOnly = true;
@@ -115,6 +115,38 @@ class BookDetail extends Component {
         reviewsDisplay: temp_review,
       });
     }
+  };
+
+  addQuestion = async (e) => {
+    e.preventDefault();
+    const token = "Bearer " + localStorage.token;
+    const headers = {
+      "Content-type": "application/json",
+      Authorization: token,
+    };
+    const data = [
+      {
+        propName: "questions",
+        value: {
+          quest: this.myQuestion,
+        },
+      },
+    ];
+    axios
+      .patch(
+        `${process.env.REACT_APP_BACKEND_URL}/${localStorage.kind}/${this.props.match.params.resourceId}`,
+        data,
+        {
+          headers: headers,
+        }
+      )
+      .then((res) => {
+        console.log(res);
+        window.location.reload(false);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
   };
 
   render() {
@@ -151,6 +183,25 @@ class BookDetail extends Component {
                   />
                 </ListGroup.Item>
               ))}
+              <ListGroup.Item>
+                <Form onSubmit={this.addQuestion}>
+                  <Form.Group controlId="question">
+                    <Form.Control
+                      type="text"
+                      placeholder="Submit a question"
+                      onChange={(e) => (this.myQuestion = e.target.value)}
+                      required
+                    />
+                  </Form.Group>
+                  <Button
+                    className="btn btn-primary btn-large centerButton"
+                    type="submit"
+                    size="sm"
+                  >
+                    Publish
+                  </Button>
+                </Form>
+              </ListGroup.Item>
             </ListGroup>
             <h3>Commenti</h3>
             <Form onSubmit={this.addReview}>
@@ -229,6 +280,25 @@ class BookDetail extends Component {
                   />
                 </ListGroup.Item>
               ))}
+              <ListGroup.Item>
+                <Form onSubmit={this.addQuestion}>
+                  <Form.Group controlId="question">
+                    <Form.Control
+                      type="text"
+                      placeholder="Submit a question"
+                      onChange={(e) => (this.myQuestion = e.target.value)}
+                      required
+                    />
+                  </Form.Group>
+                  <Button
+                    className="btn btn-primary btn-large centerButton"
+                    type="submit"
+                    size="sm"
+                  >
+                    Publish
+                  </Button>
+                </Form>
+              </ListGroup.Item>
             </ListGroup>
             <h3>Commenti</h3>
             <Form onSubmit={this.addReview}>

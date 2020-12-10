@@ -68,7 +68,7 @@ exports.books_update_book = (req, res, next) => {
   }
   Book.updateOne(
     {
-      _id: bookId,
+      _id: id,
     },
     {
       $push: updateOps,
