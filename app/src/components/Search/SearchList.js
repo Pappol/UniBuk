@@ -32,7 +32,8 @@ class SearchList extends Component {
     if (this.state.loaded) {
       resultList = (
         <>
-          <h3>Books</h3>
+          { !books.length && !contents.length && !users.length ? 'La ricerca non ha prodotto risultati' : ''}
+          { books.length ? <h3>Books</h3> : '' }
           <ListGroup>
             {
               books.map(book => (
@@ -41,7 +42,7 @@ class SearchList extends Component {
             }
           </ListGroup>
           <br />
-          <h3>Contents</h3>
+          { contents.length ? <h3>Contents</h3> : '' }
           <ListGroup>
             {
               contents.map(content => (
@@ -50,7 +51,7 @@ class SearchList extends Component {
             }
           </ListGroup>
           <br />
-          <h3>Users</h3>
+          { users.length ? <h3>Users</h3> : '' }
           <ListGroup>
             {
               users.map(user => (
