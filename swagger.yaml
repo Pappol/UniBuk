@@ -453,6 +453,49 @@ paths:
 #          $ref: '#/components/responses/NotFound'
 #        '500':
 #          $ref: '#/components/responses/DbError'
+
+  /search/{query}:
+  
+    get:
+      description: Find the books, contents and users
+      parameters:
+        - in: path
+          name: query
+          required: true
+          description: The id of the book
+          schema:
+            type: string
+            example: myBook
+      responses:
+        '200':
+          description: Successful pull of one content
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  books:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Book'
+                  contents:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Content'
+                  users:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/User'
+        '500':
+          description: search failed in the database
+          content: 
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    example: database error type
     
 components:
   schemas:
