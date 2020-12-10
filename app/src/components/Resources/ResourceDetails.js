@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import { withRouter } from "react-router-dom";
 import axios from "axios";
 import Review from "./Review";
+import QA from "./QA";
 
 import Jumbotron from "react-bootstrap/Jumbotron";
 import ListGroup from "react-bootstrap/ListGroup";
@@ -17,6 +18,7 @@ class BookDetail extends Component {
       resource: {
         tags: [],
         comments: [],
+        questions: [],
       },
       reviewsDisplay: [],
       rate: 0,
@@ -132,6 +134,14 @@ class BookDetail extends Component {
               <ListGroup.Item>{tag}</ListGroup.Item>
             ))}
             <p></p>
+            <h3>Domande e risposte dagli utenti</h3>
+            <ListGroup variant="flush">
+              {resource.questions.map((question) => (
+                <ListGroup.Item>
+                  <QA question={question} />
+                </ListGroup.Item>
+              ))}
+            </ListGroup>
             <h3>Commenti</h3>
             <Form onSubmit={this.addReview}>
               <Form.Group controlId="addReviewArea">
@@ -232,7 +242,6 @@ class BookDetail extends Component {
                 </ListGroup.Item>
               ))}
             </ListGroup>
-          
           </ListGroup>
         </Jumbotron>
       );
