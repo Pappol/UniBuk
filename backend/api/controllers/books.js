@@ -107,5 +107,33 @@ exports.books_add_question = (req, res, next) => {
 };
 
 exports.books_add_answer = (req, res, next) => {
-  console.log('todo');
-}
+  const bookId = req.params.bookId;
+  const questionId = req.params.questionId;
+  Book.updateOne(
+    {
+      _id: bookId,
+      questions: {
+        $elemMatch: {
+          _id: questionId,
+        },
+      },
+    },
+    {
+      $push: {
+        "questions.$.answers": req.body.text,
+      },
+    }
+  )
+    .exec()
+    .then((result) => {
+      res.status(200).json({
+        message: "added answer",
+      });
+    })
+    .catch((err) => {
+      console.log(err);
+      res.status(500).json({
+        error: err,
+      });
+    });
+};
