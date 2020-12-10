@@ -28,8 +28,8 @@ export default class QA extends Component {
     };
     const data = {
       text: this.myAnswer,
-		};
-		console.log(this.props);
+    };
+    console.log(this.props);
     axios
       .patch(
         `${process.env.REACT_APP_BACKEND_URL}/${localStorage.kind}/${this.props.rId}/questions/${question._id}`,
@@ -98,22 +98,26 @@ export default class QA extends Component {
           <Row>
             <Col>
               <Form onSubmit={this.addAnswer}>
-                <Form.Group controlId="answer">
-                  {/* <Form.Label>Answer this question</Form.Label> */}
-                  <Form.Control
-                    type="text"
-                    placeholder="Answer this question"
-                    onChange={(e) => (this.myAnswer = e.target.value)}
-                    required
-                  />
-                </Form.Group>
-                <Button
-                  className="btn btn-primary btn-large centerButton"
-                  type="submit"
-                  size="sm"
-                >
-                  Answer
-                </Button>
+                <Form.Row>
+                  <Col>
+                    <Form.Group controlId="answer">
+                      <Form.Control
+                        type="text"
+                        placeholder="Answer this question"
+                        onChange={(e) => (this.myAnswer = e.target.value)}
+                        required
+                      />
+                    </Form.Group>
+                  </Col>
+                  <Col>
+                    <Button
+                      className="btn btn-primary btn-large centerButton"
+                      type="submit"
+                    >
+                      Answer
+                    </Button>
+                  </Col>
+                </Form.Row>
               </Form>
             </Col>
           </Row>

@@ -10,6 +10,7 @@ import Image from "react-bootstrap/Image";
 import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
 import StarRatings from "react-star-ratings";
+import Col from "react-bootstrap/Col";
 
 class BookDetail extends Component {
   constructor(props) {
@@ -185,6 +186,7 @@ class BookDetail extends Component {
               ))}
               <ListGroup.Item>
                 <Form onSubmit={this.addQuestion}>
+                  <Form.Row><Col>
                   <Form.Group controlId="question">
                     <Form.Control
                       type="text"
@@ -192,14 +194,13 @@ class BookDetail extends Component {
                       onChange={(e) => (this.myQuestion = e.target.value)}
                       required
                     />
-                  </Form.Group>
+                  </Form.Group></Col><Col>
                   <Button
                     className="btn btn-primary btn-large centerButton"
                     type="submit"
-                    size="sm"
                   >
                     Publish
-                  </Button>
+                  </Button></Col></Form.Row>
                 </Form>
               </ListGroup.Item>
             </ListGroup>
@@ -282,6 +283,7 @@ class BookDetail extends Component {
               ))}
               <ListGroup.Item>
                 <Form onSubmit={this.addQuestion}>
+                  <Form.Row><Col>
                   <Form.Group controlId="question">
                     <Form.Control
                       type="text"
@@ -289,14 +291,13 @@ class BookDetail extends Component {
                       onChange={(e) => (this.myQuestion = e.target.value)}
                       required
                     />
-                  </Form.Group>
+                  </Form.Group></Col><Col>
                   <Button
                     className="btn btn-primary btn-large centerButton"
                     type="submit"
-                    size="sm"
                   >
                     Publish
-                  </Button>
+                  </Button></Col></Form.Row>
                 </Form>
               </ListGroup.Item>
             </ListGroup>
