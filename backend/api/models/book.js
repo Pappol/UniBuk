@@ -64,6 +64,12 @@ const bookSchema = mongoose.Schema({
         ref: 'User'
       }
     }
+  ],
+  questions: [
+    {
+      quest: String,
+      answers: [String]
+    }
   ]
 });
 

@@ -102,6 +102,8 @@ paths:
                 properties:
                   token: 
                     type: string
+                  id:
+                    type: string
                   message:
                     type: string
                 required:
@@ -110,6 +112,7 @@ paths:
               example: 
                 token: yqw98q48y9w4fyp9gy4hrvpr89hqp484qgfg p9qgf4
                 message: Auth Successful
+                id: 5fab15fdd9fe8e536c4df414
         '401':
           description: wrong credentials
           content: 
@@ -341,6 +344,105 @@ paths:
                   error: 
                     type: string
                     example: database error type
+
+    patch:
+      description: Update a book information; useful for adding a new comment/review to a book with provided {id}
+      requestBody:
+        required: true
+        content:
+          applicationn/json:
+            schema:
+              type: array
+              items: 
+                type: object
+                properties:
+                  propName:
+                    type: string
+                    example: username
+                  value:
+                    type: object #could be other than object (object is the most generic allowed)
+                    example: salt bae
+      parameters:
+        - in: path
+          name: id
+          required: true
+          description: The id of the book
+          schema:
+            type: string
+            example: mongoose auto generated
+      responses:
+        '200':
+          description: The book has been successfully updated
+          content: 
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+              example: 
+                message: book updated
+        '500':
+          description: update failed in the database
+          content: 
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error: 
+                    type: string
+                    example: database error type
+                    
+  /books/{bId}/questions/{qId}:
+    patch:
+      description: Add an answer to a question {id} for a book with provided {id}
+      requestBody:
+        required: true
+        content:
+          applicationn/json:
+            schema:
+              type: object
+              properties:
+                text: 
+                  type: string
+                  example: tranquillo, è molto buono
+      parameters:
+        - in: path
+          name: bId
+          required: true
+          description: The id of the book
+          schema:
+            type: string
+            example: mongoose auto generated
+        - in: path
+          name: qId
+          required: true
+          description: The id of the question
+          schema:
+            type: string
+            example: mongoose auto generated
+      responses:
+        '200':
+          description: Review has been successfully added
+          content: 
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+              example: 
+                message: Added answer
+        '500':
+          description: update failed in the database
+          content: 
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error: 
+                    type: string
+                    example: database error type
   
   /contents:
   
@@ -458,6 +560,104 @@ paths:
                     example: No valid entry found for provided ID
         '500':
           description: find failed in the database
+          content: 
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error: 
+                    type: string
+                    example: database error type
+    patch:
+      description: Update a content information; useful for adding a new comment/review to a content with provided {id}
+      requestBody:
+        required: true
+        content:
+          applicationn/json:
+            schema:
+              type: array
+              items: 
+                type: object
+                properties:
+                  propName:
+                    type: string
+                    example: username
+                  value:
+                    type: object #could be other than object (object is the most generic allowed)
+                    example: salt bae
+      parameters:
+        - in: path
+          name: id
+          required: true
+          description: The id of the content
+          schema:
+            type: string
+            example: mongoose auto generated
+      responses:
+        '200':
+          description: The content has been successfully updated
+          content: 
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+              example: 
+                message: content updated
+        '500':
+          description: update failed in the database
+          content: 
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error: 
+                    type: string
+                    example: database error type
+                    
+  /contents/{cId}/questions/{qId}:
+    patch:
+      description: Add an answer to a question {id} for a content with provided {id}
+      requestBody:
+        required: true
+        content:
+          applicationn/json:
+            schema:
+              type: object
+              properties:
+                text: 
+                  type: string
+                  example: tranquillo, è molto buono
+      parameters:
+        - in: path
+          name: cId
+          required: true
+          description: The id of the content
+          schema:
+            type: string
+            example: mongoose auto generated
+        - in: path
+          name: qId
+          required: true
+          description: The id of the question
+          schema:
+            type: string
+            example: mongoose auto generated
+      responses:
+        '200':
+          description: Review has been successfully added
+          content: 
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+              example: 
+                message: Added answer
+        '500':
+          description: update failed in the database
           content: 
             application/json:
               schema:
@@ -658,6 +858,19 @@ components:
                 example: so useful!!
               author:
                 $ref: '#/components/schemas/User'
+        questions:
+          type: array
+          items: 
+            type: object
+            properties:
+              quest:
+                type: string
+                example: Quande pagine ha?
+              answers:
+                type: array
+                items:
+                  type: string
+                  example: non troppe dai
       required:
         - _id
         - isbn
@@ -724,7 +937,20 @@ components:
                 type: string
                 example: so useful!!
               author:
-                $ref: '#/components/schemas/User'                             
+                $ref: '#/components/schemas/User' 
+        questions:
+          type: array
+          items: 
+            type: object
+            properties:
+              quest:
+                type: string
+                example: Quande pagine ha?
+              answers:
+                type: array
+                items:
+                  type: string
+                  example: non troppe dai
       required:
         - _id
         - creator

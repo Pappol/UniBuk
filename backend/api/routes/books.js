@@ -1,6 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const multer = require('multer');
+const checkAuth = require('../middlewares/check-auth');
 
 const storage = multer.diskStorage({
     destination: function(req, file, cb) {
@@ -34,5 +35,7 @@ const BooksController = require('../controllers/books');
  
 router.get('/', BooksController.books_get_all);
 router.get('/:bookId', BooksController.books_get_book);
+router.patch('/add/:bookId', checkAuth, BooksController.books_update_book);
+router.patch('/:bookId/questions/:questionId/', checkAuth, BooksController.books_add_answer);
 
 module.exports = router;

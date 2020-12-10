@@ -2,8 +2,9 @@ const mongoose = require("mongoose");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const User = require("./api/models/user");
+const Book = require("./api/models/book");
 const Content = require("./api/models/content");
-const  Axios = require('axios');
+const Axios = require("axios");
 
 describe("insert", () => {
   let connection;
@@ -19,7 +20,7 @@ describe("insert", () => {
     );
   });
 
-  afterAll(done => {
+  afterAll((done) => {
     mongoose.connection.close();
     done();
   });
@@ -29,17 +30,16 @@ describe("insert", () => {
 
     try {
       const imAboolean = await User.find({ email: "Ciaobello@gmail.com" });
-    }
-    catch (error) {
+    } catch (error) {
       err = error;
-    } 
+    }
 
     expect(err).toBeNull();
     done();
   });
 
   it("User does not get test", async (done) => {
-    const user = { email: "doesnotexist@example.com" }
+    const user = { email: "doesnotexist@example.com" };
     const res = await User.find(user);
     expect(res).toEqual([]);
     done();
@@ -141,12 +141,9 @@ describe("insert", () => {
 
   it("Create content", async (done) => {
     if (Content.find({ name: "MyBestContent" })) {
-      await Content.deleteOne(
-        { name: "MyBestContent" },
-        function (err) {
-          if (err) return handleError(err);
-        }
-      );
+      await Content.deleteOne({ name: "MyBestContent" }, function (err) {
+        if (err) return handleError(err);
+      });
     }
     const mockContent = new Content({
       _id: new mongoose.Types.ObjectId(),
@@ -155,7 +152,7 @@ describe("insert", () => {
       description: "DescriptionExample",
       image: "pathExample",
       date: new Date(),
-      creator: "5fab1591d9fe8e536c4df412"
+      creator: "5fab1591d9fe8e536c4df412",
     });
     await mockContent.save();
 
@@ -165,13 +162,18 @@ describe("insert", () => {
   });
 
   it("Should create a content with axios", async () => {
-    let resMessage = '';
+    let resMessage = "";
 
-    if(Content.find({ name: "MyBestContent", creator: "5fab1591d9fe8e536c4df412" })) {
-
-      const deleteContent = await Content.deleteOne(
-        { name: "MyBestContent", creator: "5fab1591d9fe8e536c4df412" }
-      )
+    if (
+      Content.find({
+        name: "MyBestContent",
+        creator: "5fab1591d9fe8e536c4df412",
+      })
+    ) {
+      const deleteContent = await Content.deleteOne({
+        name: "MyBestContent",
+        creator: "5fab1591d9fe8e536c4df412",
+      });
 
       const content = {
         _id: new mongoose.Types.ObjectId(),
@@ -180,46 +182,50 @@ describe("insert", () => {
         description: "DescriptionExample",
         image: "pathExample",
         date: 2020,
-        creator: "5fab1591d9fe8e536c4df412"
+        creator: "5fab1591d9fe8e536c4df412",
       };
 
-      await Axios.post('http://localhost:8080/contents', content)
-        .then( res => {
+      await Axios.post("http://localhost:8080/contents", content)
+        .then((res) => {
           //console.log(res);
           resMessage = res.data.message;
         })
-        .catch(err => {
+        .catch((err) => {
           resMessage = err.message;
-        })
+        });
 
-      expect(''+resMessage).toEqual('Content created');
-
+      expect("" + resMessage).toEqual("Content created");
     } else {
-        const content = {
-          _id: new mongoose.Types.ObjectId(),
-          name: "MyBestContent",
-          url: "example.com",
-          description: "DescriptionExample",
-          image: "pathExample",
-          date: 2020,
-          creator: "5fab1591d9fe8e536c4df412"
-        };
+      const content = {
+        _id: new mongoose.Types.ObjectId(),
+        name: "MyBestContent",
+        url: "example.com",
+        description: "DescriptionExample",
+        image: "pathExample",
+        date: 2020,
+        creator: "5fab1591d9fe8e536c4df412",
+      };
 
-        await Axios.post('http://localhost:8080/contents', content)
-          .then( res => {
-            resMessage = res.data.message;
-          })
-          .catch(err => {
-            resMessage = err.message;
-          })
+      await Axios.post("http://localhost:8080/contents", content)
+        .then((res) => {
+          resMessage = res.data.message;
+        })
+        .catch((err) => {
+          resMessage = err.message;
+        });
 
-        expect(''+resMessage).toEqual('Content created');
+      expect("" + resMessage).toEqual("Content created");
     }
-  })
+  });
 
   it("Sould not create duplicate content", async () => {
-    if(Content.find({ name: "MyBestContent", creator: "5fab1591d9fe8e536c4df412" })) {
-      let resMessage = '';
+    if (
+      Content.find({
+        name: "MyBestContent",
+        creator: "5fab1591d9fe8e536c4df412",
+      })
+    ) {
+      let resMessage = "";
 
       const duplicateContent = {
         name: "MyBestContent",
@@ -227,21 +233,20 @@ describe("insert", () => {
         description: "DescriptionExample new",
         image: "pathExample new",
         date: 2020,
-        creator: "5fab1591d9fe8e536c4df412"
+        creator: "5fab1591d9fe8e536c4df412",
       };
 
-      await Axios.post('http://localhost:8080/contents', duplicateContent)
-      .then( res => {
-        resMessage = res.data.message;
-      })
-      .catch(err => {
-        resMessage = err.message;
-      })
+      await Axios.post("http://localhost:8080/contents", duplicateContent)
+        .then((res) => {
+          resMessage = res.data.message;
+        })
+        .catch((err) => {
+          resMessage = err.message;
+        });
 
-      expect(''+resMessage).toEqual('Request failed with status code 409');
-    }
-    else { 
-      let resMessage = '';
+      expect("" + resMessage).toEqual("Request failed with status code 409");
+    } else {
+      let resMessage = "";
 
       const mockContent = new Content({
         _id: new mongoose.Types.ObjectId(),
@@ -250,7 +255,7 @@ describe("insert", () => {
         description: "DescriptionExample",
         image: "pathExample",
         date: 2020,
-        creator: "5fab1591d9fe8e536c4df412"
+        creator: "5fab1591d9fe8e536c4df412",
       });
       await mockContent.save();
 
@@ -260,31 +265,30 @@ describe("insert", () => {
         description: "DescriptionExample new",
         image: "pathExample new",
         date: new Date(),
-        creator: "5fab1591d9fe8e536c4df412"
+        creator: "5fab1591d9fe8e536c4df412",
       };
-      
-      await Axios.post('http://localhost:8080/contents', duplicateContent)
-      .then( res => {
-        resMessage = res.data.message;
-      })
-      .catch(err => {
-        resMessage = err.message;
-      })
 
-      expect(''+resMessage).toEqual('Request failed with status code 409');
+      await Axios.post("http://localhost:8080/contents", duplicateContent)
+        .then((res) => {
+          resMessage = res.data.message;
+        })
+        .catch((err) => {
+          resMessage = err.message;
+        });
+
+      expect("" + resMessage).toEqual("Request failed with status code 409");
     }
   });
 
-  it("Should edit content", async() => {
-    if(Content.find({ name: "MyBestContent" })){
+  it("Should edit content", async () => {
+    if (Content.find({ name: "MyBestContent" })) {
       const findContent = await Content.find({ name: "MyBestContent" });
-      const updatedContent = await Content.updateOne(
-        { name: findContent.name + 'new' }
-      )
-      
-      expect(''+updatedContent).not.toEqual(''+findContent);
-    } 
-    else {
+      const updatedContent = await Content.updateOne({
+        name: findContent.name + "new",
+      });
+
+      expect("" + updatedContent).not.toEqual("" + findContent);
+    } else {
       const mockContent = new Content({
         _id: new mongoose.Types.ObjectId(),
         name: "MyBestContent",
@@ -292,46 +296,44 @@ describe("insert", () => {
         description: "DescriptionExample",
         image: "pathExample",
         date: new Date(),
-        creator: "5fab1591d9fe8e536c4df412"
+        creator: "5fab1591d9fe8e536c4df412",
       });
       await mockContent.save();
 
-      const updatedContent = await Content.updateOne(
-        { name: findContent.name + 'new' }
-      )
+      const updatedContent = await Content.updateOne({
+        name: findContent.name + "new",
+      });
 
-      expect(''+updatedContent).not.toEqual(''+mockContent);
+      expect("" + updatedContent).not.toEqual("" + mockContent);
     }
   });
 
-  it("Should edit a content with axios", async() => {
-    let resMessage = '';
-    let idToEdit = '';
-    if(Content.find({ name: "MyBestContent" })){
-      
+  it("Should edit a content with axios", async () => {
+    let resMessage = "";
+    let idToEdit = "";
+    if (Content.find({ name: "MyBestContent" })) {
       await Content.find({ name: "MyBestContent" })
-        .then( content => {
+        .then((content) => {
           idToEdit = content[0]._id;
           //console.log(content);
         })
-        .then( async () => {
+        .then(async () => {
           //console.log('Questo dovrebbe essere l\'id '+idToEdit);
           const data = [
             {
-              "propName": "date",
-              "value": 1700
-            }
+              propName: "date",
+              value: 1700,
+            },
           ];
-          await Axios.patch('http://localhost:8080/contents/'+idToEdit, data)
-            .then(res => {
+          await Axios.patch("http://localhost:8080/contents/" + idToEdit, data)
+            .then((res) => {
               resMessage = res.data.message;
             })
-            .catch(err => {
+            .catch((err) => {
               resMessage = err.message;
-            })
-          })
-      expect(resMessage).toEqual('content updated');
-
+            });
+        });
+      expect(resMessage).toEqual("content updated");
     } else {
       const idd = new mongoose.Types.ObjectId();
       const content = {
@@ -341,26 +343,63 @@ describe("insert", () => {
         description: "DescriptionExample",
         image: "pathExample",
         date: 2020,
-        creator: "5fab1591d9fe8e536c4df412"
+        creator: "5fab1591d9fe8e536c4df412",
       };
 
-      await Axios.post('http://localhost:8080/contents', content);
-      
+      await Axios.post("http://localhost:8080/contents", content);
+
       const data = [
         {
-          "propName": "date",
-          "value": 1700
-        }
+          propName: "date",
+          value: 1700,
+        },
       ];
-      await Axios.patch('http://localhost:8080/contents'+idd, data)
-        .then(res => {
+      await Axios.patch("http://localhost:8080/contents" + idd, data)
+        .then((res) => {
           resMessage = res.data.message;
         })
-        .catch(err => {
+        .catch((err) => {
           resMessage = err.message;
-        })
+        });
 
-      expect(resMessage).toEqual('content updated');
+      expect(resMessage).toEqual("content updated");
     }
+  });
+  it("should add a review to a content", async () => {
+    const mockContent = new Content({
+      _id: new mongoose.Types.ObjectId(),
+      name: "MyBestContent",
+      url: "example.com",
+      description: "DescriptionExample",
+      image: "pathExample",
+      date: new Date(),
+      creator: "5fab1591d9fe8e536c4df412",
+    });
+    await mockContent.save();
+    const review = [
+      {
+        propName: "comments",
+        value: {
+          author: "5fbe79324c63a6000fa72651",
+          rank: 4,
+          text: "sampleReview",
+        },
+      },
+    ];
+    await Content.updateOne(
+      {
+        _id: mockContent._id,
+      },
+      {
+        $push: review,
+      }
+    );
+    const updatedContent = await Content.find({ _id: mockContent._id });
+    expect("" + updatedContent.comments).not.toBe(null);
+    await Content.deleteOne({ _id: updatedContent._id }, (err) => {
+      if (err) {
+        return handleError(err);
+      }
+    });
   });
 });

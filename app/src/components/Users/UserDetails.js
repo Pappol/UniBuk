@@ -9,23 +9,23 @@ import Jumbotron from 'react-bootstrap/esm/Jumbotron';
 import Accordion from 'react-bootstrap/Accordion';
 import Card from 'react-bootstrap/Card'
 
-
-
 class UserDetails extends Component {
   constructor(props) {
     super(props);
     this.state = {
       seen: false,
       user: {
-        studentCreds: {}
-      }
-    }
+        studentCreds: {},
+      },
+    };
   }
 
   async componentDidMount() {
     const { match } = this.props;
-    console.log(this.props)
-    const res = await fetch(`${process.env.REACT_APP_BACKEND_URL}/user/${match.params.userId}`);
+    console.log(this.props);
+    const res = await fetch(
+      `${process.env.REACT_APP_BACKEND_URL}/user/${match.params.userId}`
+    );
     const json = await res.json();
     this.setState({
       user: json.user,
@@ -60,8 +60,7 @@ class UserDetails extends Component {
         }
     return (
       <>
-        <Jumbotron className = 'mx-5 my-5'>
-
+        <Jumbotron className="mx-5 my-5">
           <h3> Profilo Utente </h3>
           <h4>Dettagli utente</h4>
             <p>e-mail: {user.email}</p>
