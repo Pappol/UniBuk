@@ -95,12 +95,15 @@ export default class InsertCreds extends Component {
               <option>Troppo bro</option>
             </Form.Control>
           </Form.Group>
-
+          <h4>Insert your Contacts</h4>
           <Form.Group>
-          <Form.Label>Contacts</Form.Label>
-            <Form.Control type="text" defaultValue={this.props.user.links.website} placeholder="Website" onChange={e => this.website = e.target.value} />
+          <Form.Label>Website</Form.Label>
+            <Form.Control type="text"  defaultValue={this.props.user.links.website} placeholder="Website" onChange={e => this.website = e.target.value} />
+          <Form.Label>Contact Email</Form.Label>
             <Form.Control type="email" defaultValue={this.props.user.links.contactEmail} placeholder="Contact email" onChange={e => this.contactEmail = e.target.value} />
+          <Form.Label>Linkedin</Form.Label>
             <Form.Control type="text" defaultValue={this.props.user.links.linkedin} placeholder="linkedin" onChange={e => this.linkedin = e.target.value} />
+          <Form.Label>GitHub</Form.Label>
             <Form.Control type="text" defaultValue={this.props.user.links.gitHub} placeholder="github" onChange={e => this.gitHub = e.target.value} />
           </Form.Group>
 
