@@ -138,7 +138,7 @@ class BookDetail extends Component {
             <ListGroup variant="flush">
               {resource.questions.map((question) => (
                 <ListGroup.Item>
-                  <QA question={question} />
+                  <QA question={question} rId={this.props.match.params.resourceId} />
                 </ListGroup.Item>
               ))}
             </ListGroup>

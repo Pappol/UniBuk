@@ -4,16 +4,13 @@ import Review from "./Review";
 import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
 import Accordion from "react-bootstrap/Accordion";
-import Card from "react-bootstrap/Card";
+import Col from "react-bootstrap/Col";
+import Container from "react-bootstrap/Container";
+import Row from "react-bootstrap/Row";
 
 export default class QA extends Component {
   constructor(props) {
     super(props);
-    this.state = {
-      question: {
-        answers: [],
-      },
-    };
   }
 
   componentDidMount() {
@@ -21,53 +18,106 @@ export default class QA extends Component {
     // console.table(this.props);
   }
 
+  addAnswer = async (e) => {
+    const { question } = this.props;
+    e.preventDefault();
+    const token = "Bearer " + localStorage.token;
+    const headers = {
+      "Content-type": "application/json",
+      Authorization: token,
+    };
+    const data = {
+      text: this.myAnswer,
+		};
+		console.log(this.props);
+    axios
+      .patch(
+        `${process.env.REACT_APP_BACKEND_URL}/${localStorage.kind}/${this.props.rId}/questions/${question._id}`,
+        data,
+        {
+          headers: headers,
+        }
+      )
+      .then((res) => {
+        console.log(res);
+        window.location.reload(false);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+
   render() {
     const { question } = this.props;
     return (
-			
       <div>
-        <p>
-          <b>Domanda</b>: {question.quest}
-        </p>
-        {question.answers.length > 0 ? (
-          <p>
-            <b>Risposta</b>: {question.answers[0]}
-          </p>
-        ) : (
-          true
-        )}
-        {console.table(question.answers)}
-        <Accordion>
-          <Accordion.Toggle as={Button} variant="link" eventKey="0">
-            Visualizza altre risposte
-          </Accordion.Toggle>
-          <Accordion.Collapse eventKey="0">
-            <ul>
-              {question.answers.map(
-                (answer) => (
-                  <div>
-                    {question.answers.indexOf(answer) > 0 ? (
-                      <li>
-                        <p>{answer}</p>
-                      </li>
-                    ) : (
-                      false
-                    )}
-                  </div>
-                )
-                // question.answers.indexOf(answer) > 0 ? <p>{answer}</p> : true;
-              )}
-            </ul>
-          </Accordion.Collapse>
-          {/* <Accordion.Toggle as={Button} variant="link" eventKey="0">
-            Visualizza altre risposte
-          </Accordion.Toggle>
-          <Accordion.Collapse eventKey="1">
-            {/* {question.answers.map((answer) => (
-              <p>{answer}</p>
-            ))} 
-          </Accordion.Collapse> */}
-        </Accordion>
+        <Container className="p-0" fluid="md">
+          <Row>
+            <p>
+              <Col md="auto">
+                <b>Domanda</b>:
+              </Col>
+              <Col md="auto">{question.quest}</Col>
+            </p>
+          </Row>
+          <Row>
+            {question.answers.length > 0 ? (
+              <p>
+                <Col>
+                  {" "}
+                  <b>Risposta</b>:
+                </Col>{" "}
+                <Col>
+                  {question.answers[0]}
+                  <Accordion>
+                    <Accordion.Toggle as={Button} variant="link" eventKey="0">
+                      Visualizza altre risposte
+                    </Accordion.Toggle>
+                    <Accordion.Collapse eventKey="0">
+                      <ul>
+                        {question.answers.map((answer) => (
+                          <div>
+                            {question.answers.indexOf(answer) > 0 ? (
+                              <li>
+                                <p>{answer}</p>
+                              </li>
+                            ) : (
+                              false
+                            )}
+                          </div>
+                        ))}
+                      </ul>
+                    </Accordion.Collapse>
+                  </Accordion>
+                </Col>
+              </p>
+            ) : (
+              true
+            )}
+          </Row>
+          <Row>
+            <Col>
+              <Form onSubmit={this.addAnswer}>
+                <Form.Group controlId="answer">
+                  {/* <Form.Label>Answer this question</Form.Label> */}
+                  <Form.Control
+                    type="text"
+                    placeholder="Answer this question"
+                    onChange={(e) => (this.myAnswer = e.target.value)}
+                    required
+                  />
+                </Form.Group>
+                <Button
+                  className="btn btn-primary btn-large centerButton"
+                  type="submit"
+                  size="sm"
+                >
+                  Answer
+                </Button>
+              </Form>
+            </Col>
+          </Row>
+        </Container>
       </div>
     );
   }
