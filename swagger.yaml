@@ -462,7 +462,7 @@ paths:
         - in: path
           name: query
           required: true
-          description: The id of the book
+          description: Any field of content, book or user except for password and objects keys
           schema:
             type: string
             example: myBook
