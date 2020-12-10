@@ -24,7 +24,8 @@ export default class InsertCreds extends Component {
         "value": {
           "university": this.uni,
           "course": this.course,
-          "year": this.year
+          "year": this.year,
+          "contacts": this.link.split(',')
         }
       }
     ];
@@ -85,6 +86,10 @@ export default class InsertCreds extends Component {
               <option>5</option>
               <option>Troppo bro</option>
             </Form.Control>
+          </Form.Group>
+
+          <Form.Group>
+            <Form.Control type="text" placeholder="link social separati da una virgola" onChange={e => this.link = e.target.value} />
           </Form.Group>
 
           <Button variant = 'primary' type = 'submit' block>Change</Button>

@@ -55,6 +55,7 @@ class UserDetails extends Component {
             <p>Università: {user.studentCreds.university}</p>
             <p>Corso di Laurea: {user.studentCreds.course}</p>
             <p>Anno di corso: {user.studentCreds.year}</p>
+            <p>Links: {user.studentCreds.contacts}</p>
             <Accordion>
               <Card>
                 <Card.Header>
