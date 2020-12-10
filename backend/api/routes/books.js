@@ -1,13 +1,13 @@
-const express = require("express");
+import express from "express";
 const router = express.Router();
-const multer = require('multer');
-const checkAuth = require('../middlewares/check-auth');
+import checkAuth from '../middlewares/check-auth.js';
+import multer, { diskStorage } from 'multer';
 
-const storage = multer.diskStorage({
-    destination: function(req, file, cb) {
+const storage = diskStorage({
+    destination: function (req, file, cb) {
         cb(null, './uploads/books');
     },
-    filename: function(req, file, cb) {
+    filename: function (req, file, cb) {
         cb(null, Date.now() + file.originalname);
     }
 });
@@ -23,7 +23,7 @@ const fileFilter = (req, file, cb) => {
     }
 };
 
-const upload = multer({ 
+const upload = multer({
     storage: storage,
     limits: {
         fileSize: 1024 * 1024 * 5
@@ -31,11 +31,11 @@ const upload = multer({
     fileFilter: fileFilter
 });
 
-const BooksController = require('../controllers/books');
- 
-router.get('/', BooksController.books_get_all);
-router.get('/:bookId', BooksController.books_get_book);
-router.patch('/add/:bookId', checkAuth, BooksController.books_update_book);
-router.patch('/:bookId/questions/:questionId/', checkAuth, BooksController.books_add_answer);
+import { books_get_all, books_get_book, books_update_book, books_add_answer } from '../controllers/books.js';
 
-module.exports = router;
+router.get('/', books_get_all);
+router.get('/:bookId', books_get_book);
+router.patch('/add/:bookId', checkAuth, books_update_book);
+router.patch('/:bookId/questions/:questionId/', checkAuth, books_add_answer);
+
+export default router;

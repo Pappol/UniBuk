@@ -1,6 +1,6 @@
-const jwt = require('jsonwebtoken');
+import jwt from 'jsonwebtoken';
 
-module.exports = (req, res, next) => {
+export default (req, res, next) => {
     // verify method both decode and verify the value
     // it has 2 more arguments, an options one and a callback
     try {

@@ -1,8 +1,7 @@
-const mongoose = require("mongoose");
+import mongoose from 'mongoose';
+import Book from '../models/book.js';
 
-const Book = require("../models/book");
-
-exports.books_get_all = (req, res, next) => {
+export const books_get_all = (req, res, next) => {
   Book.find()
     // .select("isbn title author description _id")
     .exec()
@@ -35,7 +34,7 @@ exports.books_get_all = (req, res, next) => {
     });
 };
 
-exports.books_get_book = (req, res, next) => {
+export const books_get_book = (req, res, next) => {
   const id = req.params.bookId;
   Book.findById(id)
     // .select("isbn title author description _id validFor")
@@ -60,7 +59,7 @@ exports.books_get_book = (req, res, next) => {
     });
 };
 
-exports.books_update_book = (req, res, next) => {
+export const books_update_book = (req, res, next) => {
   const id = req.params.bookId;
   const updateOps = {};
   for (const ops of req.body) {
@@ -88,7 +87,7 @@ exports.books_update_book = (req, res, next) => {
     });
 };
 
-exports.books_add_answer = (req, res, next) => {
+export const books_add_answer = (req, res, next) => {
   const bookId = req.params.bookId;
   const questionId = req.params.questionId;
   Book.updateOne(

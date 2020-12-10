@@ -1,8 +1,6 @@
-const mongoose = require("mongoose");
-
-const Content = require("../models/content");
-
-exports.contents_get_all = (req, res, next) => {
+import mongoose from 'mongoose';
+import Content from '../models/content.js';
+export const contents_get_all = (req, res, next) => {
   Content.find()
     // .select("_id")
     .exec()
@@ -20,7 +18,7 @@ exports.contents_get_all = (req, res, next) => {
             validFor: doc.validFor,
             tags: doc.tags,
             comments: doc.comments,
-            _id: doc._id,
+            _id: doc._id
           };
         }),
       };
@@ -34,7 +32,7 @@ exports.contents_get_all = (req, res, next) => {
     });
 };
 
-exports.contents_get_content = (req, res, next) => {
+export const contents_get_content = (req, res, next) => {
   const id = req.params.contentId;
   Content.findById(id)
     // .select(" _id")
@@ -43,7 +41,7 @@ exports.contents_get_content = (req, res, next) => {
       console.log("Gathered from database", doc);
       if (doc) {
         res.status(200).json({
-          content: doc,
+          content: doc
         });
       } else {
         res.status(404).json({
@@ -56,10 +54,10 @@ exports.contents_get_content = (req, res, next) => {
       res.status(500).json({
         error: err,
       });
-    });
+    })
 };
 
-exports.contents_update_content = (req, res, next) => {
+export const contents_update_content = (req, res, next) => {
   const id = req.params.contentId;
   const updateOps = {};
   for (const ops of req.body) {
@@ -85,7 +83,7 @@ exports.contents_update_content = (req, res, next) => {
     });
 };
 
-exports.contents_add_answer = (req, res, next) => {
+export const contents_add_answer = (req, res, next) => {
   const contentId = req.params.contentId;
   const questionId = req.params.questionId;
   Content.updateOne(
@@ -117,7 +115,7 @@ exports.contents_add_answer = (req, res, next) => {
     });
 };
 
-exports.edit_content = (req, res, next) => {
+export const edit_content = (req, res, next) => {
   const id = req.params.contentId;
   const updateOps = {};
   for (const ops of req.body) {
@@ -147,7 +145,7 @@ exports.edit_content = (req, res, next) => {
     });
 };
 
-exports.create_content = (req, res, next) => {
+export const create_content = (req, res, next) => {
   Content.find({ name: req.body.name, creator: req.body.creator })
     .exec()
     .then((content) => {

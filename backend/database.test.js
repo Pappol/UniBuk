@@ -1,12 +1,9 @@
-const mongoose = require("mongoose");
-const bcrypt = require("bcrypt");
-const jwt = require("jsonwebtoken");
-const User = require("./api/models/user");
-const Book = require("./api/models/book");
-const Content = require("./api/models/content");
-const Axios = require("axios");
+import mongoose from "mongoose";
+import User from './api/models/user.js';
+import Content from './api/models/content';
+import Axios from 'axios';
 
-describe("insert", () => {
+describe("Mongoose tests", () => {
   let connection;
 
   beforeAll(async () => {
@@ -51,7 +48,6 @@ describe("insert", () => {
         { email: "Ciaobello@gmail.com" },
         function (err) {
           if (err) return handleError(err);
-          //console.log("tester deleteds");
         }
       );
     }

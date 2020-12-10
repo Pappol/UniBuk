@@ -1,13 +1,13 @@
-const express = require("express");
+import express from "express";
 const router = express.Router();
-const multer = require('multer');
-const checkAuth = require('../middlewares/check-auth');
+import checkAuth from '../middlewares/check-auth.js';
+import multer, { diskStorage } from 'multer';
 
-const storage = multer.diskStorage({
-    destination: function(req, file, cb) {
+const storage = diskStorage({
+    destination: function (req, file, cb) {
         cb(null, './uploads/contents');
     },
-    filename: function(req, file, cb) {
+    filename: function (req, file, cb) {
         cb(null, Date.now() + file.originalname);
     }
 });
@@ -23,7 +23,7 @@ const fileFilter = (req, file, cb) => {
     }
 };
 
-const upload = multer({ 
+const upload = multer({
     storage: storage,
     limits: {
         fileSize: 1024 * 1024 * 5
@@ -31,13 +31,13 @@ const upload = multer({
     fileFilter: fileFilter
 });
 
-const ContentsController = require('../controllers/contents');
- 
-router.get('/', ContentsController.contents_get_all);
-router.get('/:contentId', ContentsController.contents_get_content);
-router.post('/', ContentsController.create_content);
-router.patch('/:contentId', ContentsController.edit_content);
-router.patch('/add/:contentId/', checkAuth, ContentsController.contents_update_content);
-router.patch('/:contentId/questions/:questionId/', checkAuth, ContentsController.contents_add_answer);
+import { contents_get_all, contents_get_content, create_content, edit_content, contents_update_content, contents_add_answer } from '../controllers/contents.js';
 
-module.exports = router;
+router.get('/', contents_get_all);
+router.get('/:contentId', contents_get_content);
+router.post('/', create_content);
+router.patch('/:contentId', edit_content);
+router.patch('/add/:contentId/', checkAuth, contents_update_content);
+router.patch('/:contentId/questions/:questionId/', checkAuth, contents_add_answer);
+
+export default router;

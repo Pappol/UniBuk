@@ -1,10 +1,9 @@
-const mongoose = require("mongoose");
-const bcrypt = require("bcrypt");
-const jwt = require("jsonwebtoken");
+import mongoose from 'mongoose';
+import bcrypt from 'bcrypt';
+import jwt from "jsonwebtoken";
+import User from '../models/user.js';
 
-const User = require("../models/user");
-
-exports.users_get_user = (req, res, next) => {
+export const users_get_user = (req, res, next) => {
   const id = req.params.userId;
   User.findById(id)
     // .select("firstName lastName _id validFor")
@@ -29,7 +28,7 @@ exports.users_get_user = (req, res, next) => {
     });
 };
 
-exports.user_signup = (req, res, next) => {
+export const user_signup = (req, res, next) => {
   User.find({ email: req.body.email })
     .exec()
     .then((user) => {
@@ -83,7 +82,7 @@ exports.user_signup = (req, res, next) => {
     .catch();
 };
 
-exports.user_login = (req, res, next) => {
+export const user_login = (req, res, next) => {
   User.find({ email: req.body.email })
     .exec()
     .then((user) => {
@@ -129,7 +128,7 @@ exports.user_login = (req, res, next) => {
     });
 };
 
-exports.user_update = (req, res, next) => {
+export const user_update = (req, res, next) => {
   const id = req.params.userId;
   const updateOps = {};
   for (const ops of req.body) {
@@ -158,7 +157,7 @@ exports.user_update = (req, res, next) => {
     });
 };
 
-exports.user_delete = (req, res, next) => {
+export const user_delete = (req, res, next) => {
   User.remove({ _id: req.params.userId })
     .exec()
     .then((result) => {
