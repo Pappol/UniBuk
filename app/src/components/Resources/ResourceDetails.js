@@ -71,9 +71,6 @@ class BookDetail extends Component {
         },
       },
     ];
-    console.table(data);
-    console.table(headers);
-    console.log(this.props);
     axios
       .patch(
         `${process.env.REACT_APP_BACKEND_URL}/${localStorage.kind}/${this.props.match.params.resourceId}`,
@@ -95,7 +92,7 @@ class BookDetail extends Component {
     if (this.state.myUniOnly) {
       this.state.myUniOnly = false;
       await this.setState({
-        reviewsDisplay: this.state.resource.questions,
+        reviewsDisplay: this.state.resource.comments,
       });
     } else {
       this.state.myUniOnly = true;
@@ -107,11 +104,8 @@ class BookDetail extends Component {
         let json = await res.json();
         if (localStorage.myUni === json.user.studentCreds.university) {
           temp_review = await [...temp_review, review];
-          console.table(temp_review);
-          console.log("===============");
         }
       }
-      await console.table(temp_review);
       await this.setState({
         reviewsDisplay: temp_review,
       });
@@ -248,7 +242,7 @@ class BookDetail extends Component {
               </Form>
             ) : (
               false
-            )}
+            )} 
             <ListGroup variant="flush">
               {this.state.reviewsDisplay.map((review) => (
                 <ListGroup.Item>
