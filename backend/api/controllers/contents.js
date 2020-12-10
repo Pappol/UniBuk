@@ -65,7 +65,7 @@ exports.contents_get_all = (req, res, next) => {
     for (const ops of req.body) {
       updateOps[ops.propName] = ops.value;
     }
-    Content.update(
+    Content.updateOne(
       {
         _id: id,
       },
@@ -75,8 +75,8 @@ exports.contents_get_all = (req, res, next) => {
     )
       .exec()
       .then((result) => {
-        console.log('NEW CONTENT');
-        console.log(result);
+        //console.log('NEW CONTENT');
+        //console.log(result);
         res.status(200).json({
           message: "content updated",
         });
