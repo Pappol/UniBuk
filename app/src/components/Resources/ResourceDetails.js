@@ -186,21 +186,26 @@ class BookDetail extends Component {
               ))}
               <ListGroup.Item>
                 <Form onSubmit={this.addQuestion}>
-                  <Form.Row><Col>
-                  <Form.Group controlId="question">
-                    <Form.Control
-                      type="text"
-                      placeholder="Submit a question"
-                      onChange={(e) => (this.myQuestion = e.target.value)}
-                      required
-                    />
-                  </Form.Group></Col><Col>
-                  <Button
-                    className="btn btn-primary btn-large centerButton"
-                    type="submit"
-                  >
-                    Publish
-                  </Button></Col></Form.Row>
+                  <Form.Row>
+                    <Col>
+                      <Form.Group controlId="question">
+                        <Form.Control
+                          type="text"
+                          placeholder="Submit a question"
+                          onChange={(e) => (this.myQuestion = e.target.value)}
+                          required
+                        />
+                      </Form.Group>
+                    </Col>
+                    <Col>
+                      <Button
+                        className="btn btn-primary btn-large centerButton"
+                        type="submit"
+                      >
+                        Publish
+                      </Button>
+                    </Col>
+                  </Form.Row>
                 </Form>
               </ListGroup.Item>
             </ListGroup>
@@ -230,16 +235,20 @@ class BookDetail extends Component {
               </Form.Group>
             </Form>
             <br />
-            <Form>
-              <div key="myUni" className="mb-3">
-                <Form.Check
-                  custom
-                  id="myUni"
-                  label="Show comments only from my University"
-                  onChange={this.showMyUni}
-                />
-              </div>
-            </Form>
+            {resource.comments.length > 0 ? (
+              <Form>
+                <div key="myUni" className="mb-3">
+                  <Form.Check
+                    custom
+                    id="myUni"
+                    label="Show comments only from my University"
+                    onChange={this.showMyUni}
+                  />
+                </div>
+              </Form>
+            ) : (
+              false
+            )}
             <ListGroup variant="flush">
               {this.state.reviewsDisplay.map((review) => (
                 <ListGroup.Item>
@@ -283,21 +292,26 @@ class BookDetail extends Component {
               ))}
               <ListGroup.Item>
                 <Form onSubmit={this.addQuestion}>
-                  <Form.Row><Col>
-                  <Form.Group controlId="question">
-                    <Form.Control
-                      type="text"
-                      placeholder="Submit a question"
-                      onChange={(e) => (this.myQuestion = e.target.value)}
-                      required
-                    />
-                  </Form.Group></Col><Col>
-                  <Button
-                    className="btn btn-primary btn-large centerButton"
-                    type="submit"
-                  >
-                    Publish
-                  </Button></Col></Form.Row>
+                  <Form.Row>
+                    <Col>
+                      <Form.Group controlId="question">
+                        <Form.Control
+                          type="text"
+                          placeholder="Submit a question"
+                          onChange={(e) => (this.myQuestion = e.target.value)}
+                          required
+                        />
+                      </Form.Group>
+                    </Col>
+                    <Col>
+                      <Button
+                        className="btn btn-primary btn-large centerButton"
+                        type="submit"
+                      >
+                        Publish
+                      </Button>
+                    </Col>
+                  </Form.Row>
                 </Form>
               </ListGroup.Item>
             </ListGroup>
@@ -327,6 +341,20 @@ class BookDetail extends Component {
               </Form.Group>
             </Form>
             <br />
+            {resource.comments.length > 0 ? (
+              <Form>
+                <div key="myUni" className="mb-3">
+                  <Form.Check
+                    custom
+                    id="myUni"
+                    label="Show comments only from my University"
+                    onChange={this.showMyUni}
+                  />
+                </div>
+              </Form>
+            ) : (
+              false
+            )}
             <ListGroup variant="flush">
               {resource.comments.map((comment) => (
                 <ListGroup.Item>
