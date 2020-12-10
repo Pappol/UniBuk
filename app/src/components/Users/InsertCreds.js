@@ -28,7 +28,10 @@ export default class InsertCreds extends Component {
         },
         "propName": "links",
         "value": {
-          "website": this.link
+          "website": this.website,
+          "contactEmail": this.contactEmail,
+          "linkedin": this.linkedin,
+          "gitHub": this.gitHub
         }
           
         
@@ -94,7 +97,11 @@ export default class InsertCreds extends Component {
           </Form.Group>
 
           <Form.Group>
-            <Form.Control type="text" placeholder="link social separati da una virgola" onChange={e => this.link = e.target.value} />
+          <Form.Label>Contacts</Form.Label>
+            <Form.Control type="text" placeholder="Website" onChange={e => this.website = e.target.value} />
+            <Form.Control type="email" placeholder="Contact email" onChange={e => this.contactEmail = e.target.value} />
+            <Form.Control type="text" placeholder="linkedin" onChange={e => this.linkedin = e.target.value} />
+            <Form.Control type="text" placeholder="github" onChange={e => this.gitHub = e.target.value} />
           </Form.Group>
 
           <Button variant = 'primary' type = 'submit' block>Change</Button>

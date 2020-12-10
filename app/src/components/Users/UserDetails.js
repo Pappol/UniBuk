@@ -15,7 +15,8 @@ class UserDetails extends Component {
     super(props);
     this.state = {
       user: {
-        studentCreds: {}
+        studentCreds: {},
+        links: {}
       }
     }
   }
@@ -49,13 +50,17 @@ class UserDetails extends Component {
           <h3> Profilo Utente </h3>
           <h4>Dettagli utente</h4>
             <p>e-mail: {user.email}</p>
-            <p>name: {user.firstName}</p>
+            <p>name: {user.firstName}</p> 
             <p>surname: {user.lastName}</p>
           <h4>Dati universitari</h4>
             <p>Università: {user.studentCreds.university}</p>
             <p>Corso di Laurea: {user.studentCreds.course}</p>
             <p>Anno di corso: {user.studentCreds.year}</p>
-            <p>Website: {user.studentCreds.links.website}</p>
+          <h4>Contacts</h4>
+            <p>Website: {user.links.website}</p>
+            <p>contactEmail: {user.links.contactEmail}</p>
+            <p>linkedin: {user.links.linkedin}</p>
+            <p>gitHub: {user.links.gitHub}</p>
             <Accordion>
               <Card>
                 <Card.Header>

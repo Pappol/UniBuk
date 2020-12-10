@@ -57,14 +57,12 @@ const userSchema = mongoose.Schema({
       ref: 'Books'
     }
   ],
-  links: [
-    {
+  links:{
       website: String,
       contactEmail: String,
       linkedin: String,
       gitHub: String
     }
-  ]
 });
 
 module.exports = mongoose.model("User", userSchema);
