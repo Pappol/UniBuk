@@ -24,9 +24,14 @@ export default class InsertCreds extends Component {
         "value": {
           "university": this.uni,
           "course": this.course,
-          "year": this.year,
-          "contacts": this.link.split(',')
+          "year": this.year
+        },
+        "propName": "links",
+        "value": {
+          "website": this.link
         }
+          
+        
       }
     ];
     console.table(data);
