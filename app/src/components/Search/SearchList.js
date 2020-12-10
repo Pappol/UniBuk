@@ -26,13 +26,17 @@ class SearchList extends Component {
 
   render() {
     const { contents, books, users } = this.state;
+    console.log("CONTENTS", contents);
+    console.log("BOOKS", books);
+    console.log("USERS", users);
+    
     return (
       <>
         <h3>Contents</h3>
         <ListGroup>
           {
             contents.map(content => (
-              <ListGroup.Item key={content._id}><Link to={'resources/5facf2a064fb6428e1b42a13'}>{content.name}</Link></ListGroup.Item>
+              <ListGroup.Item key={content._id}><Link to={`/resources/${content._id}`}>{content.name}</Link></ListGroup.Item>
             ))
           }
         </ListGroup>
@@ -41,7 +45,7 @@ class SearchList extends Component {
         <ListGroup>
           {
             books.map(book => (
-              <ListGroup.Item key={book._id}><Link to={'resources/5facf2a064fb6428e1b42a13'}>{book.title}</Link></ListGroup.Item>
+              <ListGroup.Item key={book._id}><Link to={`/books/${book._id}`}>{book.title}</Link></ListGroup.Item>
             ))
           }
         </ListGroup>
@@ -50,7 +54,7 @@ class SearchList extends Component {
         <ListGroup>
           {
             users.map(user => (
-              <ListGroup.Item key={user._id}><Link to={'resources/5facf2a064fb6428e1b42a13'}>{user.firstName}</Link></ListGroup.Item>
+              <ListGroup.Item key={user._id}><Link to={`/users/${user._id}`}>{user.firstName}</Link></ListGroup.Item>
             ))
           }
         </ListGroup>
