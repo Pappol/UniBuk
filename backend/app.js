@@ -6,8 +6,9 @@ import mongoose from "mongoose";
 const app = express();
 
 // DB connection setup
-mongoose.connect(`mongodb+srv://dbadmin:${process.env.MONGO_ATLAS_PW}@cluster0.lgrig.mongodb.net/${process.env.MONGO_ATLAS_NAME}?retryWrites=true&w=majority`,
+mongoose.connect(process.env.MONGO_CONN_STRING,
   {
+    useFindAndModify: false,
     useNewUrlParser: true,
     useUnifiedTopology: true,
     useCreateIndex: true
