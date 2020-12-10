@@ -100,4 +100,20 @@ describe('API tests', () => {
     expect(bookExists).toBeTruthy();
     expect(response.status).toBe(200);
   });
+
+  test('Search existing', async () => {
+    const response = await request.get(`/search/${bookExample.title}`);
+    const body = JSON.parse(response.text);
+    // Check if there at least one element that has been found
+    expect(body.books.length).not.toEqual(0);
+    expect(response.status).toBe(200);
+  })
+
+  test('Search not existing', async () => {
+    const response = await request.get(`/search/thiselementdoesnotexist`);
+    const body = JSON.parse(response.text);
+    // Check if there are no elements found
+    expect(body.books.length).toEqual(0);
+    expect(response.status).toBe(200);
+  })
 });

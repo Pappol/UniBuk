@@ -28,7 +28,7 @@ describe("Mongoose tests", () => {
     }
     catch (error) {
       err = error;
-    } 
+    }
 
     expect(err).toBeNull();
   });
