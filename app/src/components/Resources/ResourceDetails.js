@@ -33,10 +33,17 @@ class BookDetail extends Component {
       `${process.env.REACT_APP_BACKEND_URL}/${localStorage.kind}/${match.params.resourceId}`
     );
     const json = await res.json();
-    this.setState({
-      resource: json.book,
-      reviewsDisplay: json.book.comments,
-    });
+    if (localStorage.kind === "books") {
+      this.setState({
+        resource: json.book,
+        reviewsDisplay: json.book.comments,
+      });
+    } else if (localStorage.kind === "contents") {
+      this.setState({
+        resource: json.content,
+        reviewsDisplay: json.content.comments,
+      });
+    }
   }
 
   changeRating = (newRating, name) => {
@@ -138,7 +145,10 @@ class BookDetail extends Component {
             <ListGroup variant="flush">
               {resource.questions.map((question) => (
                 <ListGroup.Item>
-                  <QA question={question} rId={this.props.match.params.resourceId} />
+                  <QA
+                    question={question}
+                    rId={this.props.match.params.resourceId}
+                  />
                 </ListGroup.Item>
               ))}
             </ListGroup>
@@ -209,6 +219,17 @@ class BookDetail extends Component {
               <ListGroup.Item>{tag}</ListGroup.Item>
             ))}
             <p />
+            <h3>Domande e risposte dagli utenti</h3>
+            <ListGroup variant="flush">
+              {resource.questions.map((question) => (
+                <ListGroup.Item>
+                  <QA
+                    question={question}
+                    rId={this.props.match.params.resourceId}
+                  />
+                </ListGroup.Item>
+              ))}
+            </ListGroup>
             <h3>Commenti</h3>
             <Form onSubmit={this.addReview}>
               <Form.Group controlId="addReviewArea">
