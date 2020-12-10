@@ -98,10 +98,10 @@ export default class InsertCreds extends Component {
 
           <Form.Group>
           <Form.Label>Contacts</Form.Label>
-            <Form.Control type="text" placeholder="Website" onChange={e => this.website = e.target.value} />
-            <Form.Control type="email" placeholder="Contact email" onChange={e => this.contactEmail = e.target.value} />
-            <Form.Control type="text" placeholder="linkedin" onChange={e => this.linkedin = e.target.value} />
-            <Form.Control type="text" placeholder="github" onChange={e => this.gitHub = e.target.value} />
+            <Form.Control type="text" defaultValue={this.props.user.links.website} placeholder="Website" onChange={e => this.website = e.target.value} />
+            <Form.Control type="email" defaultValue={this.props.user.links.contactEmail} placeholder="Contact email" onChange={e => this.contactEmail = e.target.value} />
+            <Form.Control type="text" defaultValue={this.props.user.links.linkedin} placeholder="linkedin" onChange={e => this.linkedin = e.target.value} />
+            <Form.Control type="text" defaultValue={this.props.user.links.gitHub} placeholder="github" onChange={e => this.gitHub = e.target.value} />
           </Form.Group>
 
           <Button variant = 'primary' type = 'submit' block>Change</Button>

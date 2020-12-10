@@ -70,7 +70,7 @@ class UserDetails extends Component {
                 </Card.Header>
                 <Accordion.Collapse eventKey = '0'>
                   <Card.Body>
-                    <InsertCreds userId={this.props.match.params.userId}/>
+                    <InsertCreds userId={this.props.match.params.userId} user={this.state.user}/>
                   </Card.Body>
                 </Accordion.Collapse>
               </Card> 
