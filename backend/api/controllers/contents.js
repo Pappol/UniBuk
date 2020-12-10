@@ -59,19 +59,54 @@ exports.contents_get_content = (req, res, next) => {
     });
 };
 
-exports.contents_add_review = (req, res, next) => {
+exports.contents_update_book = (req, res, next) => {
   const id = req.params.contentId;
   const updateOps = {};
   for (const ops of req.body) {
     updateOps[ops.propName] = ops.value;
   }
-  Content.updateOne({
-    $push: updateOps,
-  })
+  Content.updateOne(
+    { _id: contentId },
+    {
+      $push: updateOps,
+    }
+  )
     .exec()
     .then((result) => {
       res.status(200).json({
-        message: "added review",
+        message: "content updated",
+      });
+    })
+    .catch((err) => {
+      console.log(err);
+      res.status(500).json({
+        error: err,
+      });
+    });
+};
+
+exports.contents_add_answer = (req, res, next) => {
+  const contentId = req.params.contentId;
+  const questionId = req.params.questionId;
+  Content.updateOne(
+    {
+      _id: contentId,
+      questions: {
+        $elemMatch: {
+          _id: questionId,
+        },
+      },
+    },
+    {
+      $push: {
+        "questions.$.answers": req.body.text,
+      },
+    }
+  )
+    .exec()
+    .then((result) => {
+      res.status(200).json({
+        message: "added answer",
       });
     })
     .catch((err) => {
