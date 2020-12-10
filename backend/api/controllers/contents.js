@@ -58,4 +58,70 @@ exports.contents_get_all = (req, res, next) => {
         });
       });
   };
+
+  exports.edit_content = (req, res, next) => {
+    const id = req.params.contentId;
+    const updateOps = {};
+    for (const ops of req.body) {
+      updateOps[ops.propName] = ops.value;
+    }
+    Content.updateOne(
+      {
+        _id: id,
+      },
+      {
+        $set: updateOps,
+      }
+    )
+      .exec()
+      .then((result) => {
+        //console.log('NEW CONTENT');
+        //console.log(result);
+        res.status(200).json({
+          message: "content updated",
+        });
+      })
+      .catch((err) => {
+        console.log(err);
+        res.status(500).json({
+          error: err,
+        });
+      });
+  };
   
+exports.create_content = (req, res, next) => {
+  Content.find({  name: req.body.name, creator: req.body.creator })
+    .exec()
+    .then( (content) => {
+      if(content.length >= 1) {
+        return res.status(409).json({
+          message: 'Content with that name already exists' ,
+        })
+      } else {
+        const content = new Content({
+          _id: new mongoose.Types.ObjectId(),
+          creator: req.body.creator,
+          date: req.body.date,
+          name: req.body.name,
+          url: req.body.url,
+          description: req.body.description,
+          image: req.body.image
+        })
+        
+        content
+        .save()
+        .then((result) => {
+          //console log result
+          res.status(201).json({
+            message: 'Content created'
+          });
+        })
+        .catch((err) => {
+          console.log(err);
+          res.status(500).json({
+            error: err,
+          })
+        })
+      }
+      })
+};

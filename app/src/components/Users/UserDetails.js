@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { withRouter } from 'react-router-dom';
 import { Link } from 'react-router-dom';
 import InsertCreds from './InsertCreds';
+import ResourceAddNew from './ResourceAddNew'
 
 import Button from 'react-bootstrap/Button';
 import Jumbotron from 'react-bootstrap/esm/Jumbotron';
@@ -14,6 +15,7 @@ class UserDetails extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      seen: false,
       user: {
         studentCreds: {}
       }
@@ -30,8 +32,22 @@ class UserDetails extends Component {
     });
   }
 
+  showAdd = () => {
+    this.setState({
+      seen: true
+    });
+  };
+
+  hideAdd = () => {
+    this.setState({
+      seen: false
+    });
+  };
+
+
   render() {
     const { user } = this.state;
+    const { match } = this.props;
     if( typeof(user) === typeof(undefined)) { 
           return (
             <Jumbotron className = 'mx-5 my-5'>
@@ -51,10 +67,16 @@ class UserDetails extends Component {
             <p>e-mail: {user.email}</p>
             <p>name: {user.firstName}</p>
             <p>surname: {user.lastName}</p>
-          <h4>Dati universitari</h4>
-            <p>Università: {user.studentCreds.university}</p>
-            <p>Corso di Laurea: {user.studentCreds.course}</p>
-            <p>Anno di corso: {user.studentCreds.year}</p>
+          { typeof(user.studentCreds) !== 'undefined' ? 
+            <>
+            <h4>Dati universitari</h4>
+              <p>Università: {user.studentCreds.university}</p>
+              <p>Corso di Laurea: {user.studentCreds.course}</p>
+              <p>Anno di corso: {user.studentCreds.year}</p>
+            </> 
+          : null }
+          {localStorage.myId === match.params.userId ?
+          <>
             <Accordion>
               <Card>
                 <Card.Header>
@@ -69,6 +91,14 @@ class UserDetails extends Component {
                 </Accordion.Collapse>
               </Card> 
             </Accordion>  
+
+            <br/>          
+            <Button variant = 'primary' onClick = {this.showAdd}> Nuovo Contenuto </Button>
+          </>
+          : null}
+          
+          {this.state.seen ? <ResourceAddNew  toggle = {this.hideAdd} show = {this.state.seen} match = {match}/> : null}
+
         </Jumbotron> 
          
       </> 

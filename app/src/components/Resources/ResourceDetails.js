@@ -1,16 +1,25 @@
+import axios from 'axios';
+
 import React, { Component } from 'react';
-import Row from 'react-bootstrap/esm/Row';
-import ReactDOM from 'react-dom';
+import Col from 'react-bootstrap/Col'
 import { withRouter } from 'react-router-dom';
+
+import ResourceTag from './ResourceTag'
+import ResourceShow from './ResourceShow'
+import ResourceEdit from './ResourceEdit'
 
 import Jumbotron from 'react-bootstrap/Jumbotron'
 import ListGroup from 'react-bootstrap/ListGroup'
 import Image from 'react-bootstrap/Image'
+import Form from 'react-bootstrap/Form'
+import Button from 'react-bootstrap/Button'
 
 class Navbar extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      newTag: '',
+      edit: false,
       resource: {
         tags: [],
         comments: []
@@ -33,16 +42,70 @@ class Navbar extends Component {
       });
     }
   }
+
+  handleSubmit = async e => {
+    e.preventDefault();
+    const { match } = this.props;
+    let taggg = this.state.newTag.split(',');
+
+    const token = "Bearer " + localStorage.token;
+    const headers = {
+      'Content-type': 'application/json',
+      'Authorization': token
+    }
+    const data = [
+      {
+        "propName": "tags",
+        "value": taggg
+      }
+    ];
+
+    await axios.patch(`${process.env.REACT_APP_BACKEND_URL}/${this.props.resourceType}s/${match.params.resourceId}`, data, {
+      headers: headers
+    });
+
+    this.setState(prevState => ({
+      resource: {
+        ...prevState.resource,
+        tags: taggg
+      }
+    }));
+
+    console.log(this.state);
+  }
   
+  showEdit = () => {
+    this.setState({
+      edit: !this.state.edit,
+    });
+  };
+
+  changeState = (newState) => {
+    console.log(newState)
+    this.setState(prevState => ({
+      resource: {
+        ...prevState.resource,
+        image: newState.image,
+        link: newState.link,
+        creator: newState.creator,
+        date: newState.date,
+        name: newState.name,
+        description: newState.description
+      }
+    }));
+  };
 
   render() {
     const { resource } = this.state;
+    console.log(resource)
     if(this.props.resourceType === 'book'){
       return (
+
         <Jumbotron className = 'mx-5 my-5'>
+
           <ListGroup variant = 'flush' className = 'bg-transparent text-dark'> 
           <h3>Book Info</h3>
-            <ListGroup.Item><Image src={`${process.env.REACT_APP_BACKEND_URL}/${resource.image}`} thumbnail></Image></ListGroup.Item>
+            <ListGroup.Item><Image src={ `${resource.image}`.startsWith('http://') || `${resource.image}`.startsWith('https://') ? resource.image : `${process.env.REACT_APP_BACKEND_URL}/${resource.image}`} thumbnail></Image></ListGroup.Item>
             <ListGroup.Item>author: {resource.author}</ListGroup.Item>
             <ListGroup.Item>description: {resource.description}</ListGroup.Item>
             <ListGroup.Item>isbn: {resource.isbn}</ListGroup.Item>
@@ -50,11 +113,13 @@ class Navbar extends Component {
             <p></p>
     
             <h3>Tag</h3>
-            {
-              resource.tags.map(tag => (
-                <ListGroup.Item>{tag}</ListGroup.Item>
-              ))
-            }
+            <ListGroup horizontal>
+              {
+                this.state.resource.tags.map(tag => (
+                  <ResourceTag text = {tag}> </ResourceTag>
+                ))
+              }
+            </ListGroup>
             <p></p>
             <h3>Commenti</h3>
             {
@@ -73,12 +138,36 @@ class Navbar extends Component {
        <Jumbotron>
          <ListGroup>
           <h3>Content Info</h3>
-          <ListGroup.Item><Image src={`${process.env.REACT_APP_BACKEND_URL}/${resource.image}`} thumbnail></Image></ListGroup.Item>
-          <ListGroup.Item>creator: {resource.creator}</ListGroup.Item>
-          <ListGroup.Item>date: {resource.date}</ListGroup.Item>
-          <ListGroup.Item>name: {resource.name}</ListGroup.Item>
-          <ListGroup.Item>description: {resource.description}</ListGroup.Item>
+          { this.state.edit ?
+          <ResourceEdit toggle = {this.showEdit} change = {this.changeState} genProps = {this.props} image = {resource.image} link = {resource.url} creator = {resource.creator} date = {resource.date} name = {resource.name} description = {resource.description}/>
+          :
+          <ResourceShow toggle = {this.showEdit} image = {resource.image} link = {resource.url} creator = {resource.creator} date = {resource.date} name = {resource.name} description = {resource.description}/>
+          }
           <p/>
+
+          <h3>Tag</h3>
+            <ListGroup horizontal>
+              {
+                resource.tags.map(tag => (
+                  <ResourceTag text = {tag} />
+                ))
+              }
+              {/* <ResourceTag text = 'add' option = '+' variant = 'info' onClick = { () => this.showForm()} /> */}
+            </ListGroup>
+            {localStorage.myId === resource.creator ?
+              <Form onSubmit = {this.handleSubmit}>
+                <Form.Row>
+                  <Col>
+                    <Form.Control  placeholder = 'Your tags is empity :(' defaultValue = {this.state.resource.tags} onChange = { e => this.state.newTag = e.target.value} />              
+                  </Col>
+                  <Col>
+                    <Button variant = 'primary' type = 'submit'> Aggiungi </Button>
+                  </Col>
+                </Form.Row>
+              </Form>
+            : null}
+          <p/>
+
           <h3>Questi sono i miei commentiiii</h3>
           {
             resource.comments.map(comment => (
