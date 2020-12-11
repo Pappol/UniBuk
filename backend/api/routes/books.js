@@ -1,9 +1,9 @@
 import express from "express";
 const router = express.Router();
 import checkAuth from '../middlewares/check-auth.js';
-import multer, { diskStorage } from 'multer';
+import multer from 'multer';
 
-const storage = diskStorage({
+const storage = multer.diskStorage({
     destination: function (req, file, cb) {
         cb(null, './uploads/books');
     },

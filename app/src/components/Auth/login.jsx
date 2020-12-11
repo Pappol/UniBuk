@@ -23,6 +23,7 @@ export class Login extends Component {
         localStorage.setItem('myId', res.data.id);
         localStorage.setItem('myUni', res.data.university);
         console.log(localStorage);
+        this.props.location.query.toggle();
       })
       .then((errflag) => {
         if (!errflag) {
