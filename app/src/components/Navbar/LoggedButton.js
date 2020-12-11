@@ -4,6 +4,7 @@ import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
 import Nav from 'react-bootstrap/Nav'
 import { NavLink } from 'react-router-dom'
+import { Link } from "react-router-dom";
 
 export default class LoggedButton extends Component {
 
@@ -45,7 +46,7 @@ export default class LoggedButton extends Component {
     return(
     <Form inline>
       <Nav.Link as = {NavLink} to = {`/users/${localStorage.myId}`} > <Form.Label> {this.state.userName} </Form.Label> </Nav.Link>
-      <Button variant = 'outline-light' className = 'mr-2' onClick = {this.logout}> Logout </Button>
+      <Link to = '/'> <Button variant = 'outline-light' className = 'mr-2' onClick = {this.logout}> Logout </Button> </Link>
     </Form>
     )
   }
