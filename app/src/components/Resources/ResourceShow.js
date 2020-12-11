@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { withRouter } from 'react-router-dom';
+import { withRouter, Link } from 'react-router-dom';
 
 import ListGroup from 'react-bootstrap/ListGroup'
 import Button from 'react-bootstrap/Button'
@@ -19,7 +19,11 @@ class ResourceShow extends Component {
       <>
         <ListGroup.Item><Image src={ `${this.props.image}`.startsWith('http://') || `${this.props.image}`.startsWith('https://') ? this.props.image : `${process.env.REACT_APP_BACKEND_URL}/${this.props.image}`} thumbnail></Image></ListGroup.Item>
         <ListGroup.Item>link: <a href = {this.props.url}>{this.props.url}</a></ListGroup.Item>
-        <ListGroup.Item>creator: {this.props.creator}</ListGroup.Item>
+        <ListGroup.Item>creator: {this.props.creator}
+        <Link to = {`/users/${this.props.creator}`}>
+              <Button variant = 'primary' className = 'ml-5'> Visita per collaborare</Button>
+            </Link>
+        </ListGroup.Item>
         <ListGroup.Item>date: {this.props.date}</ListGroup.Item>
         <ListGroup.Item>name: {this.props.name}</ListGroup.Item>
         <ListGroup.Item>description: {this.props.description}</ListGroup.Item>
