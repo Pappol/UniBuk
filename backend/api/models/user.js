@@ -64,7 +64,7 @@ const userSchema = mongoose.Schema({
       gitHub: String
     },
   profileImage:{
-    link: String
+    type: String
   }
 });
 

@@ -34,9 +34,7 @@ export default class InsertCreds extends Component {
           "gitHub": this.gitHub
         },
         "propName":"profileImage",
-        "value":{
-          "link":this.profileImage
-        }
+          "value":this.image
       }
     ];
     console.table(data);
@@ -61,7 +59,7 @@ export default class InsertCreds extends Component {
           <h4>Insert Your profile picture link</h4>
             <Form.Group>
           <Form.Label>Profile picture</Form.Label>
-            <Form.Control type="text"  defaultValue={this.props.user.profileImage.link} placeholder="Link" onChange={e => this.image = e.target.value} />
+            <Form.Control type="text"  defaultValue={this.props.user.profileImage} onChange={e => this.image = e.target.value} />
             </Form.Group>
           <h4>Insert your university</h4>
           <Form.Group>

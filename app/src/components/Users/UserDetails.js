@@ -17,7 +17,7 @@ class UserDetails extends Component {
       user: {
         studentCreds: {},
         links: {},
-        profileImage: {}
+        profileImage: String
       }
     }
   }
@@ -55,7 +55,7 @@ class UserDetails extends Component {
           }
         }>
                 <img style={{width:"160px", height:"160px", borderRadius:"80px"}}
-                src={user.profileImage.link}></img>
+                src={user.profileImage}></img>
         </div>
 
           <h3> {user.firstName} {user.lastName} </h3>
