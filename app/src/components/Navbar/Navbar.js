@@ -8,7 +8,24 @@ import Nav from 'react-bootstrap/Nav';
 import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
 
+import GuestButtons from './GuestButtons'
+import LoggedButton from './LoggedButton'
+
 export default class Navbar extends Component {
+
+  constructor(props) {
+    super(props);
+    this.state = {
+      logged: false
+    }
+  }
+
+  toggle = () => {
+    this.setState({
+      logged: !this.state.logged
+    });
+  }
+
   render() {
     return (
       <div>
@@ -23,10 +40,9 @@ export default class Navbar extends Component {
             <Nav.Link as = {NavLink} to = '/about' className = 'mr-2'> About </Nav.Link>  
           </Nav>
 
-          <Form inline>
-            <Link to="/user/login"> <Button variant = 'outline-light' className = 'mr-2'> Login </Button> </Link>
-            <Link to="/user/signup"> <Button variant = 'outline-light'  className = 'mr-2'> Sign-up </Button> </Link>
-          </Form>
+          <Nav>           
+            { this.state.logged ? <LoggedButton toggle = {this.toggle} /> : <GuestButtons toggle = {this.toggle} /> }
+          </Nav>
 
         </NavbarBt>
 
