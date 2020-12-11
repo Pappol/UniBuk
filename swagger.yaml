@@ -345,6 +345,8 @@ paths:
                     type: string
                     example: database error type
 
+  /books/add/{id}:
+  
     patch:
       description: Update a book information; useful for adding a new comment/review to a book with provided {id}
       requestBody:
@@ -569,6 +571,56 @@ paths:
                     type: string
                     example: database error type
     patch:
+      description: Edits a specific content from the database
+      requestBody:
+        required: true
+        content:
+          applicationn/json:
+            schema:
+              type: array
+              items: 
+                type: object
+                properties:
+                  propName:
+                    type: string
+                    example: name
+                  value:
+                    type: object #could be other than object (object is the most generic allowed)
+                    example: the best paper of the world
+      parameters:
+        - in: path
+          name: id
+          required: true
+          description: The id of the content
+          schema:
+            type: string
+            example: mongoose auto generated
+      responses:
+        '200':
+          description: content update
+          content: 
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+              example: 
+                message: Content updated
+        '500':
+          description: update failed in the database
+          content: 
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error: 
+                    type: string
+                    example: database error type
+    
+                    
+  /contents/add/{id}:
+    patch:
       description: Update a content information; useful for adding a new comment/review to a content with provided {id}
       requestBody:
         required: true
@@ -667,53 +719,6 @@ paths:
                     type: string
                     example: database error type
     
-    patch:
-      description: Edits a specific content from the database
-      requestBody:
-        required: true
-        content:
-          applicationn/json:
-            schema:
-              type: array
-              items: 
-                type: object
-                properties:
-                  propName:
-                    type: string
-                    example: name
-                  value:
-                    type: object #could be other than object (object is the most generic allowed)
-                    example: the best paper of the world
-      parameters:
-        - in: path
-          name: id
-          required: true
-          description: The id of the content
-          schema:
-            type: string
-            example: mongoose auto generated
-      responses:
-        '200':
-          description: content update
-          content: 
-            application/json:
-              schema:
-                type: object
-                properties:
-                  message:
-                    type: string
-              example: 
-                message: Content updated
-        '500':
-          description: update failed in the database
-          content: 
-            application/json:
-              schema:
-                type: object
-                properties:
-                  error: 
-                    type: string
-                    example: database error type
     
 #    delete:
 #      description: Delete a specific content from the database
