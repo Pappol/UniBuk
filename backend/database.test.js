@@ -1,7 +1,9 @@
 import mongoose from "mongoose";
+const jwt = require("jsonwebtoken");
 import User from './api/models/user.js';
 import Content from './api/models/content';
 import Axios from 'axios';
+const Content = require("./api/models/content");
 
 describe("Mongoose tests", () => {
   let connection;
@@ -17,7 +19,7 @@ describe("Mongoose tests", () => {
     );
   });
 
-  afterAll((done) => {
+  afterAll(done => {
     mongoose.connection.close();
     done();
   });

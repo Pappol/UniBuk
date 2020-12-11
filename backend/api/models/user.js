@@ -57,7 +57,15 @@ const userSchema = mongoose.Schema({
       ref: 'Books'
     }
   ],
-  contacts: [String]
+  links:{
+      website: String,
+      contactEmail: String,
+      linkedin: String,
+      gitHub: String
+    },
+  profileImage:{
+    type: String
+  }
 });
 
 export default mongoose.model("User", userSchema);

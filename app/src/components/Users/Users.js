@@ -32,7 +32,6 @@ class Users extends Component {
             </Link>
           </Jumbotron>
         </Route>
-
       </Switch>
     );
   }

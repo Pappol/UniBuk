@@ -25,7 +25,16 @@ export default class InsertCreds extends Component {
           "university": this.uni,
           "course": this.course,
           "year": this.year
-        }
+        },
+        "propName": "links",
+        "value": {
+          "website": this.website,
+          "contactEmail": this.contactEmail,
+          "linkedin": this.linkedin,
+          "gitHub": this.gitHub
+        },
+        "propName":"profileImage",
+          "value":this.image
       }
     ];
     console.table(data);
@@ -47,7 +56,11 @@ export default class InsertCreds extends Component {
       <div>
         <Jumbotron>
           <Form onSubmit={this.handleSubmit}>
-            
+          <h4>Insert Your profile picture link</h4>
+            <Form.Group>
+          <Form.Label>Profile picture</Form.Label>
+            <Form.Control type="text"  defaultValue={this.props.user.profileImage} onChange={e => this.image = e.target.value} />
+            </Form.Group>
           <h4>Insert your university</h4>
           <Form.Group>
             <Form.Label>University</Form.Label>
@@ -85,6 +98,17 @@ export default class InsertCreds extends Component {
               <option>5</option>
               <option>Troppo bro</option>
             </Form.Control>
+          </Form.Group>
+          <h4>Insert your Contacts</h4>
+          <Form.Group>
+          <Form.Label>Website</Form.Label>
+            <Form.Control type="text"  defaultValue={this.props.user.links.website} placeholder="Website" onChange={e => this.website = e.target.value} />
+          <Form.Label>Contact Email</Form.Label>
+            <Form.Control type="email" defaultValue={this.props.user.links.contactEmail} placeholder="Contact email" onChange={e => this.contactEmail = e.target.value} />
+          <Form.Label>Linkedin</Form.Label>
+            <Form.Control type="text" defaultValue={this.props.user.links.linkedin} placeholder="linkedin" onChange={e => this.linkedin = e.target.value} />
+          <Form.Label>GitHub</Form.Label>
+            <Form.Control type="text" defaultValue={this.props.user.links.gitHub} placeholder="github" onChange={e => this.gitHub = e.target.value} />
           </Form.Group>
 
           <Button variant = 'primary' type = 'submit' block>Change</Button>

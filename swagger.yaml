@@ -832,11 +832,25 @@ components:
                 $ref: '#/components/schemas/Content'
               book:
                 $ref: '#/components/schemas/Book'
-        contacts:
-          type: array
-          items:
-            type: string
-            example: www.github.com/RossiMario
+        Links:
+          type: object
+          properties:
+            website: 
+              type: string
+              example: www.mywebsite.com
+            contactEmail:
+              type: string
+              example: myemail@gmail.com
+            linkedin:
+              type: string
+              example: www.linkedin.com/mypage
+            gitHub:
+              type: string
+              example: www.github.com/mypage
+        profileImage:
+          type: string
+          example: https://thispersondoesnotexist.com/image
+
       required:
         - _id
         - email
@@ -938,6 +952,10 @@ components:
           example: mongoose auto generated
         creator:
           $ref: '#/components/schemas/User'
+        co_creators:
+            type: array
+            items:
+              $ref: '#/components/schemas/User'
         date:
           type: number
           example: 17.11.2020

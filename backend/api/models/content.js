@@ -17,6 +17,10 @@ const contentSchema = mongoose.Schema({
     ref: "User",
     required: true
   },
+  co_creators:[{
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "User"
+  }],
   date: {
     type: Number,
     required: true
