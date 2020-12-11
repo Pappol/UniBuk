@@ -17,7 +17,7 @@ before_install:
 install:
   - npm install
 script:
-  - npm test
+  - MONGO_CONN_STRING="mongodb+srv://dbadmin:SZARo4oZEL1gIHEZ@cluster0.lgzom.mongodb.net/testing?retryWrites=true&w=majority" npm test
   - cd ..
 after_success:
   - ./scripts/check-branch.sh
