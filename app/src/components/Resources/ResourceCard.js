@@ -45,9 +45,12 @@ class ResourceCard extends Component {
           <Card.Title>{resource.title}{resource.name}</Card.Title>
           <Card.Subtitle className="mb-2 text-muted">{resource.date}{resource.year}</Card.Subtitle>
           <Card.Text>{resource.description}</Card.Text>
-          <Link to={`${match.path}/${resource._id}`}>
-            <Button variant="primary" className = 'mr-2'>Visualizza</Button>
-          </Link>
+          <Link to={
+              {
+                pathname: `${match.path}/${resource._id}`,
+                query: {isFav: isFav, toggleSave: this.toggleSave}
+              }
+            }> <Button variant="primary" className = 'mr-2'>Visualizza</Button> </Link>
           { localStorage.myId == null || localStorage.myId == '' ? null :
               <Button variant = { !isFav ? 'outline-primary' : 'primary' } onClick = {this.toggleSave}> Salva </Button> 
           }

@@ -30,6 +30,7 @@ class ResourceDetails extends Component {
       reviewsDisplay: [],
       rate: 0,
       myUniOnly: false,
+      isFav: this.props.location.query.isFav
     };
   }
 
@@ -206,6 +207,13 @@ class ResourceDetails extends Component {
       });
   };
 
+  setFav = () => {
+    this.props.location.query.toggleSave();
+    this.setState({
+      isFav: !this.state.isFav
+    });
+  }
+
   render() {
     const { resource } = this.state;
     if (localStorage.kind === "books") {
@@ -214,6 +222,9 @@ class ResourceDetails extends Component {
           <Jumbotron className="mx-5 my-5">
             <ListGroup variant="flush" className="bg-transparent text-dark">
               <h3>Book Info</h3>
+              { localStorage.myId == null || localStorage.myId == '' ? null : 
+                <Button variant = { !this.state.isFav ? 'outline-primary' : 'primary' } onClick = {this.setFav}> Salva </Button> 
+              }
               <ListGroup.Item>
                 <Image
                   src={
