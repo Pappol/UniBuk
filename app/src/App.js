@@ -5,7 +5,7 @@ import './App.css';
 import Home from './components/Home/Home';
 import Navbar from './components/Navbar/Navbar';
 import Resources from './components/Resources/Resources';
-import Users from './components/Users/Users'
+import Users from './components/Users/Users';
 import { Login, Signup } from './components/Auth/index';
 
 export default class App extends Component {

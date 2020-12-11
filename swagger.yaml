@@ -522,6 +522,10 @@ components:
             gitHub:
               type: string
               example: www.github.com/mypage
+        profileImage:
+          type: string
+          example: https://thispersondoesnotexist.com/image
+
       required:
         - _id
         - email

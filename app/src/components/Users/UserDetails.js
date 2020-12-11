@@ -16,7 +16,8 @@ class UserDetails extends Component {
     this.state = {
       user: {
         studentCreds: {},
-        links: {}
+        links: {},
+        profileImage: {}
       }
     }
   }
@@ -46,8 +47,18 @@ class UserDetails extends Component {
     return (
       <>
         <Jumbotron className = 'mx-5 my-5'>
+        <div style={{
+          float:"right",
+          display:"flex",
+          justifyContent:"space",
+          margin:"0.5% 10%"
+          }
+        }>
+                <img style={{width:"160px", height:"160px", borderRadius:"80px"}}
+                src={user.profileImage.link}></img>
+        </div>
 
-          <h3> Profilo Utente </h3>
+          <h3> {user.firstName} {user.lastName} </h3>
           <h4>Dettagli utente</h4>
             <p>e-mail: {user.email}</p>
             <p>name: {user.firstName}</p> 

@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import Row from 'react-bootstrap/esm/Row';
 import ReactDOM from 'react-dom';
-import { withRouter } from 'react-router-dom';
+import { withRouter, Link } from 'react-router-dom';
 
 import Jumbotron from 'react-bootstrap/Jumbotron'
 import ListGroup from 'react-bootstrap/ListGroup'
@@ -74,7 +74,9 @@ class Navbar extends Component {
          <ListGroup>
           <h3>Content Info</h3>
           <ListGroup.Item><Image src={`${process.env.REACT_APP_BACKEND_URL}/${resource.image}`} thumbnail></Image></ListGroup.Item>
-          <ListGroup.Item>creator: <a href={ `/user/${resource.creator}` }> {resource.creator}</a></ListGroup.Item>
+          <ListGroup.Item>creator: 
+            <Link to = { `/user/${resource.creator}` }> {resource.creator}</Link>
+          </ListGroup.Item>
           <ListGroup.Item>date: {resource.date}</ListGroup.Item>
           <ListGroup.Item>name: {resource.name}</ListGroup.Item>
           <ListGroup.Item>description: {resource.description}</ListGroup.Item>

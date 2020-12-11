@@ -62,7 +62,10 @@ const userSchema = mongoose.Schema({
       contactEmail: String,
       linkedin: String,
       gitHub: String
-    }
+    },
+  profileImage:{
+    link: String
+  }
 });
 
 module.exports = mongoose.model("User", userSchema);

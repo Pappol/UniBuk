@@ -32,9 +32,11 @@ export default class InsertCreds extends Component {
           "contactEmail": this.contactEmail,
           "linkedin": this.linkedin,
           "gitHub": this.gitHub
+        },
+        "propName":"profileImage",
+        "value":{
+          "link":this.profileImage
         }
-          
-        
       }
     ];
     console.table(data);
@@ -56,7 +58,11 @@ export default class InsertCreds extends Component {
       <div>
         <Jumbotron>
           <Form onSubmit={this.handleSubmit}>
-            
+          <h4>Insert Your profile picture link</h4>
+            <Form.Group>
+          <Form.Label>Profile picture</Form.Label>
+            <Form.Control type="text"  defaultValue={this.props.user.profileImage.link} placeholder="Link" onChange={e => this.image = e.target.value} />
+            </Form.Group>
           <h4>Insert your university</h4>
           <Form.Group>
             <Form.Label>University</Form.Label>

@@ -21,11 +21,9 @@ class Users extends Component {
     console.log(this.props)
     return (
       <Switch>
-
         <Route path={`${this.props.match.path}/:userId`} >
           <UserDetails />
         </Route>
-
         <Route path = {'/users'}>
           <Jumbotron className = 'mx-5'>
             <Form.Label>Inserisci un ID</Form.Label>
@@ -36,7 +34,6 @@ class Users extends Component {
             </Link>
           </Jumbotron>
         </Route>
-
       </Switch>
     );
   }
