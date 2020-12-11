@@ -31,8 +31,12 @@ class ResourceCard extends Component {
     }
   }
 
+  toggleSave = () => {
+    this.props.fav(this.props.resource._id)
+  }
+
   render() {
-    const { resource, match } = this.props;
+    const { resource, match, isFav } = this.props;
     return (
       <Card className='mb-4 box-shadow'>
         <Card.Header>{resource.author}{this.state.creatorName}</Card.Header>
@@ -42,8 +46,11 @@ class ResourceCard extends Component {
           <Card.Subtitle className="mb-2 text-muted">{resource.date}{resource.year}</Card.Subtitle>
           <Card.Text>{resource.description}</Card.Text>
           <Link to={`${match.path}/${resource._id}`}>
-            <Button variant="primary">Visualizza</Button>
+            <Button variant="primary" className = 'mr-2'>Visualizza</Button>
           </Link>
+          { localStorage.myId == null || localStorage.myId == '' ? null :
+              <Button variant = { !isFav ? 'outline-primary' : 'primary' } onClick = {this.toggleSave}> Salva </Button> 
+          }
         </Card.Body>
       </Card>
     );

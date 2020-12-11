@@ -8,6 +8,7 @@ import ResourceCard from "./ResourceCard";
 import ResourceDetails from "./ResourceDetails";
 import { withRouter } from "react-router-dom";
 import Jumbotron from "react-bootstrap/esm/Jumbotron";
+import axios from 'axios'
 
 // var resourcePage;
 
@@ -17,7 +18,8 @@ class Resources extends Component {
     this.state = {
       type: "books",
       resources: [],
-      favourites: []
+      favourites: [],
+      watchingFavs: false
     };
   }
 
@@ -33,12 +35,14 @@ class Resources extends Component {
       this.setState({
         type: "book",
         resources: json.books,
+        watchingFavs: false
       });
       localStorage.setItem('kind', "books");
     } else if (kind === "contents") {
       this.setState({
         type: "content",
         resources: json.contents,
+        watchingFavs: false
       });
       localStorage.setItem('kind', "contents");
     }
@@ -76,8 +80,58 @@ class Resources extends Component {
       }
     }
     this.setState({
-      resources: favResources
+      resources: favResources,
+      watchingFavs: true
     });
+    console.log('favs set')
+  }
+
+  isInFavs = (id) => {
+    let favs = this.state.favourites;
+    const i = favs.indexOf(id);
+    if(i >= 0) {
+      return true
+    } else {
+      return false
+    }
+  }
+
+  editFavourites = async (id) => {
+    let favs = this.state.favourites;
+    const i = favs.indexOf(id);
+
+    if(i >= 0) {
+      favs.splice(i, 1);
+    } else {
+      favs.push(id);
+    }
+    this.setState({
+      favourites: favs,
+    });
+
+    const data = [{
+      'propName': 'favourites',
+      'value': favs
+    }]
+    const token = "Bearer " + localStorage.token;
+    const headers = {
+      'Content-type': 'application/json',
+      'Authorization': token
+    }
+
+    axios.patch(`${process.env.REACT_APP_BACKEND_URL}/user/${localStorage.myId}`, data, {
+      headers: headers
+    })
+    .then(res => {
+      console.log(res);
+    })
+    .catch(err => {
+      console.log(err);
+    });
+
+    if(this.state.watchingFavs){
+      this.setFavourites(localStorage.kind)
+    }
   }
 
   // getResourcePage = () => {
@@ -91,6 +145,7 @@ class Resources extends Component {
 
   render() {
     const { resources } = this.state;
+    //console.log(this.state)
     return (
       <Switch>
         <Route exact path="/resources">
@@ -110,7 +165,7 @@ class Resources extends Component {
               <Row>
                 {resources.map(resource => (
                   <Col className="col-sm-12 col-md-6 col-lg-4" key={resource._id}>
-                    <ResourceCard resource={resource} />
+                    <ResourceCard resource={resource} fav = {this.editFavourites} isFav = {this.isInFavs(resource._id)}/>
                   </Col>
                 ))}
               </Row>
