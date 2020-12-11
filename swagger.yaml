@@ -781,7 +781,6 @@ paths:
     
 components:
   schemas:
-    
     User:
       description: Model containing user info
       type: object
@@ -850,6 +849,10 @@ components:
         profileImage:
           type: string
           example: https://thispersondoesnotexist.com/image
+        follow:
+          type: array
+          items:
+            $ref: '#/components/schemas/User'
 
       required:
         - _id
