@@ -106,24 +106,18 @@ paths:
                     type: string
                   message:
                     type: string
-                  follow:
-                    type: array
                   university:
                     type: string
                 required:
                   - code
                   - message
                   - id
-                  - follow
                   - university
               example: 
                 token: yqw98q48y9w4fyp9gy4hrvpr89hqp484qgfg p9qgf4
                 message: Auth Successful
                 id: 5fab15fdd9fe8e536c4df414
                 university: Università di Trento
-                follow:
-                  - 5fb859e641690d28284c082c
-                  - 5fab1591d9fe8e536c4df412
         '401':
           description: wrong credentials
           content: 

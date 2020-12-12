@@ -113,7 +113,6 @@ export const user_login = (req, res, next) => {
             token: token,
             id: user[0]._id,
             university: user[0].studentCreds.university,
-            follow: user[0].follow
           });
         }
         res.status(401).json({

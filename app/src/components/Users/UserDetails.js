@@ -33,12 +33,21 @@ class UserDetails extends Component {
       `${process.env.REACT_APP_BACKEND_URL}/user/${match.params.userId}`
     );
     const json = await res.json();
-    const getFollow = JSON.parse(localStorage.myFollow);
     this.setState({
       user: json.user,
-      myFollow: getFollow,
     });
+    this.getFollow();
   }
+
+  getFollow = async () => {
+    const res = await fetch(
+      `${process.env.REACT_APP_BACKEND_URL}/user/${localStorage.myId}`
+    );
+    const json = await res.json();
+    this.setState({
+      myFollow: json.user.follow,
+    });
+  };
 
   showAdd = () => {
     this.setState({
@@ -79,11 +88,11 @@ class UserDetails extends Component {
         console.log(err);
       });
     const newFollow = [...this.state.myFollow, this.state.user._id];
-    localStorage.setItem("myFollow", JSON.stringify(newFollow));
+    // localStorage.setItem("myFollow", JSON.stringify(newFollow));
     this.setState({
       myFollow: newFollow,
     });
-    console.log(newFollow)
+    console.log(newFollow);
   };
 
   unSubscribe = async (e) => {
@@ -115,8 +124,8 @@ class UserDetails extends Component {
       .catch((err) => {
         console.log(err);
       });
-    localStorage.setItem("myFollow", JSON.stringify(newFollow));
-    console.log(localStorage.myfollow);
+    // localStorage.setItem("myFollow", JSON.stringify(newFollow));
+    // console.log(localStorage.myfollow);
     this.setState({
       myFollow: newFollow,
     });

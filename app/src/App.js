@@ -11,6 +11,11 @@ import Search from './components/Search/Search'
 import { Container } from 'react-bootstrap';
 
 export default class App extends Component {
+
+  componentDidMount() {
+    localStorage.clear();
+  }
+ 
   render() {
     return (
       <BrowserRouter>
