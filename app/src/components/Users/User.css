@@ -5,12 +5,21 @@
 .subtitle{
     text-align: justify;
 }
+.profileWindow{
+    color:white;
+    text-shadow: black;
+    text-align: center;
+    border-style: solid;
+    border-color: #007BFF;
+    border-radius: 20px;
+    background-color: #007BFF;
+    float: right;
+}
 .profileInfo{
-    background-color: '637EFF';
+    margin: 10;
 }
 .picture{
-    float: right;
-        display: flex;
-        justify-Content: space;
-        margin:"0.5% 10%";
+    position: center;
+
+    margin:"0.5% 10%";
 }

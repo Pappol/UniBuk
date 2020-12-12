@@ -53,7 +53,7 @@ class UserDetails extends Component {
     const { match } = this.props;
     if( typeof(user) === typeof(undefined)) { 
           return (
-            <Jumbotron className = 'mx-5 my-5'>
+            <Jumbotron className = 'profileInfo'>
               <h2>Sorry but that ID is missing :( </h2>
               <Link to = { '/users' }>
                 Go back
@@ -63,21 +63,15 @@ class UserDetails extends Component {
         }
     return (
       <>
-        <Jumbotron className = 'mx-5 my-5'>
+        <div class='profileWindow'>
           <div class='profileInfo'>
             <div class='picture'>
                     <img style={{width:"160px", height:"160px", borderRadius:"80px"}}
                     src={user.profileImage}></img>
             </div>
-
               <h3 class='title'> {user.firstName} {user.lastName} </h3>
-              <h4>Dettagli utente</h4>
-                <p>e-mail: {user.email}</p>
-                <p>name: {user.firstName}</p> 
-                <p>surname: {user.lastName}</p>
               { typeof(user.studentCreds) !== 'undefined' ? 
                 <>
-                <h4>Dati universitari</h4>
                   <p>Università: {user.studentCreds.university}</p>
                   <p>Corso di Laurea: {user.studentCreds.course}</p>
                   <p>Anno di corso: {user.studentCreds.year}</p>
@@ -85,20 +79,21 @@ class UserDetails extends Component {
                 
               : null }
               <h4 class='subtitle'>Contacts</h4>
-              <p>contactEmail: {user.links.contactEmail}</p>
+              <p class='subtitle'>contactEmail: {user.links.contactEmail}</p>
               <p>
                   <a target = '_blank' href = {`${user.links.website}`}>
-                    <Button variant = 'primary'> Sito web</Button>
+                    <Button variant = 'light'> Sito web</Button>
                   </a>
                   <a target = '_blank' href = {`${user.links.linkedin}`}>
-                    <Button variant = 'primary' className = 'ml-5'> Linkedin </Button>
+                    <Button variant = 'light' className = 'ml-5'> Linkedin </Button>
                   </a>
                   <a target = '_blank' href = {`${user.links.gitHub}`}>
-                    <Button variant = 'primary' className = 'ml-5'> Visit Github for collaboration </Button>
+                    <Button variant = 'light' className = 'ml-5'> Visit Github for collaboration </Button>
                   </a>
               </p>
                 
-                
+                </div>
+              </div> 
               {localStorage.myId === match.params.userId ?
               <>
                 <Accordion>
@@ -122,8 +117,7 @@ class UserDetails extends Component {
               : null}
           
             {this.state.seen ? <ResourceAddNew  toggle = {this.hideAdd} show = {this.state.seen} match = {match}/> : null}
-          </div> 
-        </Jumbotron> 
+
          
       </> 
     )
