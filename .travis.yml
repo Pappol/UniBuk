@@ -20,10 +20,41 @@ script:
   - MONGO_CONN_STRING="mongodb+srv://dbadmin:SZARo4oZEL1gIHEZ@cluster0.lgzom.mongodb.net/testing?retryWrites=true&w=majority" npm test
   - cd ..
 after_success:
-  - ./scripts/check-branch.sh
-  - docker build -t registry.heroku.com/unibuk/web app
-  - docker build -t registry.heroku.com/unibuk-backend/web backend
-  - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin registry.heroku.com
-  - docker push registry.heroku.com/unibuk/web
-  - docker push registry.heroku.com/unibuk-backend/web
-  - ./scripts/publish-to-heroku.sh
+  - |
+    if [[ "$TRAVIS_BRANCH" != "develop" ]]; then
+      echo "We're not on the master branch."
+      exit 0
+    fi
+    docker build -t registry.heroku.com/unibuk/web app
+    docker build -t registry.heroku.com/unibuk-backend/web backend
+    echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin registry.heroku.com
+    docker push registry.heroku.com/unibuk/web
+    docker push registry.heroku.com/unibuk-backend/web
+    YOUR_HEROKU_APP=unibuk-backend
+    DOCKER_IMAGE_ID=$(docker inspect registry.heroku.com/$YOUR_HEROKU_APP/web --format={{.Id}})
+    curl --netrc -X PATCH https://api.heroku.com/apps/$YOUR_HEROKU_APP/formation \
+      -d '{                                                                               
+      "updates": [
+        {
+          "type": "web",
+          "docker_image": "'"$DOCKER_IMAGE_ID"'"
+        }
+      ]
+    }' \
+      -H "Content-Type: application/json" \
+      -H "Accept: application/vnd.heroku+json; version=3.docker-releases" \
+      -H "Authorization: Bearer $DOCKER_PASSWORD"
+    YOUR_HEROKU_APP=unibuk
+    DOCKER_IMAGE_ID=$(docker inspect registry.heroku.com/$YOUR_HEROKU_APP/web --format={{.Id}})
+    curl --netrc -X PATCH https://api.heroku.com/apps/$YOUR_HEROKU_APP/formation \
+      -d '{                                                                               
+      "updates": [
+        {
+          "type": "web",
+          "docker_image": "'"$DOCKER_IMAGE_ID"'"
+        }
+      ]
+    }' \
+      -H "Content-Type: application/json" \
+      -H "Accept: application/vnd.heroku+json; version=3.docker-releases" \
+      -H "Authorization: Bearer $DOCKER_PASSWORD"

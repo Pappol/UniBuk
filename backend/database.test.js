@@ -1,9 +1,8 @@
 import mongoose from "mongoose";
-const jwt = require("jsonwebtoken");
-import User from './api/models/user.js';
-import Content from './api/models/content';
+import jwt from 'jsonwebtoken';
 import Axios from 'axios';
-const Content = require("./api/models/content");
+import User from './api/models/user.js';
+import Content from './api/models/content.js';
 
 describe("Mongoose tests", () => {
   let connection;
