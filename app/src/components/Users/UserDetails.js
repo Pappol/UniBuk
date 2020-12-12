@@ -3,6 +3,7 @@ import { withRouter } from 'react-router-dom';
 import { Link } from 'react-router-dom';
 import InsertCreds from './InsertCreds';
 import ResourceAddNew from './ResourceAddNew'
+import './User.css';
 
 import Button from 'react-bootstrap/Button';
 import Jumbotron from 'react-bootstrap/esm/Jumbotron';
@@ -63,60 +64,65 @@ class UserDetails extends Component {
     return (
       <>
         <Jumbotron className = 'mx-5 my-5'>
-        <div style={{
-          float:"right",
-          display:"flex",
-          justifyContent:"space",
-          margin:"0.5% 10%"
-          }
-        }>
-                <img style={{width:"160px", height:"160px", borderRadius:"80px"}}
-                src={user.profileImage}></img>
-        </div>
+          <div class='profileInfo'>
+            <div class='picture'>
+                    <img style={{width:"160px", height:"160px", borderRadius:"80px"}}
+                    src={user.profileImage}></img>
+            </div>
 
-          <h3> {user.firstName} {user.lastName} </h3>
-          <h4>Dettagli utente</h4>
-            <p>e-mail: {user.email}</p>
-            <p>name: {user.firstName}</p> 
-            <p>surname: {user.lastName}</p>
-          { typeof(user.studentCreds) !== 'undefined' ? 
-            <>
-            <h4>Dati universitari</h4>
-              <p>Università: {user.studentCreds.university}</p>
-              <p>Corso di Laurea: {user.studentCreds.course}</p>
-              <p>Anno di corso: {user.studentCreds.year}</p>
-            </> 
-            
-          : null }
-          <h4>Contacts</h4>
-            <p>Website: {user.links.website}</p>
-            <p>contactEmail: {user.links.contactEmail}</p>
-            <p>linkedin: {user.links.linkedin}</p>
-            <p>gitHub: {user.links.gitHub}</p>
-          {localStorage.myId === match.params.userId ?
-          <>
-            <Accordion>
-              <Card>
-                <Card.Header>
-                  <Accordion.Toggle as={Button} variant = 'link' eventKey = '0'>
-                    Change Creds
-                  </Accordion.Toggle>
-                </Card.Header>
-                <Accordion.Collapse eventKey = '0'>
-                  <Card.Body>
-                    <InsertCreds userId={this.props.match.params.userId} user={this.state.user}/>
-                  </Card.Body>
-                </Accordion.Collapse>
-              </Card> 
-            </Accordion>  
+              <h3 class='title'> {user.firstName} {user.lastName} </h3>
+              <h4>Dettagli utente</h4>
+                <p>e-mail: {user.email}</p>
+                <p>name: {user.firstName}</p> 
+                <p>surname: {user.lastName}</p>
+              { typeof(user.studentCreds) !== 'undefined' ? 
+                <>
+                <h4>Dati universitari</h4>
+                  <p>Università: {user.studentCreds.university}</p>
+                  <p>Corso di Laurea: {user.studentCreds.course}</p>
+                  <p>Anno di corso: {user.studentCreds.year}</p>
+                </> 
+                
+              : null }
+              <h4 class='subtitle'>Contacts</h4>
+              <p>contactEmail: {user.links.contactEmail}</p>
+              <p>
+                  <a target = '_blank' href = {`${user.links.website}`}>
+                    <Button variant = 'primary'> Sito web</Button>
+                  </a>
+                  <a target = '_blank' href = {`${user.links.linkedin}`}>
+                    <Button variant = 'primary' className = 'ml-5'> Linkedin </Button>
+                  </a>
+                  <a target = '_blank' href = {`${user.links.gitHub}`}>
+                    <Button variant = 'primary' className = 'ml-5'> Visit Github for collaboration </Button>
+                  </a>
+              </p>
+                
+                
+              {localStorage.myId === match.params.userId ?
+              <>
+                <Accordion>
+                  <Card>
+                    <Card.Header>
+                      <Accordion.Toggle as={Button} variant = 'link' eventKey = '0'>
+                        Change Creds
+                      </Accordion.Toggle>
+                    </Card.Header>
+                    <Accordion.Collapse eventKey = '0'>
+                      <Card.Body>
+                        <InsertCreds userId={this.props.match.params.userId} user={this.state.user}/>
+                      </Card.Body>
+                    </Accordion.Collapse>
+                  </Card> 
+                </Accordion>  
 
-            <br/>          
-            <Button variant = 'primary' onClick = {this.showAdd}> Nuovo Contenuto </Button>
-          </>
-          : null}
+                <br/>          
+                <Button variant = 'primary' onClick = {this.showAdd}> Nuovo Contenuto </Button>
+              </>
+              : null}
           
-          {this.state.seen ? <ResourceAddNew  toggle = {this.hideAdd} show = {this.state.seen} match = {match}/> : null}
-
+            {this.state.seen ? <ResourceAddNew  toggle = {this.hideAdd} show = {this.state.seen} match = {match}/> : null}
+          </div> 
         </Jumbotron> 
          
       </> 

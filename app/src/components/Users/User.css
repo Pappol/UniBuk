@@ -1,0 +1,16 @@
+.title{
+    text-align: center;
+}
+
+.subtitle{
+    text-align: justify;
+}
+.profileInfo{
+    background-color: '637EFF';
+}
+.picture{
+    float: right;
+        display: flex;
+        justify-Content: space;
+        margin:"0.5% 10%";
+}
