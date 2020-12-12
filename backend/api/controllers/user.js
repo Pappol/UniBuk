@@ -113,6 +113,7 @@ export const user_login = (req, res, next) => {
             token: token,
             id: user[0]._id,
             university: user[0].studentCreds.university,
+            follow: user[0].follow
           });
         }
         res.status(401).json({
@@ -140,6 +141,35 @@ export const user_update = (req, res, next) => {
     },
     {
       $set: updateOps,
+    }
+  )
+    .exec()
+    .then((result) => {
+      console.log(result);
+      res.status(200).json({
+        message: "user updated",
+      });
+    })
+    .catch((err) => {
+      console.log(err);
+      res.status(500).json({
+        error: err,
+      });
+    });
+};
+
+export const user_add = (req, res, next) => {
+  const id = req.params.userId;
+  const updateOps = {};
+  for (const ops of req.body) {
+    updateOps[ops.propName] = ops.value;
+  }
+  User.update(
+    {
+      _id: id,
+    },
+    {
+      $push: updateOps,
     }
   )
     .exec()

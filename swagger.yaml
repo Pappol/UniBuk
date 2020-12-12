@@ -106,13 +106,24 @@ paths:
                     type: string
                   message:
                     type: string
+                  follow:
+                    type: array
+                  university:
+                    type: string
                 required:
                   - code
                   - message
+                  - id
+                  - follow
+                  - university
               example: 
                 token: yqw98q48y9w4fyp9gy4hrvpr89hqp484qgfg p9qgf4
                 message: Auth Successful
                 id: 5fab15fdd9fe8e536c4df414
+                university: Università di Trento
+                follow:
+                  - 5fb859e641690d28284c082c
+                  - 5fab1591d9fe8e536c4df412
         '401':
           description: wrong credentials
           content: 
@@ -199,7 +210,7 @@ paths:
       requestBody:
         required: true
         content:
-          applicationn/json:
+          application/json:
             schema:
               type: array
               items: 
@@ -264,6 +275,54 @@ paths:
                     type: string
               example: 
                 message: User deleted
+        '500':
+          description: update failed in the database
+          content: 
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error: 
+                    type: string
+                    example: database error type
+  /user/add/{id}:
+    patch:
+      description: Adds something to a specific user from the database
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: array
+              items: 
+                type: object
+                properties:
+                  propName:
+                    type: string
+                    example: username
+                  value:
+                    type: object #could be other than object (object is the most generic allowed)
+                    example: salt bae
+      parameters:
+        - in: path
+          name: id
+          required: true
+          description: The id of the user
+          schema:
+            type: string
+            example: mongoose auto generated
+      responses:
+        '200':
+          description: user update
+          content: 
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+              example: 
+                message: User updated
         '500':
           description: update failed in the database
           content: 

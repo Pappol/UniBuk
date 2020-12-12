@@ -22,6 +22,7 @@ export class Login extends Component {
         localStorage.setItem('token', res.data.token);
         localStorage.setItem('myId', res.data.id);
         localStorage.setItem('myUni', res.data.university);
+        localStorage.setItem('myFollow', JSON.stringify(res.data.follow));
         console.log(localStorage);
         this.props.location.query.toggle();
       })
