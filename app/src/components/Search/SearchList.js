@@ -55,7 +55,7 @@ class SearchList extends Component {
           <ListGroup>
             {
               users.map(user => (
-                <ListGroup.Item key={user._id}><Link to={`/users/${user._id}`}>{user.firstName}</Link></ListGroup.Item>
+                <ListGroup.Item key={user._id}><Link to={`/users/${user._id}`}>{user.username}</Link></ListGroup.Item>
               ))
             }
           </ListGroup>
