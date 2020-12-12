@@ -81,14 +81,14 @@ class UserDetails extends Component {
               <h4 class='subtitle'>Contacts</h4>
               <p class='subtitle'>contactEmail: {user.links.contactEmail}</p>
               <p>
-                  <a target = '_blank' href = {`${user.links.website}`}>
+                  <a target = '_blank' className = 'ml-2' href = {`${user.links.website}`}>
                     <Button variant = 'light'> Sito web</Button>
                   </a>
                   <a target = '_blank' href = {`${user.links.linkedin}`}>
-                    <Button variant = 'light' className = 'ml-5'> Linkedin </Button>
+                    <Button variant = 'light' className = 'ml-2'> Linkedin </Button>
                   </a>
                   <a target = '_blank' href = {`${user.links.gitHub}`}>
-                    <Button variant = 'light' className = 'ml-5'> Visit Github for collaboration </Button>
+                    <Button variant = 'light' className = 'ml-2'> Visit Github for collaboration </Button>
                   </a>
               </p>
                 

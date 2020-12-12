@@ -157,6 +157,28 @@ export const user_update = (req, res, next) => {
     });
 };
 
+export const user_add_content = (req, res, next) =>{
+  const id = req.params.userId;
+  const updateOps = {};
+  for (const ops of req.body) {
+    updateOps[ops.propName] = ops.value;
+  }
+  User.contents.push(updateOps)
+  .exec()
+  .then((result) => {
+    console.log(result);
+    res.status(200).json({
+      message: "user updated",
+    });
+  })
+  .catch((err) => {
+    console.log(err);
+    res.status(500).json({
+      error: err,
+    });
+  });
+}
+
 export const user_delete = (req, res, next) => {
   User.remove({ _id: req.params.userId })
     .exec()

@@ -3,7 +3,7 @@
 }
 
 .subtitle{
-    text-align: justify;
+    text-align:left;
 }
 .profileWindow{
     color:white;
@@ -20,6 +20,5 @@
 }
 .picture{
     position: center;
-
     margin:"0.5% 10%";
 }
