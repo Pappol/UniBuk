@@ -340,6 +340,9 @@ class ResourceDetails extends Component {
           <Jumbotron>
             <ListGroup>
               <h3>Content Info</h3>
+              { localStorage.myId == null || localStorage.myId == '' ? null : 
+                <Button variant = { !this.state.isFav ? 'outline-primary' : 'primary' } onClick = {this.setFav}> Salva </Button> 
+              }
               {this.state.edit ? (
                 <ResourceEdit
                   toggle={this.showEdit}
