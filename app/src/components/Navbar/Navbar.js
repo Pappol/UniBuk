@@ -36,7 +36,7 @@ export default class Navbar extends Component {
 
           <Nav className = 'mr-auto'>
             <Nav.Link as = {NavLink} to = '/resources' className = 'mr-2'> Resources </Nav.Link>  
-            <Nav.Link as = {NavLink} to = '/users' className = 'mr-2'> Users </Nav.Link>  
+            <Nav.Link as = {NavLink} to = '/feed' className = 'mr-2'> Feed </Nav.Link>  
             <Nav.Link as = {NavLink} to = '/about' className = 'mr-2'> About </Nav.Link>  
           </Nav>
 

@@ -24,6 +24,7 @@ export default class App extends Component {
           <Switch>
             <Route path="/about" component={About} />
             <Route path="/resources" component={Resources} />
+            <Route path="/feed"><Resources feed={true} /></Route>
             <Route path="/users" component={Users} />
             <Route path="/user/login" component={Login} />
             <Route path="/user/signup" component={Signup} />

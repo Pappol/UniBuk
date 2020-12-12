@@ -36,7 +36,9 @@ class UserDetails extends Component {
     this.setState({
       user: json.user,
     });
-    this.getFollow();
+    if (localStorage.myId) {
+      this.getFollow();
+    }
   }
 
   getFollow = async () => {
@@ -162,7 +164,7 @@ class UserDetails extends Component {
             {user.firstName} {user.lastName}
           </h3>
 
-          {localStorage.myId !== match.params.userId ? (
+          {localStorage.myId !== match.params.userId && localStorage.myId ? (
             <>
               {this.state.myFollow.indexOf(this.state.user._id) === -1 ? (
                 <Form onSubmit={this.subscribe}>
