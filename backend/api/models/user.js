@@ -65,7 +65,13 @@ const userSchema = mongoose.Schema({
     },
   profileImage:{
     type: String
-  }
+  },
+  follow: [
+    {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'User'
+    }
+  ]
 });
 
 export default mongoose.model("User", userSchema);
