@@ -6,9 +6,6 @@ node_js:
   - "15"
 services:
   - docker
-# branches:
-#   only:
-#     - master
 cache:
   directories:
     - backend/node_modules
@@ -33,7 +30,7 @@ after_success:
     YOUR_HEROKU_APP=unibuk-backend
     DOCKER_IMAGE_ID=$(docker inspect registry.heroku.com/$YOUR_HEROKU_APP/web --format={{.Id}})
     curl --netrc -X PATCH https://api.heroku.com/apps/$YOUR_HEROKU_APP/formation \
-      -d '{                                                                               
+      -d '{
       "updates": [
         {
           "type": "web",
@@ -47,7 +44,7 @@ after_success:
     YOUR_HEROKU_APP=unibuk
     DOCKER_IMAGE_ID=$(docker inspect registry.heroku.com/$YOUR_HEROKU_APP/web --format={{.Id}})
     curl --netrc -X PATCH https://api.heroku.com/apps/$YOUR_HEROKU_APP/formation \
-      -d '{                                                                               
+      -d '{
       "updates": [
         {
           "type": "web",
