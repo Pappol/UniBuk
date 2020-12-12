@@ -6,7 +6,7 @@
   "license": "ISC",
   "type": "module",
   "scripts": {
-    "test": "NODE_OPTIONS='--experimental-vm-modules' jest --forceExit",
+    "test": "MONGO_CONN_STRING='mongodb+srv://dbadmin:SZARo4oZEL1gIHEZ@cluster0.lgzom.mongodb.net/testing?retryWrites=true&w=majority' NODE_OPTIONS='--experimental-vm-modules' jest --forceExit",
     "start": "node server.js",
     "dev": "nodemon server.js"
   },
