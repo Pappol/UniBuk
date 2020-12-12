@@ -65,11 +65,6 @@ describe('API tests', () => {
   });
 
   afterEach(async () => {
-    // // Remove objects from the database
-    // await Book.deleteOne({ _id: bookExample._id });
-    // await Content.deleteOne({ _id: contentExample._id });
-    // await User.deleteOne({ _id: userExample._id });
-
     // Remove all objects from the database
     await Book.deleteMany({});
     await Content.deleteMany({});
