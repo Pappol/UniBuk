@@ -36,7 +36,7 @@ class ResourceShow extends Component {
             <Col className="col-xs-12 col-sm-12 col-md-8 col-lg-8">
               <ListGroup.Item>
                 {" "}
-                <a href={this.props.url}> Visualizza il contenuto completo</a>
+                <a href={this.props.link}> Visualizza il contenuto completo</a>
               </ListGroup.Item>
               <ListGroup.Item>
                 Autore: {this.props.creatorName}{" "}
@@ -48,7 +48,6 @@ class ResourceShow extends Component {
                 </Link>
               </ListGroup.Item>
               <ListGroup.Item>Data: {this.props.date}</ListGroup.Item>
-              <ListGroup.Item>Titolo: {this.props.name}</ListGroup.Item>
               <br />
               {localStorage.myId === this.props.creator ? (
                 <Button onClick={this.props.toggle} block>

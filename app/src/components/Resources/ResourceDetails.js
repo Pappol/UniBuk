@@ -395,7 +395,7 @@ class ResourceDetails extends Component {
         <div>
           <Jumbotron className="mx-md-5 my-4 pt-3">
             <ListGroup>
-              <h3>Content Info</h3>
+              <h3>{resource.name}</h3>
               {localStorage.myId == null || localStorage.myId == "" ? null : (
                 <Button
                   variant={!this.state.isFav ? "outline-primary" : "primary"}
