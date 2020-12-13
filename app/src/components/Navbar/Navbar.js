@@ -42,7 +42,7 @@ export default class Navbar extends Component {
     return (
       <div>
 
-        <NavbarBt bg = 'primary' variant = 'dark' sticky = 'top'>
+        <NavbarBt bg = 'primary' variant = 'dark' fixed = 'top'>
 
           <Link to="/"> <NavbarBt.Brand>UniBuk</NavbarBt.Brand> </Link>
 
