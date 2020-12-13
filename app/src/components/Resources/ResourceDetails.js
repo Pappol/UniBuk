@@ -9,6 +9,7 @@ import {
   Form,
   Button,
   Col,
+  Row
 } from "react-bootstrap";
 import StarRatings from "react-star-ratings";
 
@@ -227,17 +228,34 @@ class ResourceDetails extends Component {
         <div>
           <Jumbotron className="mx-md-5 my-4 pt-3">
             <ListGroup variant="flush" className="bg-transparent text-dark">
-              <h3>Book Info</h3>
+              <h2>{resource.title}</h2>
               <ListGroup.Item>
-                <Image
-                  src={
-                    `${resource.image}`.startsWith("http://") ||
-                    `${resource.image}`.startsWith("https://")
-                      ? resource.image
-                      : `${process.env.REACT_APP_BACKEND_URL}/${resource.image}`
-                  }
-                  thumbnail
-                ></Image>
+                <Row>
+                  <Col className="col-xs-12 col-sm-12 col-md-4 col-lg-4">
+                        <Image
+                          style = {{'height': '25vw', 'width': 'auto'}}
+                          src = {
+                            `${resource.image}`.startsWith("http://") ||
+                            `${resource.image}`.startsWith("https://")
+                            ? resource.image
+                            : `${process.env.REACT_APP_BACKEND_URL}/${resource.image}`
+                          }
+                          thumbnail
+                          ></Image>
+                  </Col>
+                  <Col className="col-xs-12 col-sm-12 col-md-8 col-lg-8">
+                    <ListGroup.Item>
+                    Autore: {resource.author}
+                    </ListGroup.Item>
+                    <ListGroup.Item>
+                    ISBN: {resource.isbn}
+                    </ListGroup.Item>
+                    <br/>
+                    { localStorage.myId == null || localStorage.myId == '' ? null : 
+                      <Button variant = { !this.state.isFav ? 'outline-primary' : 'primary' } onClick = {this.setFav} block> { !this.state.isFav ? 'Salva' : 'Rimuovi' } </Button> 
+                    }
+                  </Col>
+                </Row>
               </ListGroup.Item>
               <ListGroup.Item>
                 {localStorage.myId == null || localStorage.myId == "" ? null : (
@@ -253,7 +271,7 @@ class ResourceDetails extends Component {
               <ListGroup.Item>{resource.author}</ListGroup.Item>
               <ListGroup.Item>{resource.title}</ListGroup.Item>
               <ListGroup.Item>{resource.description}</ListGroup.Item>
-              <ListGroup.Item>ISBN: {resource.isbn}</ListGroup.Item>
+              <br/>
 
               <h3>Tag</h3>
               <ListGroup horizontal>

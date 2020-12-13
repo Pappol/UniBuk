@@ -5,3 +5,18 @@
   box-shadow: 0px 3px 11px 0px black;
   text-align: left;
 }
+
+.card-text{
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
+  height: 4vw;
+}
+
+.cimg {
+  height: 25vw;
+  width: 100%;
+  object-fit: cover;
+  -webkit-mask-size: cover;
+  mask-size: cover;
+}
