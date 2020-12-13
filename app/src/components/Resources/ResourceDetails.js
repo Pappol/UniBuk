@@ -9,7 +9,7 @@ import {
   Form,
   Button,
   Col,
-  Row
+  Row,
 } from "react-bootstrap";
 import StarRatings from "react-star-ratings";
 
@@ -36,6 +36,7 @@ class ResourceDetails extends Component {
       rate: 0,
       myUniOnly: false,
       isFav: Boolean,
+      creatorName: String,
     };
   }
 
@@ -59,6 +60,7 @@ class ResourceDetails extends Component {
       Axios.post(
         `${process.env.REACT_APP_BACKEND_URL}/${localStorage.kind}/${match.params.resourceId}/addView`
       );
+      await this.getCreatorName(this.state.resource.creator);
     }
     this.setState({
       isFav: isInFavs(this.state.resource._id),
@@ -221,6 +223,22 @@ class ResourceDetails extends Component {
     });
   };
 
+  getCreatorName = async (creator) => {
+    if (creator) {
+      const res = await fetch(
+        `${process.env.REACT_APP_BACKEND_URL}/user/${creator}`
+      );
+      const json = await res.json();
+      this.setState({
+        creatorName: json.user.username,
+      });
+    } else {
+      this.setState({
+        creatorName: null,
+      });
+    }
+  };
+
   render() {
     const { resource } = this.state;
     if (localStorage.kind === "books") {
@@ -232,28 +250,34 @@ class ResourceDetails extends Component {
               <ListGroup.Item>
                 <Row>
                   <Col className="col-xs-12 col-sm-12 col-md-4 col-lg-4">
-                        <Image
-                          style = {{'height': '25vw', 'width': 'auto'}}
-                          src = {
-                            `${resource.image}`.startsWith("http://") ||
-                            `${resource.image}`.startsWith("https://")
-                            ? resource.image
-                            : `${process.env.REACT_APP_BACKEND_URL}/${resource.image}`
-                          }
-                          thumbnail
-                          ></Image>
+                    <Image
+                      style={{ height: "25vw", width: "auto" }}
+                      src={
+                        `${resource.image}`.startsWith("http://") ||
+                        `${resource.image}`.startsWith("https://")
+                          ? resource.image
+                          : `${process.env.REACT_APP_BACKEND_URL}/${resource.image}`
+                      }
+                      thumbnail
+                    ></Image>
                   </Col>
                   <Col className="col-xs-12 col-sm-12 col-md-8 col-lg-8">
-                    <ListGroup.Item>
-                    Autore: {resource.author}
-                    </ListGroup.Item>
-                    <ListGroup.Item>
-                    ISBN: {resource.isbn}
-                    </ListGroup.Item>
-                    <br/>
-                    { localStorage.myId == null || localStorage.myId == '' ? null : 
-                      <Button variant = { !this.state.isFav ? 'outline-primary' : 'primary' } onClick = {this.setFav} block> { !this.state.isFav ? 'Salva' : 'Rimuovi' } </Button> 
-                    }
+                    <ListGroup.Item>Autore: {resource.author}</ListGroup.Item>
+                    <ListGroup.Item>ISBN: {resource.isbn}</ListGroup.Item>
+                    <br />
+                    {localStorage.myId == null ||
+                    localStorage.myId == "" ? null : (
+                      <Button
+                        variant={
+                          !this.state.isFav ? "outline-primary" : "primary"
+                        }
+                        onClick={this.setFav}
+                        block
+                      >
+                        {" "}
+                        {!this.state.isFav ? "Salva" : "Rimuovi"}{" "}
+                      </Button>
+                    )}
                   </Col>
                 </Row>
               </ListGroup.Item>
@@ -271,7 +295,7 @@ class ResourceDetails extends Component {
               <ListGroup.Item>{resource.author}</ListGroup.Item>
               <ListGroup.Item>{resource.title}</ListGroup.Item>
               <ListGroup.Item>{resource.description}</ListGroup.Item>
-              <br/>
+              <br />
 
               <h3>Tag</h3>
               <ListGroup horizontal>
@@ -394,6 +418,7 @@ class ResourceDetails extends Component {
                 />
               ) : (
                 <ResourceShow
+                  creatorName={this.state.creatorName}
                   toggle={this.showEdit}
                   image={resource.image}
                   link={resource.url}

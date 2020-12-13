@@ -1,31 +1,58 @@
-import React, { Component } from 'react';
-import { withRouter } from 'react-router-dom';
+import React, { Component } from "react";
+import { withRouter } from "react-router-dom";
 
-import ListGroup from 'react-bootstrap/ListGroup'
-import Button from 'react-bootstrap/Button'
-import Image from 'react-bootstrap/Image'
+import { ListGroup, Button, Image, Row, Col } from "react-bootstrap";
 
 class ResourceShow extends Component {
   constructor(props) {
     super(props);
   }
 
+  componentDidMount() {
+    // this.getCreatorName(this.props);
+  }
+
   edit = () => {
     this.props.toggle();
-  }
-    
+  };
+
   render() {
-    return(
+    return (
       <>
-        <ListGroup.Item><Image src={ `${this.props.image}`.startsWith('http://') || `${this.props.image}`.startsWith('https://') ? this.props.image : `${process.env.REACT_APP_BACKEND_URL}/${this.props.image}`} thumbnail></Image></ListGroup.Item>
-        <ListGroup.Item>link: <a href = {this.props.url}>{this.props.url}</a></ListGroup.Item>
-        <ListGroup.Item>creator: {this.props.creator}</ListGroup.Item>
-        <ListGroup.Item>date: {this.props.date}</ListGroup.Item>
-        <ListGroup.Item>name: {this.props.name}</ListGroup.Item>
-        <ListGroup.Item>description: {this.props.description}</ListGroup.Item>
-        {localStorage.myId === this.props.creator ? <Button onClick = {this.props.toggle} >Modifica</Button> : null }
+        <ListGroup.Item>
+          <Row>
+            <Col className="col-xs-12 col-sm-12 col-md-4 col-lg-4">
+              <Image
+                style={{ height: "25vw", width: "auto" }}
+                src={
+                  `${this.props.image}`.startsWith("http://") ||
+                  `${this.props.image}`.startsWith("https://")
+                    ? this.props.image
+                    : `${process.env.REACT_APP_BACKEND_URL}/${this.props.image}`
+                }
+                thumbnail
+              ></Image>
+            </Col>
+            <Col className="col-xs-12 col-sm-12 col-md-8 col-lg-8">
+              <ListGroup.Item>
+                {" "}
+                <a href={this.props.url}> Visualizza il contenuto completo</a>
+              </ListGroup.Item>
+              <ListGroup.Item>Autore: {this.props.creatorName}</ListGroup.Item>
+              <ListGroup.Item>Data: {this.props.date}</ListGroup.Item>
+              <ListGroup.Item>Titolo: {this.props.name}</ListGroup.Item>
+              <br />
+              {localStorage.myId === this.props.creator ? (
+                <Button onClick={this.props.toggle} block>
+                  Modifica
+                </Button>
+              ) : null}
+            </Col>
+          </Row>
+        </ListGroup.Item>
+        <ListGroup.Item>{this.props.description}</ListGroup.Item>
       </>
-    )
+    );
   }
 }
 
