@@ -1,5 +1,5 @@
-import mongoose from 'mongoose';
-import Content from '../models/content.js';
+import mongoose from "mongoose";
+import Content from "../models/content.js";
 export const contents_get_all = (req, res, next) => {
   Content.find()
     // .select("_id")
@@ -18,7 +18,7 @@ export const contents_get_all = (req, res, next) => {
             validFor: doc.validFor,
             tags: doc.tags,
             comments: doc.comments,
-            _id: doc._id
+            _id: doc._id,
           };
         }),
       };
@@ -38,10 +38,9 @@ export const contents_get_content = (req, res, next) => {
     // .select(" _id")
     .exec()
     .then((doc) => {
-      console.log("Gathered from database", doc);
       if (doc) {
         res.status(200).json({
-          content: doc
+          content: doc,
         });
       } else {
         res.status(404).json({
@@ -54,7 +53,7 @@ export const contents_get_content = (req, res, next) => {
       res.status(500).json({
         error: err,
       });
-    })
+    });
 };
 
 export const contents_update_content = (req, res, next) => {
@@ -180,4 +179,25 @@ export const create_content = (req, res, next) => {
           });
       }
     });
+};
+
+export const contents_get_by_user = async (req, res, next) => {
+  const userId = req.params.userId;
+  let resources;
+  try {
+    resources = await Content.find({ creator: userId });
+  } catch (err) {
+    res.status(500).json({
+      error: err,
+    });
+  }
+  if (resources) {
+    res.status(200).json({
+      user: resources,
+    });
+  } else {
+    res.status(404).json({
+      message: "No valid entry found for provided ID",
+    });
+  }
 };
