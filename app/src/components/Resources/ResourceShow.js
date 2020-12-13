@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { withRouter } from "react-router-dom";
+import { withRouter, Link } from "react-router-dom";
 
 import { ListGroup, Button, Image, Row, Col } from "react-bootstrap";
 
@@ -38,7 +38,15 @@ class ResourceShow extends Component {
                 {" "}
                 <a href={this.props.url}> Visualizza il contenuto completo</a>
               </ListGroup.Item>
-              <ListGroup.Item>Autore: {this.props.creatorName}</ListGroup.Item>
+              <ListGroup.Item>
+                Autore: {this.props.creatorName}{" "}
+                <Link to={`/users/${this.props.creator}`}>
+                  <Button variant="primary" className="ml-5">
+                    {" "}
+                    Visita per collaborare
+                  </Button>
+                </Link>
+              </ListGroup.Item>
               <ListGroup.Item>Data: {this.props.date}</ListGroup.Item>
               <ListGroup.Item>Titolo: {this.props.name}</ListGroup.Item>
               <br />

@@ -23,6 +23,7 @@ class ResourceAddNew extends Component {
     }
   }
 
+
   appContent = () => {
     this.setState({
       appunti: 'light',
@@ -49,7 +50,7 @@ class ResourceAddNew extends Component {
       description: this.state.description,
       image: this.state.image,
     };
-    
+
    Axios.post(`${process.env.REACT_APP_BACKEND_URL}/contents`, content)
     .then(res => {
       alert(res.data.message);

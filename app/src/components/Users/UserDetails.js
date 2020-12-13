@@ -1,7 +1,9 @@
-import React, { Component } from "react";
-import { Link, withRouter } from "react-router-dom";
-import InsertCreds from "./InsertCreds";
-import ResourceAddNew from "./ResourceAddNew";
+import React, { Component } from 'react';
+import { withRouter } from 'react-router-dom';
+import { Link } from 'react-router-dom';
+import InsertCreds from './InsertCreds';
+import ResourceAddNew from './ResourceAddNew'
+import './User.css';
 
 import Jumbotron from "react-bootstrap/esm/Jumbotron";
 import { Form, Table, Card, Accordion, Button } from "react-bootstrap";
@@ -139,36 +141,28 @@ class UserDetails extends Component {
   render() {
     const { user, contents, seen } = this.state;
     const { match } = this.props;
-    if (typeof user === typeof undefined) {
-      return (
-        <Jumbotron className="mx-5 my-5">
-          <h2>Sorry but that ID is missing :( </h2>
-          <Link to={"/users"}>Go back</Link>
-        </Jumbotron>
-      );
-    }
+    if( typeof(user) === typeof(undefined)) { 
+          return (
+            <Jumbotron className = 'profileInfo'>
+              <h2>Sorry but that ID is missing :( </h2>
+              <Link to = { '/users' }>
+                Go back
+              </Link>
+            </Jumbotron>
+          );
+        }
     return (
       <>
-        <Jumbotron className="mx-5 my-5">
-          <div
-            style={{
-              float: "right",
-              display: "flex",
-              justifyContent: "space",
-              margin: "0.5% 10%",
-            }}
-          >
-            <img
-              style={{ width: "160px", height: "160px", borderRadius: "80px" }}
-              src={user.profileImage}
-              alt={user.profileImage}
-            ></img>
-          </div>
-          <h3>
-            {user.firstName} {user.lastName}
-          </h3>
-
-          {localStorage.myId !== match.params.userId && localStorage.myId ? (
+        <div class='profileWindow'>
+          <div class='profileInfo'>
+            <div class='picture'>
+                    <img style={{width:"160px", height:"160px", borderRadius:"80px"}}
+                    src={user.profileImage}
+                    alt={user.profileImage}
+                    ></img>
+            </div>
+              <h3 class='title'> {user.firstName} {user.lastName} </h3>
+              {localStorage.myId !== match.params.userId && localStorage.myId ? (
             <>
               {this.state.myFollow.indexOf(this.state.user._id) === -1 ? (
                 <Form onSubmit={this.subscribe}>
@@ -185,55 +179,40 @@ class UserDetails extends Component {
           ) : (
             false
           )}
-          <h4>Dettagli utente</h4>
-          <p>e-mail: {user.email}</p>
-          <p>name: {user.firstName}</p>
-          <p>surname: {user.lastName}</p>
-          {typeof user.studentCreds !== "undefined" ? (
-            <>
-              <h4>Dati universitari</h4>
-              <p>Università: {user.studentCreds.university}</p>
-              <p>Corso di Laurea: {user.studentCreds.course}</p>
-              <p>Anno di corso: {user.studentCreds.year}</p>
-            </>
-          ) : null}
-          <h4>Contacts</h4>
-          <p>Website: {user.links.website}</p>
-          <p>contactEmail: {user.links.contactEmail}</p>
-          <p>linkedin: {user.links.linkedin}</p>
-          <p>gitHub: {user.links.gitHub}</p>
-          {localStorage.myId === match.params.userId ? (
-            <>
-              <Accordion>
-                <Card>
-                  <Card.Header>
-                    <Accordion.Toggle as={Button} variant="link" eventKey="0">
-                      Change Creds
-                    </Accordion.Toggle>
-                  </Card.Header>
-                  <Accordion.Collapse eventKey="0">
-                    <Card.Body>
-                      <InsertCreds
-                        userId={this.props.match.params.userId}
-                        user={this.state.user}
-                      />
-                    </Card.Body>
-                  </Accordion.Collapse>
-                </Card>
-              </Accordion>
+              { typeof(user.studentCreds) !== 'undefined' ? 
+                <>
+                  <p>Università: {user.studentCreds.university}</p>
+                  <p>Corso di Laurea: {user.studentCreds.course}</p>
+                  <p>Anno di corso: {user.studentCreds.year}</p>
+                </> 
+                
+              : null }
+              <h4 class='subtitle'>Contacts</h4>
+              <p class='subtitle'>contactEmail: {user.links.contactEmail}</p>
+              <p>
+                {typeof(user.links.website) !== 'undefined' ?
+                <a target = '_blank' className = 'ml-2' href = {`${user.links.website}`}>
+                <Button variant = 'light'> Sito web</Button>
+              </a>
+              : null }
+              {typeof(user.links.linkedin) !== 'undefined' ?
+                  
+                  <a target = '_blank' href = {`${user.links.linkedin}`}>
+                    <Button variant = 'light' className = 'ml-2'> Linkedin </Button>
+                  </a>
+              : null }
+              {typeof(user.links.gitHub) !== 'undefined' ?
 
-              <br />
-              <Button variant="primary" onClick={this.showAdd}>
-                Nuovo Contenuto
-              </Button>
-            </>
-          ) : null}
-
-          {seen ? (
-            <ResourceAddNew toggle={this.hideAdd} show={seen} match={match} />
-          ) : null}
-
-          <h3>Analytics</h3>
+                  <a target = '_blank' href = {`${user.links.gitHub}`}>
+                    <Button variant = 'light' className = 'ml-2'> Visit Github for collaboration </Button>
+                  </a>
+              : null }
+              </p>
+                
+                </div>
+              </div> 
+            {this.state.seen ? <ResourceAddNew  toggle = {this.hideAdd} show = {this.state.seen} match = {match}/> : null}
+            <h3>Analytics</h3>
           <Link to={`/users/${match.params.userId}/analytics`}>
             <Button variant="primary">Analytics</Button>
           </Link>
@@ -246,9 +225,32 @@ class UserDetails extends Component {
               </ListGroup.Item>
             ))}
           </ListGroup>
-        </Jumbotron>
-      </>
-    );
+         
+          {localStorage.myId === match.params.userId ?
+              <>
+                <Accordion>
+                  <Card>
+                    <Card.Header>
+                      <Accordion.Toggle as={Button} variant = 'link' eventKey = '0'>
+                        Change Creds
+                      </Accordion.Toggle>
+                    </Card.Header>
+                    <Accordion.Collapse eventKey = '0'>
+                      <Card.Body>
+                        <InsertCreds userId={this.props.match.params.userId} 
+                        user={this.state.user}
+                        />
+                      </Card.Body>
+                    </Accordion.Collapse>
+                  </Card> 
+                </Accordion>  
+
+                <br/>          
+                <Button variant = 'primary' onClick = {this.showAdd}> Nuovo Contenuto </Button>
+              </>
+              : null}
+      </> 
+    )
   }
 }
 
