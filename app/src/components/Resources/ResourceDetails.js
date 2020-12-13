@@ -16,6 +16,7 @@ import ResourceTag from "./ResourceTag";
 import ResourceShow from "./ResourceShow";
 import ResourceEdit from "./ResourceEdit";
 
+import {isInFavs, editFavourites, getFavourites} from './Favourites'
 class ResourceDetails extends Component {
   constructor(props) {
     super(props);
@@ -30,6 +31,7 @@ class ResourceDetails extends Component {
       reviewsDisplay: [],
       rate: 0,
       myUniOnly: false,
+      isFav: Boolean
     };
   }
 
@@ -51,6 +53,9 @@ class ResourceDetails extends Component {
         reviewsDisplay: json.content.comments,
       });
     }
+    this.setState({
+      isFav: isInFavs(this.state.resource._id)
+    });
   }
 
   handleSubmit = async (e) => {
@@ -206,6 +211,13 @@ class ResourceDetails extends Component {
       });
   };
 
+  setFav = () => {
+    editFavourites(this.state.resource._id)
+    this.setState({
+      isFav: isInFavs(this.state.resource._id)
+    });
+  }
+
   render() {
     const { resource } = this.state;
     if (localStorage.kind === "books") {
@@ -224,6 +236,11 @@ class ResourceDetails extends Component {
                   }
                   thumbnail
                 ></Image>
+              </ListGroup.Item>
+              <ListGroup.Item>
+                { localStorage.myId == null || localStorage.myId == '' ? null : 
+                <Button variant = { !this.state.isFav ? 'outline-primary' : 'primary' } onClick = {this.setFav} block> { !this.state.isFav ? 'Salva' : 'Rimuovi' } </Button> 
+                }
               </ListGroup.Item>
               <ListGroup.Item>{resource.author}</ListGroup.Item>
               <ListGroup.Item>{resource.title}</ListGroup.Item>
@@ -329,6 +346,9 @@ class ResourceDetails extends Component {
           <Jumbotron>
             <ListGroup>
               <h3>Content Info</h3>
+              { localStorage.myId == null || localStorage.myId == '' ? null : 
+                <Button variant = { !this.state.isFav ? 'outline-primary' : 'primary' } onClick = {this.setFav}> Salva </Button> 
+              }
               {this.state.edit ? (
                 <ResourceEdit
                   toggle={this.showEdit}

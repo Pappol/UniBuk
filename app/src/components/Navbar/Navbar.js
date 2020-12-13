@@ -26,6 +26,18 @@ export default class Navbar extends Component {
     });
   }
 
+  componentDidMount = () => {
+    if(localStorage.myId == null || localStorage.myId == '') {
+      this.setState({
+        logged: false
+      });
+    } else {
+      this.setState({
+        logged: true
+      });
+    }
+  }
+
   render() {
     return (
       <div>

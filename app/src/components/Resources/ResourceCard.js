@@ -5,16 +5,23 @@ import Card from 'react-bootstrap/Card'
 import Button from 'react-bootstrap/Button'
 import { Link, withRouter } from 'react-router-dom';
 
+import {isInFavs, editFavourites, getFavourites, favs} from './Favourites'
+
 class ResourceCard extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      creatorName: String
+      creatorName: String,
+      isFav: Boolean
     };
   }
 
-  componentDidMount() {
+  async componentDidMount() {
     this.getCreatorName();
+    await getFavourites();
+    await this.setState({
+      isFav: isInFavs(this.props.resource._id)
+    });
   }
 
   getCreatorName = async () => {
@@ -31,8 +38,15 @@ class ResourceCard extends Component {
     }
   }
 
+  editFavs = async () => {
+    await editFavourites(this.props.resource._id);
+    await this.setState({
+      isFav: isInFavs(this.props.resource._id)
+    });
+  }
+
   render() {
-    const { resource, match } = this.props;
+    const { resource, match, isFav } = this.props;
     return (
       <Card className='mb-4 box-shadow'>
         <Card.Header>{resource.author}{this.state.creatorName}</Card.Header>
@@ -41,9 +55,10 @@ class ResourceCard extends Component {
           <Card.Title>{resource.title}{resource.name}</Card.Title>
           <Card.Subtitle className="mb-2 text-muted">{resource.date}{resource.year}</Card.Subtitle>
           <Card.Text>{resource.description}</Card.Text>
-          <Link to={`${match.path}/${resource._id}`}>
-            <Button variant="primary">Visualizza</Button>
-          </Link>
+          <Link to={{pathname: `${match.path}/${resource._id}`}}> <Button variant="primary" className = 'mr-2'>Visualizza</Button> </Link>
+          { localStorage.myId == null || localStorage.myId == '' ? null :
+              <Button variant = { !this.state.isFav ? 'outline-primary' : 'primary' } onClick = {this.editFavs}> { !this.state.isFav ? 'Salva' : 'Rimuovi' } </Button> 
+          }
         </Card.Body>
       </Card>
     );
