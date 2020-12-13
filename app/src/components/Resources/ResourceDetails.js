@@ -16,6 +16,7 @@ import ResourceTag from "./ResourceTag";
 import ResourceShow from "./ResourceShow";
 import ResourceEdit from "./ResourceEdit";
 
+import {isInFavs, editFavourites, getFavourites} from './Favourites'
 class ResourceDetails extends Component {
   constructor(props) {
     super(props);
@@ -30,7 +31,7 @@ class ResourceDetails extends Component {
       reviewsDisplay: [],
       rate: 0,
       myUniOnly: false,
-      isFav: this.props.location.query.isFav
+      isFav: Boolean
     };
   }
 
@@ -52,6 +53,9 @@ class ResourceDetails extends Component {
         reviewsDisplay: json.content.comments,
       });
     }
+    this.setState({
+      isFav: isInFavs(this.state.resource._id)
+    });
   }
 
   handleSubmit = async (e) => {
@@ -208,9 +212,9 @@ class ResourceDetails extends Component {
   };
 
   setFav = () => {
-    this.props.location.query.toggleSave();
+    editFavourites(this.state.resource._id)
     this.setState({
-      isFav: !this.state.isFav
+      isFav: isInFavs(this.state.resource._id)
     });
   }
 

@@ -10,6 +10,8 @@ import { withRouter } from "react-router-dom";
 import Jumbotron from "react-bootstrap/esm/Jumbotron";
 import axios from 'axios'
 
+import {isInFavs, editFavourites, getFavourites, favs, setFavourites, toShow} from './Favourites'
+
 // var resourcePage;
 
 class Resources extends Component {
@@ -23,9 +25,13 @@ class Resources extends Component {
     };
   }
 
-  componentDidMount() {
+  async componentDidMount() {
     this.getResources(localStorage.kind || "books");
-    this.getFavourites();
+    await getFavourites();
+    await this.setState({
+      favourites: favs
+    });
+    await console.log(this.state.favourites)
   }
 
   getResources = async (kind) => {
@@ -48,90 +54,19 @@ class Resources extends Component {
     }
   };
 
-  getFavourites = async () => {
-    if(localStorage.myId === null || localStorage.myId === '') {
-      this.setState({
-        favourites: null,
-      });
-    } else {
-      const usrRes = await fetch(`${process.env.REACT_APP_BACKEND_URL}/user/${localStorage.myId}`);
-      const json = await usrRes.json();
-      const favs = await json.user.favourites;
-      this.setState({
-        favourites: favs
-      });
-    }
-  };
+  setFavsStatus = async () => {
+    await getFavourites();
+    await this.setState({
+      favourites: favs
+    });
+  }
 
   setFavourites = async (kind) => {
-    const favs = this.state.favourites;
-    let favResources = [];
-
-    for( const fav of favs) {
-      const res = await fetch(`${process.env.REACT_APP_BACKEND_URL}/${kind}/${fav}`);
-      const jres = await res.json();
-
-      if(typeof(jres.message) === 'undefined' && kind === 'books') {
-        favResources.push(jres.book);
-      }
-
-      if(typeof(jres.message) === 'undefined' && kind === 'contents') {
-        favResources.push(jres.content);
-      }
-    }
-    this.setState({
-      resources: favResources,
-      watchingFavs: true
-    });
-    console.log('favs set')
-  }
-
-  isInFavs = (id) => {
-    let favs = this.state.favourites;
-    const i = favs.indexOf(id);
-    if(i >= 0) {
-      return true
-    } else {
-      return false
-    }
-  }
-
-  editFavourites = async (id) => {
-    let favs = this.state.favourites;
-    const i = favs.indexOf(id);
-
-    if(i >= 0) {
-      favs.splice(i, 1);
-    } else {
-      favs.push(id);
-    }
-    this.setState({
-      favourites: favs,
-    });
-
-    const data = [{
-      'propName': 'favourites',
-      'value': favs
-    }]
-    const token = "Bearer " + localStorage.token;
-    const headers = {
-      'Content-type': 'application/json',
-      'Authorization': token
-    }
-
-    axios.patch(`${process.env.REACT_APP_BACKEND_URL}/user/${localStorage.myId}`, data, {
-      headers: headers
-    })
-    .then(res => {
-      console.log(res);
-    })
-    .catch(err => {
-      console.log(err);
-    });
-
-    if(this.state.watchingFavs){
-      this.setFavourites(localStorage.kind)
-    }
+    await setFavourites(kind)
+    await this.setState({
+        resources: toShow,
+        watchingFavs: true
+      });
   }
 
   // getResourcePage = () => {
@@ -165,7 +100,7 @@ class Resources extends Component {
               <Row>
                 {resources.map(resource => (
                   <Col className="col-sm-12 col-md-6 col-lg-4" key={resource._id}>
-                    <ResourceCard resource={resource} fav = {this.editFavourites} isFav = {this.isInFavs(resource._id)}/>
+                    <ResourceCard resource={resource} />
                   </Col>
                 ))}
               </Row>
