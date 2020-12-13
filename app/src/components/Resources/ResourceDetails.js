@@ -1,5 +1,5 @@
-import React, { Component } from 'react';
-import { withRouter, Link } from 'react-router-dom';
+import React, { Component } from "react";
+import { withRouter, Link } from "react-router-dom";
 
 import axios from "axios";
 import Jumbotron from "react-bootstrap/Jumbotron";
@@ -15,6 +15,7 @@ import QA from "./QA";
 import ResourceTag from "./ResourceTag";
 import ResourceShow from "./ResourceShow";
 import ResourceEdit from "./ResourceEdit";
+import Axios from "axios";
 
 class ResourceDetails extends Component {
   constructor(props) {
@@ -50,6 +51,9 @@ class ResourceDetails extends Component {
         resource: json.content,
         reviewsDisplay: json.content.comments,
       });
+      Axios.post(
+        `${process.env.REACT_APP_BACKEND_URL}/${localStorage.kind}/${match.params.resourceId}/addView`
+      );
     }
   }
 

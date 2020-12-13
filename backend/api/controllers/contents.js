@@ -201,3 +201,20 @@ export const contents_get_by_user = async (req, res, next) => {
     });
   }
 };
+
+export const content_add_view = async (req, res, next) => {
+  const contentId = req.params.contentId;
+  let resources;
+  try {
+    await Content.findByIdAndUpdate({ _id: contentId }, { $inc: { views: 1 } });
+  } catch (err) {
+    console.log("POST", err)
+    res.status(500).json({
+      error: err,
+    });
+    return;
+  }
+  res.status(200).json({
+    user: resources,
+  });
+};

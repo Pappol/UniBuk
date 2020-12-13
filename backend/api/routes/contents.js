@@ -31,10 +31,11 @@ const upload = multer({
     fileFilter: fileFilter
 });
 
-import { contents_get_all, contents_get_content, create_content, edit_content, contents_update_content, contents_add_answer } from '../controllers/contents.js';
+import { contents_get_all, contents_get_content, create_content, edit_content, contents_update_content, contents_add_answer, content_add_view } from '../controllers/contents.js';
 
 router.get('/', contents_get_all);
 router.get('/:contentId', contents_get_content);
+router.post('/:contentId/addView', content_add_view);
 router.post('/', create_content);
 router.patch('/:contentId', edit_content);
 router.patch('/add/:contentId/', checkAuth, contents_update_content);

@@ -130,6 +130,11 @@ class UserDetails extends Component {
             <ResourceAddNew toggle={this.hideAdd} show={seen} match={match} />
           ) : null}
 
+          <h3>Analytics</h3>
+          <Link to={`/users/${match.params.userId}/analytics`}>
+            <Button variant="primary">Analytics</Button>
+          </Link>
+
           {contents.length ? <h3>Resources</h3> : null}
           <ListGroup>
             {contents.map((content) => (
