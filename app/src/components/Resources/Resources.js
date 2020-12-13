@@ -1,16 +1,9 @@
 import React, { Component } from "react";
-import Button from "react-bootstrap/Button";
-import Col from "react-bootstrap/Col";
-import Container from "react-bootstrap/Container";
-import Row from "react-bootstrap/Row";
-import { Link, Route, Switch } from "react-router-dom";
+import { Button, Col, Container, Dropdown, Row } from "react-bootstrap";
+import { Link, Route, Switch, withRouter } from "react-router-dom";
+import { favs, getFavourites, setFavourites, toShow } from "./Favourites";
 import ResourceCard from "./ResourceCard";
 import ResourceDetails from "./ResourceDetails";
-import { withRouter } from "react-router-dom";
-import Jumbotron from "react-bootstrap/esm/Jumbotron";
-import axios from 'axios'
-
-import {isInFavs, editFavourites, getFavourites, favs, setFavourites, toShow} from './Favourites'
 
 // var resourcePage;
 
@@ -22,7 +15,7 @@ class Resources extends Component {
       resources: [],
       myFollow: [],
       favourites: [],
-      watchingFavs: false
+      watchingFavs: false,
     };
   }
 
@@ -32,10 +25,9 @@ class Resources extends Component {
       this.mountFeed();
     }
     await getFavourites();
-    await this.setState({
-      favourites: favs
+    this.setState({
+      favourites: favs,
     });
-    await console.log(this.state.favourites)
   }
 
   mountFeed = async () => {
@@ -60,14 +52,14 @@ class Resources extends Component {
       this.setState({
         type: "book",
         resources: json.books,
-        watchingFavs: false
+        watchingFavs: false,
       });
       localStorage.setItem("kind", "books");
     } else if (kind === "contents") {
       this.setState({
         type: "content",
         resources: json.contents,
-        watchingFavs: false
+        watchingFavs: false,
       });
       localStorage.setItem("kind", "contents");
     }
@@ -75,17 +67,23 @@ class Resources extends Component {
 
   setFavsStatus = async () => {
     await getFavourites();
-    await this.setState({
-      favourites: favs
+    this.setState({
+      favourites: favs,
     });
-  }
+  };
 
   setFavourites = async (kind) => {
-    await setFavourites(kind)
+    await setFavourites(kind);
     this.setState({
-        resources: toShow,
-        watchingFavs: true
-      });
+      resources: toShow,
+      watchingFavs: true,
+    });
+  };
+
+  fileterByUniversity = async (university) => {
+    const kind = localStorage.kind;
+    const res = await fetch(`${process.env.REACT_APP_BACKEND_URL}/search/university/${kind}/${university}`);
+    console.log("res", res);
   }
 
   render() {
@@ -94,25 +92,49 @@ class Resources extends Component {
       <Switch>
         <Route exact path="/resources">
           <Container className="p-0" fluid="md">
-            <h1>All Resources</h1>
-            <Button variant="primary" className = 'mr-2 mb-2' onClick={() => this.getResources("books")}>
+            <h1>Resources</h1>
+            <Button
+              variant="primary"
+              className="mr-2 mb-2"
+              onClick={() => this.getResources("books")}
+            >
               Libri
             </Button>
-            <Button variant="primary" className = 'mr-2 mb-2' onClick={() => this.getResources("contents")}>
+            <Button
+              variant="primary"
+              className="mr-2 mb-2"
+              onClick={() => this.getResources("contents")}
+            >
               Contenuti
             </Button>
-            {localStorage.myId == null || localStorage.myId == ''  ? null :
-            <Button variant = 'primary' className = 'mr-2 mb-2' onClick = {() => this.setFavourites(localStorage.kind)}>
-              {this.state.type} Salvati
-            </Button>
-            }
-              <Row>
-                {resources.map(resource => (
-                  <Col className="col-sm-12 col-md-6 col-lg-4" key={resource._id}>
-                    <ResourceCard resource={resource} />
-                  </Col>
-                ))}
-              </Row>
+            {localStorage.myId == null || localStorage.myId === "" ? null : (
+              <Button
+                variant="primary"
+                className="mr-2 mb-2"
+                onClick={() => this.setFavourites(localStorage.kind)}
+              >
+                Salvati
+              </Button>
+            )}
+            <Dropdown>
+              <Dropdown.Toggle variant="success" id="dropdown-basic">
+                Filtra per unviersità
+              </Dropdown.Toggle>
+
+              <Dropdown.Menu>
+                <Dropdown.Item onClick={() => {this.fileterByUniversity("UNI1")}}>UNI1</Dropdown.Item>
+                <Dropdown.Item onClick={() => {this.fileterByUniversity("UNI2")}}>UNI2</Dropdown.Item>
+                <Dropdown.Item onClick={() => {this.fileterByUniversity("UNI3")}}>UNI3</Dropdown.Item>
+                <Dropdown.Item onClick={() => {this.fileterByUniversity("UNI4")}}>UNI4</Dropdown.Item>
+              </Dropdown.Menu>
+            </Dropdown>
+            <Row>
+              {resources.map((resource) => (
+                <Col className="col-sm-12 col-md-6 col-lg-4" key={resource._id}>
+                  <ResourceCard resource={resource} />
+                </Col>
+              ))}
+            </Row>
           </Container>
         </Route>
         <Route exact path="/feed">

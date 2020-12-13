@@ -39,3 +39,11 @@ export const queryAll = async (req, res) => {
     users: users
   });
 }
+
+export const queryUniversity = async (req, res) => {
+  const { university, kind } = req.params;
+  console.log("UNIVERSITY", university, kind);
+  if(kind === "books") {
+    Book.find({validFor: {}})
+  }
+}
