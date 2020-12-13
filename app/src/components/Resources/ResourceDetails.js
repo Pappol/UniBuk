@@ -10,6 +10,7 @@ import {
   Button,
   Col,
   Row,
+  Spinner,
 } from "react-bootstrap";
 import StarRatings from "react-star-ratings";
 
@@ -20,7 +21,7 @@ import ResourceShow from "./ResourceShow";
 import ResourceEdit from "./ResourceEdit";
 import Axios from "axios";
 
-import { isInFavs, editFavourites, getFavourites } from "./Favourites";
+import { isInFavs, editFavourites } from "./Favourites";
 class ResourceDetails extends Component {
   constructor(props) {
     super(props);
@@ -41,30 +42,36 @@ class ResourceDetails extends Component {
   }
 
   async componentDidMount() {
-    console.log(this.props);
+    this.setState({
+      isFav: isInFavs(this.state.resource._id),
+    });
     const { match } = this.props;
-    const res = await fetch(
-      `${process.env.REACT_APP_BACKEND_URL}/${localStorage.kind}/${match.params.resourceId}`
+    let res = await fetch(
+      `${process.env.REACT_APP_BACKEND_URL}/books/${match.params.resourceId}`
     );
-    const json = await res.json();
-    if (localStorage.kind === "books") {
+    let json = await res.json();
+    if (json.book) {
       this.setState({
         resource: json.book,
         reviewsDisplay: json.book.comments,
       });
-    } else if (localStorage.kind === "contents") {
+      return;
+    }
+    // If no book is found
+    res = await fetch(
+      `${process.env.REACT_APP_BACKEND_URL}/contents/${match.params.resourceId}`
+    );
+    json = await res.json();
+    if (json.content) {
       this.setState({
         resource: json.content,
         reviewsDisplay: json.content.comments,
       });
       Axios.post(
-        `${process.env.REACT_APP_BACKEND_URL}/${localStorage.kind}/${match.params.resourceId}/addView`
+        `${process.env.REACT_APP_BACKEND_URL}/contents/${match.params.resourceId}/addView`
       );
       await this.getCreatorName(this.state.resource.creator);
     }
-    this.setState({
-      isFav: isInFavs(this.state.resource._id),
-    });
   }
 
   handleSubmit = async (e) => {
@@ -163,7 +170,7 @@ class ResourceDetails extends Component {
   showMyUni = async (e) => {
     if (this.state.myUniOnly) {
       this.state.myUniOnly = false;
-      await this.setState({
+      this.setState({
         reviewsDisplay: this.state.resource.comments,
       });
     } else {
@@ -178,7 +185,7 @@ class ResourceDetails extends Component {
           temp_review = await [...temp_review, review];
         }
       }
-      await this.setState({
+      this.setState({
         reviewsDisplay: temp_review,
       });
     }
@@ -241,7 +248,7 @@ class ResourceDetails extends Component {
 
   render() {
     const { resource } = this.state;
-    if (localStorage.kind === "books") {
+    if (resource.kind === "book") {
       return (
         <div>
           <Jumbotron className="mx-md-5 my-4 pt-3">
@@ -390,7 +397,7 @@ class ResourceDetails extends Component {
           </Jumbotron>
         </div>
       );
-    } else if (localStorage.kind === "contents") {
+    } else if (resource.name) {
       return (
         <div>
           <Jumbotron className="mx-md-5 my-4 pt-3">
@@ -544,7 +551,11 @@ class ResourceDetails extends Component {
         </div>
       );
     } else {
-      return <div>Resource not found</div>;
+      return (
+        <Spinner animation="border" role="status">
+          <span className="sr-only">Loading...</span>
+        </Spinner>
+      );
     }
   }
 }
