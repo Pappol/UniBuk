@@ -39,7 +39,6 @@ export default class InsertCreds extends Component {
     ];
     console.table(data);
     console.table(headers);
-    // console.log(token);
     axios.patch(`${process.env.REACT_APP_BACKEND_URL}/user/${this.props.userId}`, data, {
       headers: headers
     })

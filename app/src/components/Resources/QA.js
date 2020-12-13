@@ -29,7 +29,6 @@ export default class QA extends Component {
     const data = {
       text: this.myAnswer,
     };
-    console.log(this.props);
     axios
       .patch(
         `${process.env.REACT_APP_BACKEND_URL}/${localStorage.kind}/${this.props.rId}/questions/${question._id}`,

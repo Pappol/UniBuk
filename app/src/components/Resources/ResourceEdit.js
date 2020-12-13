@@ -69,7 +69,6 @@ class ResourceEdit extends Component {
     //cambio render
     this.props.change(content);
     this.props.toggle();
-    console.log('changed')
   }  
 
   render() {

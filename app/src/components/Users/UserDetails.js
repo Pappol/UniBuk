@@ -131,7 +131,6 @@ class UserDetails extends Component {
         console.log(err);
       });
     // localStorage.setItem("myFollow", JSON.stringify(newFollow));
-    // console.log(localStorage.myfollow);
     this.setState({
       myFollow: newFollow,
     });

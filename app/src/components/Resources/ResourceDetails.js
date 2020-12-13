@@ -95,8 +95,6 @@ class ResourceDetails extends Component {
         tags: taggg,
       },
     }));
-
-    console.log(this.state);
   };
 
   showEdit = () => {
@@ -106,7 +104,6 @@ class ResourceDetails extends Component {
   };
 
   changeState = (newState) => {
-    console.log(newState);
     this.setState((prevState) => ({
       resource: {
         ...prevState.resource,
@@ -128,7 +125,6 @@ class ResourceDetails extends Component {
 
   addReview = async (e) => {
     e.preventDefault();
-    console.log("should add the review");
     const token = "Bearer " + localStorage.token;
     const headers = {
       "Content-type": "application/json",
@@ -229,7 +225,7 @@ class ResourceDetails extends Component {
     if (localStorage.kind === "books") {
       return (
         <div>
-          <Jumbotron className="mx-5 my-5">
+          <Jumbotron className="mx-md-5 my-4 pt-3">
             <ListGroup variant="flush" className="bg-transparent text-dark">
               <h3>Book Info</h3>
               <ListGroup.Item>
@@ -355,7 +351,7 @@ class ResourceDetails extends Component {
     } else if (localStorage.kind === "contents") {
       return (
         <div>
-          <Jumbotron>
+          <Jumbotron className="mx-md-5 my-4 pt-3">
             <ListGroup>
               <h3>Content Info</h3>
               {localStorage.myId == null || localStorage.myId == "" ? null : (
@@ -390,7 +386,7 @@ class ResourceDetails extends Component {
                 />
               )}
               <p />
-
+              <br />
               <h3>Tag</h3>
               <ListGroup horizontal>
                 {resource.tags.map((tag) => (

@@ -56,8 +56,6 @@ class UserDetails extends Component {
       );
     }
 
-    console.log("CONTENTS", this.state.contents);
-
     return (
       <>
         <Jumbotron className="mx-5 my-5">

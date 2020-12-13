@@ -82,7 +82,7 @@ class Resources extends Component {
 
   setFavourites = async (kind) => {
     await setFavourites(kind)
-    await this.setState({
+    this.setState({
         resources: toShow,
         watchingFavs: true
       });
@@ -90,7 +90,6 @@ class Resources extends Component {
 
   render() {
     const { resources } = this.state;
-    //console.log(this.state)
     return (
       <Switch>
         <Route exact path="/resources">
