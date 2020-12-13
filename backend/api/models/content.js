@@ -41,6 +41,10 @@ const contentSchema = mongoose.Schema({
     type: String,
     required: true
   },
+  views: {
+    type: Number,
+    default: 0
+  },
   validFor: [
     {
       university: String,

@@ -1,21 +1,19 @@
 import React, { Component } from "react";
-import { withRouter } from "react-router-dom";
-import { Link } from "react-router-dom";
+import { Link, withRouter } from "react-router-dom";
 import InsertCreds from "./InsertCreds";
 import ResourceAddNew from "./ResourceAddNew";
 
-import Button from "react-bootstrap/Button";
 import Jumbotron from "react-bootstrap/esm/Jumbotron";
-import Accordion from "react-bootstrap/Accordion";
-import Card from "react-bootstrap/Card";
-import { Form, Table } from "react-bootstrap";
+import { Form, Table, Card, Accordion, Button } from "react-bootstrap";
 import Axios from "axios";
 import { Login } from "../Auth/login";
+import { ListGroup, Spinner } from "react-bootstrap";
 
 class UserDetails extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      contents: [],
       seen: false,
       user: {
         studentCreds: {},
@@ -28,7 +26,6 @@ class UserDetails extends Component {
 
   async componentDidMount() {
     const { match } = this.props;
-    console.log(this.props);
     const res = await fetch(
       `${process.env.REACT_APP_BACKEND_URL}/user/${match.params.userId}`
     );
@@ -39,6 +36,13 @@ class UserDetails extends Component {
     if (localStorage.myId) {
       this.getFollow();
     }
+    const resContents = await fetch(
+      `${process.env.REACT_APP_BACKEND_URL}/user/${match.params.userId}/contents`
+    );
+    const jsonContents = await resContents.json();
+    this.setState({
+      contents: jsonContents.resources,
+    });
   }
 
   getFollow = async () => {
@@ -134,7 +138,7 @@ class UserDetails extends Component {
   };
 
   render() {
-    const { user } = this.state;
+    const { user, contents, seen } = this.state;
     const { match } = this.props;
     if (typeof user === typeof undefined) {
       return (
@@ -158,6 +162,7 @@ class UserDetails extends Component {
             <img
               style={{ width: "160px", height: "160px", borderRadius: "80px" }}
               src={user.profileImage}
+              alt={user.profileImage}
             ></img>
           </div>
           <h3>
@@ -220,18 +225,28 @@ class UserDetails extends Component {
 
               <br />
               <Button variant="primary" onClick={this.showAdd}>
-                {" "}
-                Nuovo Contenuto{" "}
+                Nuovo Contenuto
               </Button>
             </>
           ) : null}
-          {this.state.seen ? (
-            <ResourceAddNew
-              toggle={this.hideAdd}
-              show={this.state.seen}
-              match={match}
-            />
+
+          {seen ? (
+            <ResourceAddNew toggle={this.hideAdd} show={seen} match={match} />
           ) : null}
+
+          <h3>Analytics</h3>
+          <Link to={`/users/${match.params.userId}/analytics`}>
+            <Button variant="primary">Analytics</Button>
+          </Link>
+
+          {contents.length ? <h3>Resources</h3> : null}
+          <ListGroup>
+            {contents.map((content) => (
+              <ListGroup.Item key={user._id}>
+                <Link to={`/resources/${content._id}`}>{content.name}</Link>
+              </ListGroup.Item>
+            ))}
+          </ListGroup>
         </Jumbotron>
       </>
     );

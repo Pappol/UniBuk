@@ -1,13 +1,15 @@
-import React, { Component } from 'react';
-import { withRouter, Link } from 'react-router-dom';
+import React, { Component } from "react";
+import { withRouter, Link } from "react-router-dom";
 
 import axios from "axios";
-import Jumbotron from "react-bootstrap/Jumbotron";
-import ListGroup from "react-bootstrap/ListGroup";
-import Image from "react-bootstrap/Image";
-import Form from "react-bootstrap/Form";
-import Button from "react-bootstrap/Button";
-import Col from "react-bootstrap/Col";
+import {
+  Jumbotron,
+  ListGroup,
+  Image,
+  Form,
+  Button,
+  Col,
+} from "react-bootstrap";
 import StarRatings from "react-star-ratings";
 
 import Review from "./Review";
@@ -15,8 +17,9 @@ import QA from "./QA";
 import ResourceTag from "./ResourceTag";
 import ResourceShow from "./ResourceShow";
 import ResourceEdit from "./ResourceEdit";
+import Axios from "axios";
 
-import {isInFavs, editFavourites, getFavourites} from './Favourites'
+import { isInFavs, editFavourites, getFavourites } from "./Favourites";
 class ResourceDetails extends Component {
   constructor(props) {
     super(props);
@@ -31,7 +34,7 @@ class ResourceDetails extends Component {
       reviewsDisplay: [],
       rate: 0,
       myUniOnly: false,
-      isFav: Boolean
+      isFav: Boolean,
     };
   }
 
@@ -52,9 +55,12 @@ class ResourceDetails extends Component {
         resource: json.content,
         reviewsDisplay: json.content.comments,
       });
+      Axios.post(
+        `${process.env.REACT_APP_BACKEND_URL}/${localStorage.kind}/${match.params.resourceId}/addView`
+      );
     }
     this.setState({
-      isFav: isInFavs(this.state.resource._id)
+      isFav: isInFavs(this.state.resource._id),
     });
   }
 
@@ -212,11 +218,11 @@ class ResourceDetails extends Component {
   };
 
   setFav = () => {
-    editFavourites(this.state.resource._id)
+    editFavourites(this.state.resource._id);
     this.setState({
-      isFav: isInFavs(this.state.resource._id)
+      isFav: isInFavs(this.state.resource._id),
     });
-  }
+  };
 
   render() {
     const { resource } = this.state;
@@ -238,9 +244,15 @@ class ResourceDetails extends Component {
                 ></Image>
               </ListGroup.Item>
               <ListGroup.Item>
-                { localStorage.myId == null || localStorage.myId == '' ? null : 
-                <Button variant = { !this.state.isFav ? 'outline-primary' : 'primary' } onClick = {this.setFav} block> { !this.state.isFav ? 'Salva' : 'Rimuovi' } </Button> 
-                }
+                {localStorage.myId == null || localStorage.myId == "" ? null : (
+                  <Button
+                    variant={!this.state.isFav ? "outline-primary" : "primary"}
+                    onClick={this.setFav}
+                    block
+                  >
+                    {!this.state.isFav ? "Salva" : "Rimuovi"}
+                  </Button>
+                )}
               </ListGroup.Item>
               <ListGroup.Item>{resource.author}</ListGroup.Item>
               <ListGroup.Item>{resource.title}</ListGroup.Item>
@@ -346,9 +358,14 @@ class ResourceDetails extends Component {
           <Jumbotron>
             <ListGroup>
               <h3>Content Info</h3>
-              { localStorage.myId == null || localStorage.myId == '' ? null : 
-                <Button variant = { !this.state.isFav ? 'outline-primary' : 'primary' } onClick = {this.setFav}> Salva </Button> 
-              }
+              {localStorage.myId == null || localStorage.myId == "" ? null : (
+                <Button
+                  variant={!this.state.isFav ? "outline-primary" : "primary"}
+                  onClick={this.setFav}
+                >
+                  Salva
+                </Button>
+              )}
               {this.state.edit ? (
                 <ResourceEdit
                   toggle={this.showEdit}
@@ -488,7 +505,7 @@ class ResourceDetails extends Component {
         </div>
       );
     } else {
-      return <div>aaaaa</div>;
+      return <div>Resource not found</div>;
     }
   }
 }

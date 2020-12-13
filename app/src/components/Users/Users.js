@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import { Route, Switch, withRouter } from "react-router-dom";
 import { Jumbotron, Form, Button } from "react-bootstrap";
 import UserDetails from "./UserDetails";
-
+import UserAnalytics from "./UserAnalytics";
 class Users extends Component {
   constructor(props) {
     super(props);
@@ -16,10 +16,13 @@ class Users extends Component {
     const { match } = this.props;
     return (
       <Switch>
+        <Route path={`${match.path}/:userId/analytics`}>
+          <UserAnalytics />
+        </Route>
+
         <Route path={`${match.path}/:userId`}>
           <UserDetails />
         </Route>
-
         <Route path={match.path}>
           <Jumbotron className="mx-5">
             <Form.Label>Inserisci un ID</Form.Label>

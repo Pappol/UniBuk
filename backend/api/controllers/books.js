@@ -40,7 +40,6 @@ export const books_get_book = (req, res, next) => {
     // .select("isbn title author description _id validFor")
     .exec()
     .then((doc) => {
-      console.log("Gathered from database", doc);
       if (doc) {
         res.status(200).json({
           book: doc,

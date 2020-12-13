@@ -13,8 +13,8 @@ class Home extends Component {
   }
 
   goToSearch(event) {
+    // If pressed key is Enter
     if (event.charCode === 13) {
-      console.log("ENTER")
       this.props.history.push(`search/${this.state.searchId}`);
     }
   }

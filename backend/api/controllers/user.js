@@ -1,7 +1,8 @@
-import mongoose from 'mongoose';
-import bcrypt from 'bcrypt';
+import mongoose from "mongoose";
+import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
-import User from '../models/user.js';
+import User from "../models/user.js";
+import Content from "../models/content.js";
 
 export const users_get_user = (req, res, next) => {
   const id = req.params.userId;
@@ -9,7 +10,6 @@ export const users_get_user = (req, res, next) => {
     // .select("firstName lastName _id validFor")
     .exec()
     .then((doc) => {
-      console.log("Gathered from database", doc);
       if (doc) {
         res.status(200).json({
           user: doc,
@@ -200,4 +200,19 @@ export const user_delete = (req, res, next) => {
         error: err,
       });
     });
+};
+
+export const user_get_contents = async (req, res, next) => {
+  const userId = req.params.userId;
+  let resources;
+  try {
+    resources = await Content.find({ creator: userId });
+  } catch (err) {
+    res.status(500).json({
+      error: err,
+    });
+  }
+  res.status(200).json({
+    resources: resources,
+  });
 };
