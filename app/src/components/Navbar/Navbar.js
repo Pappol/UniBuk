@@ -42,20 +42,21 @@ export default class Navbar extends Component {
     return (
       <div>
 
-        <NavbarBt bg = 'primary' variant = 'dark' fixed = 'top'>
+        <NavbarBt bg = 'primary' variant = 'dark' fixed = 'top' collapseOnSelect expand="md">
 
           <Link to="/"> <NavbarBt.Brand>UniBuk</NavbarBt.Brand> </Link>
+          <NavbarBt.Toggle aria-controls="responsive-navbar-nav" />
+          <NavbarBt.Collapse id="responsive-navbar-nav">
+            <Nav className = 'mr-auto'>
+              <Nav.Link as = {NavLink} to = '/resources' className = 'mr-2'> Resources </Nav.Link>  
+              <Nav.Link as = {NavLink} to = '/feed' className = 'mr-2'> Feed </Nav.Link>  
+              <Nav.Link as = {NavLink} to = '/about' className = 'mr-2'> About </Nav.Link>  
+            </Nav>
 
-          <Nav className = 'mr-auto'>
-            <Nav.Link as = {NavLink} to = '/resources' className = 'mr-2'> Resources </Nav.Link>  
-            <Nav.Link as = {NavLink} to = '/feed' className = 'mr-2'> Feed </Nav.Link>  
-            <Nav.Link as = {NavLink} to = '/about' className = 'mr-2'> About </Nav.Link>  
-          </Nav>
-
-          <Nav>           
-            { this.state.logged ? <LoggedButton toggle = {this.toggle} /> : <GuestButtons toggle = {this.toggle} /> }
-          </Nav>
-
+            <Nav>           
+              { this.state.logged ? <LoggedButton toggle = {this.toggle} /> : <GuestButtons toggle = {this.toggle} /> }
+            </Nav>
+          </NavbarBt.Collapse>
         </NavbarBt>
 
       </div>
