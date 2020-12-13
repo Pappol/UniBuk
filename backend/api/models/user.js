@@ -58,10 +58,22 @@ const userSchema = mongoose.Schema({
     }
   ],
   links:{
-      website: String,
-      contactEmail: String,
-      linkedin: String,
-      gitHub: String
+      website: {
+        type: String,
+        default: ""
+      },
+      contactEmail: {
+        type: String,
+        default: ""
+      },
+      linkedin: {
+        type: String,
+        default: ""
+      },
+      gitHub: {
+        type: String,
+        default: ""
+      },
     },
   profileImage:{
     type: String
