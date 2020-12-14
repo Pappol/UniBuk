@@ -381,10 +381,10 @@ class ResourceDetails extends Component {
               ) : (
                 <>
                   <p>
-                    Effettua il{" "}
+                    Effettua il
                     <Link to="/user/login" className="text-primary">
                       login
-                    </Link>{" "}
+                    </Link>
                     per scrivere una recensione
                   </p>
                 </>
