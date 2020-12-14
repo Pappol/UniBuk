@@ -132,7 +132,9 @@ export const user_update = (req, res, next) => {
   const id = req.params.userId;
   const updateOps = {};
   for (const ops of req.body) {
-    updateOps[ops.propName] = ops.value;
+    if (!_.isEmpty(updateOps[ops.propName])){
+      updateOps[ops.propName] = ops.value;
+    }
   }
   User.update(
     {

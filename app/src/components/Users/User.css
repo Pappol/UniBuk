@@ -6,6 +6,7 @@
     text-align:left;
 }
 .profileWindow{
+    margin: 1vw;
     min-width: 20vw;
     color:white;
     text-shadow: black;
@@ -18,7 +19,7 @@
     float: right;
 }
 .profileInfo{
-    margin: 10;
+    margin: 1vw;
 }
 .picture{
     position: center;

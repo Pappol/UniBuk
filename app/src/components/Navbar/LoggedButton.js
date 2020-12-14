@@ -46,7 +46,7 @@ export default class LoggedButton extends Component {
       <Form inline>
         <Nav.Link as={NavLink} to={`/users/${localStorage.myId}`}>
         <img
-          style={{ width: "35px", height: "35px", borderRadius: "80px" }}
+          style={{ width: "30px", height: "30px", borderRadius: "80px" }}
           src={this.state.profileImage}
           alt={this.state.profileImage}
         ></img>
