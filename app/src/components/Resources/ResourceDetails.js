@@ -314,56 +314,86 @@ class ResourceDetails extends Component {
                     />
                   </ListGroup.Item>
                 ))}
-                <ListGroup.Item>
-                  <Form onSubmit={this.addQuestion}>
-                    <Form.Row>
-                      <Col>
-                        <Form.Group controlId="question">
-                          <Form.Control
-                            type="text"
-                            placeholder="Submit a question"
-                            onChange={(e) => (this.myQuestion = e.target.value)}
-                            required
-                          />
-                        </Form.Group>
-                      </Col>
-                      <Col>
-                        <Button
-                          className="btn btn-primary btn-large centerButton"
-                          type="submit"
-                        >
-                          Publish
-                        </Button>
-                      </Col>
-                    </Form.Row>
-                  </Form>
-                </ListGroup.Item>
+                {localStorage.token ? (
+                  <>
+                    <ListGroup.Item>
+                      <Form onSubmit={this.addQuestion}>
+                        <Form.Row>
+                          <Col>
+                            <Form.Group controlId="question">
+                              <Form.Control
+                                type="text"
+                                placeholder="Submit a question"
+                                onChange={(e) =>
+                                  (this.myQuestion = e.target.value)
+                                }
+                                required
+                              />
+                            </Form.Group>
+                          </Col>
+                          <Col>
+                            <Button
+                              className="btn btn-primary btn-large centerButton"
+                              type="submit"
+                            >
+                              Publish
+                            </Button>
+                          </Col>
+                        </Form.Row>
+                      </Form>
+                    </ListGroup.Item>
+                  </>
+                ) : (
+                  <ListGroup.Item>
+                    <p>
+                      Effettua il{" "}
+                      <Link to="/user/login" className="text-primary">
+                        login
+                      </Link>{" "}
+                      per fare una domanda
+                    </p>
+                  </ListGroup.Item>
+                )}
               </ListGroup>
               <h3>Commenti</h3>
-              <Form onSubmit={this.addReview}>
-                <Form.Group controlId="addReviewArea">
-                  <Form.Label>Write a comment</Form.Label>
-                  <br />
-                  <StarRatings
-                    rating={this.state.rate}
-                    starRatedColor="blue"
-                    starHoverColor="blue"
-                    starDimension="30px"
-                    changeRating={this.changeRating}
-                    numberOfStars={5}
-                    name="rating"
-                  />
-                  <Form.Control
-                    as="textarea"
-                    rows={2}
-                    onChange={(e) => (this.reviewText = e.target.value)}
-                    required
-                  />
-                  <Button variant="primary" type="submit" size="sm">
-                    Publish
-                  </Button>
-                </Form.Group>
-              </Form>
+              {localStorage.token ? (
+                <>
+                  <Form onSubmit={this.addReview}>
+                    <Form.Group controlId="addReviewArea">
+                      <Form.Label>Write a comment</Form.Label>
+                      <br />
+                      <StarRatings
+                        rating={this.state.rate}
+                        starRatedColor="blue"
+                        starHoverColor="blue"
+                        starDimension="30px"
+                        changeRating={this.changeRating}
+                        numberOfStars={5}
+                        name="rating"
+                      />
+                      <Form.Control
+                        as="textarea"
+                        rows={2}
+                        onChange={(e) => (this.reviewText = e.target.value)}
+                        required
+                      />
+                      <Button variant="primary" type="submit" size="sm">
+                        Publish
+                      </Button>
+                    </Form.Group>
+                  </Form>
+                </>
+              ) : (
+                <>
+                  <p>
+                    Effettua il{" "}
+                    <Link to="/user/login" className="text-primary">
+                      login
+                    </Link>{" "}
+                    per scrivere una recensione
+                  </p>
+                </>
+              )}
               <br />
               {resource.comments.length > 0 ? (
                 <Form>
@@ -467,56 +497,86 @@ class ResourceDetails extends Component {
                     />
                   </ListGroup.Item>
                 ))}
-                <ListGroup.Item>
-                  <Form onSubmit={this.addQuestion}>
-                    <Form.Row>
-                      <Col>
-                        <Form.Group controlId="question">
-                          <Form.Control
-                            type="text"
-                            placeholder="Submit a question"
-                            onChange={(e) => (this.myQuestion = e.target.value)}
-                            required
-                          />
-                        </Form.Group>
-                      </Col>
-                      <Col>
-                        <Button
-                          className="btn btn-primary btn-large centerButton"
-                          type="submit"
-                        >
-                          Publish
-                        </Button>
-                      </Col>
-                    </Form.Row>
-                  </Form>
-                </ListGroup.Item>
+                {localStorage.token ? (
+                  <>
+                    <ListGroup.Item>
+                      <Form onSubmit={this.addQuestion}>
+                        <Form.Row>
+                          <Col>
+                            <Form.Group controlId="question">
+                              <Form.Control
+                                type="text"
+                                placeholder="Submit a question"
+                                onChange={(e) =>
+                                  (this.myQuestion = e.target.value)
+                                }
+                                required
+                              />
+                            </Form.Group>
+                          </Col>
+                          <Col>
+                            <Button
+                              className="btn btn-primary btn-large centerButton"
+                              type="submit"
+                            >
+                              Publish
+                            </Button>
+                          </Col>
+                        </Form.Row>
+                      </Form>
+                    </ListGroup.Item>
+                  </>
+                ) : (
+                  <ListGroup.Item>
+                    <p>
+                      Effettua il{" "}
+                      <Link to="/user/login" className="text-primary">
+                        login
+                      </Link>{" "}
+                      per fare una domanda
+                    </p>
+                  </ListGroup.Item>
+                )}
               </ListGroup>
               <h3>Commenti</h3>
-              <Form onSubmit={this.addReview}>
-                <Form.Group controlId="addReviewArea">
-                  <Form.Label>Write a comment</Form.Label>
-                  <br />
-                  <StarRatings
-                    rating={this.state.rate}
-                    starRatedColor="blue"
-                    starHoverColor="blue"
-                    starDimension="30px"
-                    changeRating={this.changeRating}
-                    numberOfStars={5}
-                    name="rating"
-                  />
-                  <Form.Control
-                    as="textarea"
-                    rows={2}
-                    onChange={(e) => (this.reviewText = e.target.value)}
-                    required
-                  />
-                  <Button variant="primary" type="submit" size="sm">
-                    Publish
-                  </Button>
-                </Form.Group>
-              </Form>
+              {localStorage.token ? (
+                <>
+                  <Form onSubmit={this.addReview}>
+                    <Form.Group controlId="addReviewArea">
+                      <Form.Label>Write a comment</Form.Label>
+                      <br />
+                      <StarRatings
+                        rating={this.state.rate}
+                        starRatedColor="blue"
+                        starHoverColor="blue"
+                        starDimension="30px"
+                        changeRating={this.changeRating}
+                        numberOfStars={5}
+                        name="rating"
+                      />
+                      <Form.Control
+                        as="textarea"
+                        rows={2}
+                        onChange={(e) => (this.reviewText = e.target.value)}
+                        required
+                      />
+                      <Button variant="primary" type="submit" size="sm">
+                        Publish
+                      </Button>
+                    </Form.Group>
+                  </Form>
+                </>
+              ) : (
+                <>
+                  <p>
+                    Effettua il{" "}
+                    <Link to="/user/login" className="text-primary">
+                      login
+                    </Link>{" "}
+                    per scrivere una recensione
+                  </p>
+                </>
+              )}
               <br />
               {resource.comments.length > 0 ? (
                 <Form>
