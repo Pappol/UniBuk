@@ -190,20 +190,20 @@ class UserDetails extends Component {
               <h4 class='subtitle'>Contacts</h4>
               <p class='subtitle'>contactEmail: {user.links.contactEmail}</p>
               <p>
-                {typeof(user.links.website) !== 'undefined' ?
-                <a target = '_blank' className = 'ml-2' href = {`${user.links.website}`}>
+                {user.links.website !== '' ?
+                <a target = '_blank' className = 'ml-2' href = {user.links.website}>
                 <Button variant = 'light'> Sito web</Button>
               </a>
               : null }
-              {typeof(user.links.linkedin) !== 'undefined' ?
+              {user.links.linkedin !== '' ?
                   
-                  <a target = '_blank' href = {`${user.links.linkedin}`}>
+                  <a target = '_blank' href = {user.links.linkedin}> 
                     <Button variant = 'light' className = 'ml-2'> Linkedin </Button>
                   </a>
               : null }
-              {typeof(user.links.gitHub) !== 'undefined' ?
+              {user.links.gitHub !== '' ?
 
-                  <a target = '_blank' href = {`${user.links.gitHub}`}>
+                  <a target = '_blank' href = {user.links.gitHub}>
                     <Button variant = 'light' className = 'ml-2'> Visit Github for collaboration </Button>
                   </a>
               : null }

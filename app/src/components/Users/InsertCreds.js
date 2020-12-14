@@ -77,7 +77,7 @@ export default class InsertCreds extends Component {
               <Form.Label>University</Form.Label>
               <Form.Control
                 as="select"
-                defaultValue="Università di Trento"
+                defaultValue={this.props.user.university}
                 onChange={(e) => (this.uni = e.target.value)}
               >
                 <option>Università di Trento</option>
@@ -93,7 +93,7 @@ export default class InsertCreds extends Component {
               <Form.Label>Course</Form.Label>
               <Form.Control
                 as="select"
-                defaultValue="Informatica"
+                defaultValue={this.props.user.course}
                 onChange={(e) =>
                   (this.course = e.target.value || e.defaultValue)
                 }
@@ -113,7 +113,7 @@ export default class InsertCreds extends Component {
               <Form.Label>Year</Form.Label>
               <Form.Control
                 as="select"
-                defaultValue="1"
+                defaultValue={this.props.user.year}
                 onChange={(e) => (this.year = e.target.value || e.defaultValue)}
               >
                 <option>1</option>
@@ -131,7 +131,7 @@ export default class InsertCreds extends Component {
                 type="text"
                 defaultValue={this.props.user.links.website}
                 placeholder="Website"
-                onChange={(e) => (this.website = e.target.value)}
+                onChange={(e) => (this.website = e.target.value || e.defaultValue)}
               />
               <Form.Label>Contact Email</Form.Label>
               <Form.Control
