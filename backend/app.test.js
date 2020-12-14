@@ -409,7 +409,106 @@ describe("API tests", () => {
     expect(userUpdated.follow.length).not.toEqual(0);
     expect(response.status).toBe(200);
   });
+
+  test("create a new content", async () => {
+    let data = {
+      _id: new mongoose.Types.ObjectId(),
+      creator: "5fab1591d9fe8e536c4df412",
+      date: 2020,
+      name: "MySecondBestContent",
+      url: "example.com",
+      description: "DescriptionExample",
+      image: "pathExample",
+      questions: [
+        {
+          _id: "5fab1591d9fe8e536c4df798",
+          quest: "Sample quest",
+          answers: ["5fab1591d9fe8e536c4df414"],
+        },
+      ],
+    };
+    const response = await request.post("/contents").send(data);
+    expect(response.status).toBe(201);
+  });
+
+  test("dont create a new content", async () => {
+    let data = {
+      _id: new mongoose.Types.ObjectId(),
+      creator: "5fab1591d9fe8e536c4df412",
+      date: new Date(),
+      name: "MyBestContent",
+      url: "another.example.com",
+      description: "another DescriptionExample",
+      image: "another pathExample",
+      questions: [
+        {
+          _id: "5fab1591d9fe8e536c4df798",
+          quest: "another Sample quest",
+          answers: ["5fab1591d9fe8e536c4df414"],
+        },
+      ],
+    };
+    const response = await request.post("/contents").send(data);
+    expect(response.status).toBe(409);
+  });
+
+  test("edit a content", async () => {
+    let data = [
+      {
+        propName: "name",
+        value: "MyBestContent edited",
+      },
+    ];
+    let header = {
+      Authorization: token,
+    };
+    const response = await request
+      .patch(`/contents/${contentExample._id}`)
+      .send(data)
+      .set(header);
+    let contentUpdated = await Content.findOne({
+      name: "MyBestContent edited",
+    });
+    expect(contentUpdated.name).not.toEqual(contentExample.name);
+    expect(response.status).toBe(200);
+  });
+
+  test("edit user favourites", async () => {
+    let user = await User.findOne({ email: userExample.email });
+    let header = {
+      Authorization: token,
+    };
+
+    let newFavourites = [contentExample._id];
+    let data = [
+      {
+        propName: "favourites",
+        value: newFavourites,
+      },
+    ];
+    const response = await request
+      .patch(`/user/${user._id}`)
+      .send(data)
+      .set(header);
+    let userUpdatedone = await User.findOne({ email: userExample.email });
+    expect(userUpdatedone.favourites.length).not.toEqual(0);
+    expect(response.status).toBe(200);
+
+    newFavourites = [bookExample._id];
+    data = [
+      {
+        propName: "favourites",
+        value: newFavourites,
+      },
+    ];
+    const responsedue = await request
+      .patch(`/user/${user._id}`)
+      .send(data)
+      .set(header);
+    let userUpdatedtwo = await User.findOne({ email: userExample.email });
+    expect(userUpdatedtwo.favourites.length).not.toEqual(0);
+    expect(responsedue.status).toBe(200);
+
+    expect(userUpdatedone).not.toEqual(userUpdatedtwo);
+  });
 });
-
-
- 
