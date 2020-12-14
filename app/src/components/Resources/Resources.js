@@ -16,6 +16,11 @@ class Resources extends Component {
       myFollow: [],
       favourites: [],
       watchingFavs: false,
+      universities: [
+        "Università di Trento",
+        "Università di Roma",
+        "Università di Padova",
+      ],
     };
   }
 
@@ -82,12 +87,17 @@ class Resources extends Component {
 
   fileterByUniversity = async (university) => {
     const kind = localStorage.kind;
-    const res = await fetch(`${process.env.REACT_APP_BACKEND_URL}/search/university/${kind}/${university}`);
-    console.log("res", res);
-  }
+    const res = await fetch(
+      `${process.env.REACT_APP_BACKEND_URL}/search/university/${kind}/${university}`
+    );
+    const json = await res.json();
+    this.setState({
+      resources: json.contents,
+    });
+  };
 
   render() {
-    const { resources } = this.state;
+    const { resources, universities } = this.state;
     return (
       <Switch>
         <Route exact path="/resources">
@@ -118,14 +128,19 @@ class Resources extends Component {
             )}
             <Dropdown>
               <Dropdown.Toggle variant="success" id="dropdown-basic">
-                Filtra per unviersità
+                Filtra per università
               </Dropdown.Toggle>
 
               <Dropdown.Menu>
-                <Dropdown.Item onClick={() => {this.fileterByUniversity("UNI1")}}>UNI1</Dropdown.Item>
-                <Dropdown.Item onClick={() => {this.fileterByUniversity("UNI2")}}>UNI2</Dropdown.Item>
-                <Dropdown.Item onClick={() => {this.fileterByUniversity("UNI3")}}>UNI3</Dropdown.Item>
-                <Dropdown.Item onClick={() => {this.fileterByUniversity("UNI4")}}>UNI4</Dropdown.Item>
+                {universities.map((university) => (
+                  <Dropdown.Item
+                    onClick={() => {
+                      this.fileterByUniversity(university);
+                    }}
+                  >
+                    {university}
+                  </Dropdown.Item>
+                ))}
               </Dropdown.Menu>
             </Dropdown>
             <Row>
