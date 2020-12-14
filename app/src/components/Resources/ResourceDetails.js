@@ -272,18 +272,6 @@ class ResourceDetails extends Component {
                     <ListGroup.Item>Autore: {resource.author}</ListGroup.Item>
                     <ListGroup.Item>ISBN: {resource.isbn}</ListGroup.Item>
                     <br />
-                    {/* {localStorage.myId == null ||
-                    localStorage.myId === "" ? null : (
-                      <Button
-                        variant={
-                          !this.state.isFav ? "outline-success" : "outline-danger"
-                        }
-                        onClick={this.setFav}
-                        block
-                      >
-                        {!this.state.isFav ? "Salva" : "Rimuovi"}
-                      </Button>
-                    )} */}
                   </Col>
                 </Row>
               </ListGroup.Item>
@@ -373,11 +361,30 @@ class ResourceDetails extends Component {
                         onChange={(e) => (this.reviewText = e.target.value)}
                         required
                       />
-                      <Button variant="primary" type="submit" size="sm" className="mt-2">
+                      <Button
+                        variant="primary"
+                        type="submit"
+                        size="sm"
+                        className="mt-2"
+                      >
                         Commenta
                       </Button>
                     </Form.Group>
                   </Form>
+                  {resource.comments.length > 0 ? (
+                    <Form>
+                      <div key="myUni" className="mb-3">
+                        <Form.Check
+                          custom
+                          id="myUni"
+                          label="Mostra solo commenti per la mia università"
+                          onChange={this.showMyUni}
+                        />
+                      </div>
+                    </Form>
+                  ) : (
+                    false
+                  )}
                 </>
               ) : (
                 <>
@@ -389,20 +396,6 @@ class ResourceDetails extends Component {
                     per scrivere una recensione
                   </p>
                 </>
-              )}
-              {resource.comments.length > 0 ? (
-                <Form>
-                  <div key="myUni" className="mb-3">
-                    <Form.Check
-                      custom
-                      id="myUni"
-                      label="Mostra solo commenti per la mia università"
-                      onChange={this.showMyUni}
-                    />
-                  </div>
-                </Form>
-              ) : (
-                false
               )}
               <ListGroup variant="flush">
                 {this.state.reviewsDisplay.map((review) => (
@@ -421,14 +414,6 @@ class ResourceDetails extends Component {
           <Jumbotron className="mx-md-5 my-4 pt-3">
             <ListGroup>
               <h3>{resource.name}</h3>
-              {/* {localStorage.myId == null || localStorage.myId == "" ? null : (
-                <Button
-                  variant={!this.state.isFav ? "outline-primary" : "primary"}
-                  onClick={this.setFav}
-                >
-                  Salva
-                </Button>
-              )} */}
               {this.state.edit ? (
                 <ResourceEdit
                   toggle={this.showEdit}
@@ -556,11 +541,30 @@ class ResourceDetails extends Component {
                         onChange={(e) => (this.reviewText = e.target.value)}
                         required
                       />
-                      <Button variant="primary" type="submit" size="sm" className="mt-2">
+                      <Button
+                        variant="primary"
+                        type="submit"
+                        size="sm"
+                        className="mt-2"
+                      >
                         Commenta
                       </Button>
                     </Form.Group>
                   </Form>
+                  {resource.comments.length > 0 ? (
+                    <Form>
+                      <div key="myUni" className="mb-3">
+                        <Form.Check
+                          custom
+                          id="myUni"
+                          label="Mostra solo commenti per la mia università"
+                          onChange={this.showMyUni}
+                        />
+                      </div>
+                    </Form>
+                  ) : (
+                    false
+                  )}
                 </>
               ) : (
                 <>
@@ -572,20 +576,6 @@ class ResourceDetails extends Component {
                     per scrivere una recensione
                   </p>
                 </>
-              )}
-              {resource.comments.length > 0 ? (
-                <Form>
-                  <div key="myUni" className="mb-3">
-                    <Form.Check
-                      custom
-                      id="myUni"
-                      label="Mostra solo commenti per la mia università"
-                      onChange={this.showMyUni}
-                    />
-                  </div>
-                </Form>
-              ) : (
-                false
               )}
               <ListGroup variant="flush">
                 {resource.comments.map((comment) => (
