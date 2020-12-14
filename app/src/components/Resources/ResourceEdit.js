@@ -36,7 +36,7 @@ class ResourceEdit extends Component {
         "value": this.state.image
       },
       {
-        "propName": "link",
+        "propName": "url",
         "value": this.state.link
       },
       {
