@@ -130,7 +130,8 @@ class Resources extends Component {
               <Dropdown.Toggle variant="success" id="dropdown-basic">
                 Filtra per università
               </Dropdown.Toggle>
-
+              <br />
+              <br />
               <Dropdown.Menu>
                 {universities.map((university) => (
                   <Dropdown.Item

@@ -15,7 +15,7 @@ export default class App extends Component {
     return (
       <BrowserRouter>
         <Navbar />
-        <Container className="mt-5 p-3">
+        <Container className="mt-5 p-4">
           <Switch>
             <Route path="/about" component={About} />
             <Route path="/resources" component={Resources} />
