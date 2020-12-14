@@ -64,9 +64,9 @@ export default class InsertCreds extends Component {
       <div>
         <Jumbotron>
           <Form onSubmit={this.handleSubmit}>
-            <h4>Insert Your profile picture link</h4>
+            <h4>Inserisci la tua immagine profilo tramite link</h4>
             <Form.Group>
-              <Form.Label>Profile picture</Form.Label>
+              <Form.Label>Immagine profilo</Form.Label>
               <Form.Control
                 required
                 type="text"
@@ -74,7 +74,7 @@ export default class InsertCreds extends Component {
                 onChange={(e) => (this.image = e.target.value)}
               />
             </Form.Group>
-            <h4>Insert your university</h4>
+            <h4>Inserisci la tua università</h4>
             <Form.Group>
               <Form.Label>University</Form.Label>
               <Form.Control
@@ -93,7 +93,7 @@ export default class InsertCreds extends Component {
             </Form.Group>
 
             <Form.Group>
-              <Form.Label>Course</Form.Label>
+              <Form.Label>Corso</Form.Label>
               <Form.Control
               required
                 as="select"
@@ -114,7 +114,7 @@ export default class InsertCreds extends Component {
             </Form.Group>
 
             <Form.Group>
-              <Form.Label>Year</Form.Label>
+              <Form.Label>Anno</Form.Label>
               <Form.Control
               required
                 as="select"
@@ -129,9 +129,9 @@ export default class InsertCreds extends Component {
                 <option>Fuori corso</option>
               </Form.Control>
             </Form.Group>
-            <h4>Insert your Contacts</h4>
+            <h4>Aggiungi i tuo contatti</h4>
             <Form.Group>
-              <Form.Label>Website</Form.Label>
+              <Form.Label>Sito web</Form.Label>
               <Form.Control
               required
                 type="text"
@@ -139,7 +139,7 @@ export default class InsertCreds extends Component {
                 placeholder="Website"
                 onChange={(e) => (this.website = e.target.value || e.defaultValue)}
               />
-              <Form.Label>Contact Email</Form.Label>
+              <Form.Label>Email</Form.Label>
               <Form.Control
               required
                 type="email"

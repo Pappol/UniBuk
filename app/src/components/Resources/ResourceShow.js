@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { withRouter, Link } from "react-router-dom";
-
+import { LinkExternalIcon } from "@primer/octicons-react";
 import { ListGroup, Button, Image, Row, Col } from "react-bootstrap";
 
 class ResourceShow extends Component {
@@ -27,14 +27,17 @@ class ResourceShow extends Component {
             </Col>
             <Col className="col-xs-12 col-sm-12 col-md-8 col-lg-8">
               <ListGroup.Item>
-                <a href={this.props.link}> Visualizza il contenuto completo</a>
+                <a
+                  href={this.props.link}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  <LinkExternalIcon size={16} /> Visualizza repository
+                </a>
               </ListGroup.Item>
               <ListGroup.Item>
-                Autore: {this.props.creatorName}{" "}
                 <Link to={`/users/${this.props.creator}`}>
-                  <Button variant="primary" className="ml-5">
-                    Visita per collaborare
-                  </Button>
+                  Autore: {this.props.creatorName}
                 </Link>
               </ListGroup.Item>
               <ListGroup.Item>Data: {this.props.date}</ListGroup.Item>

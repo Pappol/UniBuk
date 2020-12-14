@@ -75,27 +75,37 @@ class UserDetails extends Component {
           </div>
 
           <h3>{`${user.firstName} ${user.lastName}`}</h3>
-          <p>Anl</p>
 
-          {contents.length ? <h3>Resources</h3> : null}
-          <Table striped bordered hover>
-            <thead>
-              <tr>
-                <th>Name</th>
-                <th>Views</th>
-              </tr>
-            </thead>
-            <tbody>
-              {contents.map((content) => (
-                <tr>
-                  <td>
-                    <Link to={`/resources/${content._id}`}>{content.name}</Link>
-                  </td>
-                  <p>{content.views}</p>
-                </tr>
-              ))}
-            </tbody>
-          </Table>
+          {contents.length ? (
+            <>
+              <p>
+                Queste sono le analytics realative alle risorse create da questo
+                utente
+              </p>
+              <Table striped bordered hover>
+                <thead>
+                  <tr>
+                    <th>Name</th>
+                    <th>Views</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {contents.map((content) => (
+                    <tr>
+                      <td>
+                        <Link to={`/resources/${content._id}`}>
+                          {content.name}
+                        </Link>
+                      </td>
+                      <td>{content.views}</td>
+                    </tr>
+                  ))}
+                </tbody>
+              </Table>
+            </>
+          ) : (
+            <p>Questo utente non ha creato alcun contenuto</p>
+          )}
         </Jumbotron>
       </>
     );

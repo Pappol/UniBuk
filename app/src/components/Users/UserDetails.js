@@ -162,19 +162,21 @@ class UserDetails extends Component {
                 alt={user.profileImage}
               ></img>
             </div>
-            <h3 class="title">
-              {" "}
+            <h3 className="title my-3">
               {user.firstName} {user.lastName}{" "}
             </h3>
             {localStorage.myId !== match.params.userId && localStorage.myId ? (
               <>
                 {this.state.myFollow.indexOf(this.state.user._id) === -1 ? (
                   <Form onSubmit={this.subscribe}>
-                    <Button variant = 'light' type="submit">Segui</Button>
+                    <Button variant="light" type="submit">
+                      Segui
+                    </Button>
+                    {/* <Button type="submit" variant="dark">Segui</Button> */}
                   </Form>
                 ) : (
                   <Form onSubmit={this.unSubscribe}>
-                    <Button type="submit" variant="outline-dark">
+                    <Button type="submit" variant="outline-light">
                       Segui già
                     </Button>
                   </Form>
@@ -194,23 +196,34 @@ class UserDetails extends Component {
             <p class="subtitle">Email: {user.links.contactEmail}</p>
             <p>
               {user.links.website !== "" ? (
-                <a target="_blank" className="ml-2" href={user.links.website}>
+                <a
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="ml-2"
+                  href={user.links.website}
+                >
                   <Button variant="light"> Sito web</Button>
                 </a>
               ) : null}
               {user.links.linkedin !== "" ? (
-                <a target="_blank" href={user.links.linkedin}>
+                <a
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  href={user.links.linkedin}
+                >
                   <Button variant="light" className="ml-2">
-                    {" "}
-                    Linkedin{" "}
+                    Linkedin
                   </Button>
                 </a>
               ) : null}
               {user.links.gitHub !== "" ? (
-                <a target="_blank" href={user.links.gitHub}>
+                <a
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  href={user.links.gitHub}
+                >
                   <Button variant="light" className="ml-2">
-                    {" "}
-                    Visit Github for collaboration{" "}
+                    Github
                   </Button>
                 </a>
               ) : null}
@@ -226,11 +239,21 @@ class UserDetails extends Component {
         ) : null}
         <div class="profileInfo">
           <h3>Statistiche</h3>
+          <p>
+            Clicca il bottone sotto per andare alla pagina relativa alle
+            analytics dell'utente
+          </p>
           <Link to={`/users/${match.params.userId}/analytics`}>
-            <Button variant="primary">Guarda</Button>
+            <Button variant="outline-primary">Analytics</Button>
           </Link>
-          <br/>
-          {contents.length ? <h3>Risorse</h3> : null}
+          <br />
+          <br />
+          {contents.length ? (
+            <>
+              <h3>Risorse</h3>
+              <p>Contenuti caricati da questo utente</p>
+            </>
+          ) : null}
           <ListGroup>
             {contents.map((content) => (
               <ListGroup.Item key={user._id}>
@@ -241,11 +264,30 @@ class UserDetails extends Component {
 
           {localStorage.myId === match.params.userId ? (
             <>
-              <Accordion>
+              <h3 className="my-3">Aggiungi contenuto</h3>
+              <p>
+                Clicca il bottone sotto per aprire un popup per creare un
+                contenuto
+              </p>
+              <Button variant="primary" onClick={this.showAdd}>
+                Aggiungi Contenuto
+              </Button>
+
+              <h3 className="my-3">Dati personali</h3>
+              <i>
+                Visualizzi questa sezione perchè sei il propietario di questo
+                profilo
+              </i>
+              <p>Clicca il bottone sotto per aggiornare le tue credenziali</p>
+              <Accordion className="mt-3">
                 <Card>
                   <Card.Header>
-                    <Accordion.Toggle as={Button} variant="link" eventKey="0">
-                      Cambia qualcosa
+                    <Accordion.Toggle
+                      as={Button}
+                      variant="primary"
+                      eventKey="0"
+                    >
+                      Cambia credenziali
                     </Accordion.Toggle>
                   </Card.Header>
                   <Accordion.Collapse eventKey="0">
@@ -254,18 +296,13 @@ class UserDetails extends Component {
                         userId={this.props.match.params.userId}
                         user={this.state.user}
                       />
-                      <Button onClick={() => window.location.reload(false)}>Confirm</Button>                      
+                      <Button onClick={() => window.location.reload(false)}>
+                        Confirm
+                      </Button>
                     </Card.Body>
                   </Accordion.Collapse>
                 </Card>
               </Accordion>
-              
-
-              <br />
-              <Button variant="primary" onClick={this.showAdd}>
-                {" "}
-                Nuovo Contenuto{" "}
-              </Button>
             </>
           ) : null}
         </div>

@@ -127,7 +127,7 @@ class Resources extends Component {
               </Button>
             )}
             <Dropdown>
-              <Dropdown.Toggle variant="success" id="dropdown-basic">
+              <Dropdown.Toggle variant="secondary" id="dropdown-basic">
                 Filtra per università
               </Dropdown.Toggle>
               <br />
@@ -159,12 +159,13 @@ class Resources extends Component {
             {!myFollow.length
               ? "Non stai seguendo alcun autore!"
               : "Quì sotto trovi i contenuti degli autori che stai seguendo"}
-            
+            <br />
+            <br />
+
             {localStorage.myId ? (
               <Row>
                 {resources.map((resource) => (
                   <>
-                  
                     {myFollow.indexOf(resource.creator) !== -1 ? (
                       <Col
                         className="col-sm-12 col-md-6 col-lg-4"

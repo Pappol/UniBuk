@@ -87,7 +87,7 @@ class ResourceCard extends Component {
           </Link>
           {localStorage.myId ? (
             <Button
-              variant={isFav ? "primary" : "outline-primary"}
+              variant={isFav ? "outline-danger" : "outline-success"}
               onClick={this.toggleFavourite}
             >
               {!isFav ? "Salva" : "Rimuovi"}
