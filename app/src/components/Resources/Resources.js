@@ -97,12 +97,12 @@ class Resources extends Component {
   };
 
   render() {
-    const { resources, universities } = this.state;
+    const { resources, universities, myFollow } = this.state;
     return (
       <Switch>
         <Route exact path="/resources">
           <Container className="p-0" fluid="md">
-            <h1>Resources</h1>
+            <h1>Risorse</h1>
             <Button
               variant="primary"
               className="mr-2 mb-2"
@@ -154,26 +154,27 @@ class Resources extends Component {
         </Route>
         <Route exact path="/feed">
           <Container className="p-0" fluid="md">
-            <h1>My subscriptions</h1>
+            <h1>Feed</h1>
             {localStorage.myId ? (
-              <>
-                <Row>
-                  {resources.map((resource) => (
-                    <>
-                      {this.state.myFollow.indexOf(resource.creator) !== -1 ? (
-                        <Col
-                          className="col-sm-12 col-md-6 col-lg-4"
-                          key={resource._id}
-                        >
-                          <ResourceCard resource={resource} />
-                        </Col>
-                      ) : (
-                        false
-                      )}
-                    </>
-                  ))}
-                </Row>
-              </>
+              <Row>
+                {!myFollow.length
+                  ? "Non stai seguendo alcun autore!"
+                  : "Quì sotto trovi i contenuti degli autori che stai seguendo"}
+                {resources.map((resource) => (
+                  <>
+                    {myFollow.indexOf(resource.creator) !== -1 ? (
+                      <Col
+                        className="col-sm-12 col-md-6 col-lg-4"
+                        key={resource._id}
+                      >
+                        <ResourceCard resource={resource} />
+                      </Col>
+                    ) : (
+                      false
+                    )}
+                  </>
+                ))}
+              </Row>
             ) : (
               <p>
                 Per seguire le ultime novità dalle tue iscrizioni effettua il{" "}

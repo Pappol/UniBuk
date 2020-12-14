@@ -31,7 +31,7 @@ export class Signup extends Component {
       })
       .catch((err) => {
         console.log(err);
-        alert(err);
+        alert("Credentials not correct");
         errflag = true;
       });
   };
@@ -45,6 +45,10 @@ export class Signup extends Component {
   };
 
   render() {
+    if (localStorage.myId) {
+      return <p>Hai già fatto il login</p>;
+    }
+
     return (
       <Jumbotron className="mx-auto mt-5">
         <h3>Sign Up</h3>

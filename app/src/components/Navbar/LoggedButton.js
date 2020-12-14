@@ -37,7 +37,9 @@ export default class LoggedButton extends Component {
   }
 
   logout = () => {
-    localStorage.clear();
+    localStorage.removeItem("myId");
+    localStorage.removeItem("myUni");
+    localStorage.removeItem("token");
     this.props.toggle();
   };
 

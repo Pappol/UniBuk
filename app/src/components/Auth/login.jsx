@@ -7,40 +7,39 @@ import Jumbotron from "react-bootstrap/Jumbotron";
 import Button from "react-bootstrap/Button";
 
 export class Login extends Component {
-  handleSubmit = (e) => {
-    let errflag = false;
+  handleSubmit = async (e) => {
+    // Prevent page reload on form submit
     e.preventDefault();
     const data = {
       email: this.email,
       password: this.password,
     };
-    console.table(data);
-    axios
-      .post(`${process.env.REACT_APP_BACKEND_URL}/user/login`, data)
-      .then((res) => {
-        console.log(res);
-        localStorage.setItem('token', res.data.token);
-        localStorage.setItem('myId', res.data.id);
-        localStorage.setItem('myUni', res.data.university);
-        console.log(localStorage);
-        this.props.location.query.toggle();
-      })
-      .then((errflag) => {
-        if (!errflag) {
-          alert("Successfully logged in");
-        }
-      })
-      .catch((err) => {
-        console.log(err);
-        alert(err);
-        errflag = true;
-      });
+    let res;
+    try {
+      res = await axios.post(
+        `${process.env.REACT_APP_BACKEND_URL}/user/login`,
+        data
+      );
+    } catch {
+      return alert("Credentials not correct");
+    }
+    localStorage.setItem("token", res.data.token);
+    localStorage.setItem("myId", res.data.id);
+    localStorage.setItem("myUni", res.data.university);
+    // Set Login buttons to Show profile button 
+    this.props.location.query.toggle();
+    // Go to user page
+    this.props.history.push(`/users/${res.data.id}`);
   };
 
   render() {
+    if (localStorage.myId) {
+      return <p>Hai già fatto il login</p>;
+    }
+
     return (
       <Jumbotron className="mx-auto mt-5">
-        <h3>SignIn</h3>
+        <h3>Sign In</h3>
 
         <Form onSubmit={this.handleSubmit}>
           <Form.Group controlId="formGroupEmail">
@@ -60,7 +59,6 @@ export class Login extends Component {
               onChange={(e) => (this.password = e.target.value)}
             />
           </Form.Group>
-
           <Button variant="primary" type="submit" block>
             Sign in
           </Button>

@@ -100,14 +100,12 @@ class UserDetails extends Component {
     this.setState({
       myFollow: newFollow,
     });
-    console.log(newFollow);
   };
 
   unSubscribe = async (e) => {
     e.preventDefault();
     let newFollow = this.state.myFollow;
     newFollow.splice(this.state.myFollow.indexOf(this.state.user._id), 1);
-    console.log(newFollow);
     const token = "Bearer " + localStorage.token;
     const headers = {
       "Content-type": "application/json",
