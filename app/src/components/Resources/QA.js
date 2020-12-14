@@ -102,7 +102,7 @@ export default class QA extends Component {
                     <Form.Group controlId="answer">
                       <Form.Control
                         type="text"
-                        placeholder="Answer this question"
+                        placeholder="Rispondi a questa domanda"
                         onChange={(e) => (this.myAnswer = e.target.value)}
                         required
                       />
@@ -113,7 +113,7 @@ export default class QA extends Component {
                       className="btn btn-primary btn-large centerButton"
                       type="submit"
                     >
-                      Answer
+                      Rispondi
                     </Button>
                   </Col>
                 </Form.Row>

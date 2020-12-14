@@ -190,8 +190,8 @@ class UserDetails extends Component {
                 <p>Anno di corso: {user.studentCreds.year}</p>
               </>
             ) : null}
-            <h4 class="subtitle">Contacts</h4>
-            <p class="subtitle">contactEmail: {user.links.contactEmail}</p>
+            <h4 class="subtitle">Contatti</h4>
+            <p class="subtitle">Email: {user.links.contactEmail}</p>
             <p>
               {user.links.website !== "" ? (
                 <a target="_blank" className="ml-2" href={user.links.website}>
@@ -225,12 +225,12 @@ class UserDetails extends Component {
           />
         ) : null}
         <div class="profileInfo">
-          <h3>Analytics</h3>
+          <h3>Statistiche</h3>
           <Link to={`/users/${match.params.userId}/analytics`}>
-            <Button variant="primary">Analytics</Button>
+            <Button variant="primary">Guarda</Button>
           </Link>
-
-          {contents.length ? <h3>Resources</h3> : null}
+          <br/>
+          {contents.length ? <h3>Risorse</h3> : null}
           <ListGroup>
             {contents.map((content) => (
               <ListGroup.Item key={user._id}>
@@ -245,7 +245,7 @@ class UserDetails extends Component {
                 <Card>
                   <Card.Header>
                     <Accordion.Toggle as={Button} variant="link" eventKey="0">
-                      Change Creds
+                      Cambia qualcosa
                     </Accordion.Toggle>
                   </Card.Header>
                   <Accordion.Collapse eventKey="0">

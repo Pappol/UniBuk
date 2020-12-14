@@ -318,7 +318,7 @@ class ResourceDetails extends Component {
                             <Form.Group controlId="question">
                               <Form.Control
                                 type="text"
-                                placeholder="Submit a question"
+                                placeholder="Fai una domanda"
                                 onChange={(e) =>
                                   (this.myQuestion = e.target.value)
                                 }
@@ -331,7 +331,7 @@ class ResourceDetails extends Component {
                               className="btn btn-primary btn-large centerButton"
                               type="submit"
                             >
-                              Publish
+                              Chiedi
                             </Button>
                           </Col>
                         </Form.Row>
@@ -355,7 +355,7 @@ class ResourceDetails extends Component {
                 <>
                   <Form onSubmit={this.addReview}>
                     <Form.Group controlId="addReviewArea">
-                      <Form.Label>Write a comment</Form.Label>
+                      <Form.Label>Scrivi un commento</Form.Label>
                       <br />
                       <StarRatings
                         rating={this.state.rate}
@@ -373,7 +373,7 @@ class ResourceDetails extends Component {
                         required
                       />
                       <Button variant="primary" type="submit" size="sm">
-                        Publish
+                        Commenta
                       </Button>
                     </Form.Group>
                   </Form>
@@ -396,7 +396,7 @@ class ResourceDetails extends Component {
                     <Form.Check
                       custom
                       id="myUni"
-                      label="Show comments only from my University"
+                      label="Mostra solo commenti per la mia università"
                       onChange={this.showMyUni}
                     />
                   </div>
@@ -467,7 +467,7 @@ class ResourceDetails extends Component {
                   <Form.Row>
                     <Col>
                       <Form.Control
-                        placeholder="Your tag bar is empty :("
+                        placeholder="I tuoi tag sono vuoti :("
                         defaultValue={this.state.resource.tags}
                         onChange={(e) => (this.state.newTag = e.target.value)}
                       />
@@ -501,7 +501,7 @@ class ResourceDetails extends Component {
                             <Form.Group controlId="question">
                               <Form.Control
                                 type="text"
-                                placeholder="Submit a question"
+                                placeholder="Fai una domanda"
                                 onChange={(e) =>
                                   (this.myQuestion = e.target.value)
                                 }
@@ -514,7 +514,7 @@ class ResourceDetails extends Component {
                               className="btn btn-primary btn-large centerButton"
                               type="submit"
                             >
-                              Publish
+                              Chiedi
                             </Button>
                           </Col>
                         </Form.Row>
@@ -538,7 +538,7 @@ class ResourceDetails extends Component {
                 <>
                   <Form onSubmit={this.addReview}>
                     <Form.Group controlId="addReviewArea">
-                      <Form.Label>Write a comment</Form.Label>
+                      <Form.Label>Scrivi un commento</Form.Label>
                       <br />
                       <StarRatings
                         rating={this.state.rate}
@@ -556,7 +556,7 @@ class ResourceDetails extends Component {
                         required
                       />
                       <Button variant="primary" type="submit" size="sm">
-                        Publish
+                        Commenta
                       </Button>
                     </Form.Group>
                   </Form>
@@ -579,7 +579,7 @@ class ResourceDetails extends Component {
                     <Form.Check
                       custom
                       id="myUni"
-                      label="Show comments only from my University"
+                      label="Mostra solo commenti per la mia università"
                       onChange={this.showMyUni}
                     />
                   </div>
