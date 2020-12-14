@@ -176,14 +176,19 @@ class ResourceDetails extends Component {
     } else {
       this.state.myUniOnly = true;
       let temp_review = [];
+      console.log(this.state.reviewsDisplay);
       for (const review of this.state.reviewsDisplay) {
         let res = await fetch(
           `${process.env.REACT_APP_BACKEND_URL}/user/${review.author}`
         );
         let json = await res.json();
-        if (localStorage.myUni === json.user.studentCreds.university) {
+        if (
+          json.user.studentCreds !== undefined &&
+          localStorage.myUni === json.user.studentCreds.university
+        ) {
           temp_review = await [...temp_review, review];
         }
+        
       }
       this.setState({
         reviewsDisplay: temp_review,
