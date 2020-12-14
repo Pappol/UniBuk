@@ -273,7 +273,7 @@ class ResourceDetails extends Component {
                     <ListGroup.Item>ISBN: {resource.isbn}</ListGroup.Item>
                     <br />
                     {localStorage.myId == null ||
-                    localStorage.myId == "" ? null : (
+                    localStorage.myId === "" ? null : (
                       <Button
                         variant={
                           !this.state.isFav ? "outline-primary" : "primary"
@@ -281,23 +281,11 @@ class ResourceDetails extends Component {
                         onClick={this.setFav}
                         block
                       >
-                        {" "}
-                        {!this.state.isFav ? "Salva" : "Rimuovi"}{" "}
+                        {!this.state.isFav ? "Salva" : "Rimuovi"}
                       </Button>
                     )}
                   </Col>
                 </Row>
-              </ListGroup.Item>
-              <ListGroup.Item>
-                {localStorage.myId == null || localStorage.myId == "" ? null : (
-                  <Button
-                    variant={!this.state.isFav ? "outline-primary" : "primary"}
-                    onClick={this.setFav}
-                    block
-                  >
-                    {!this.state.isFav ? "Salva" : "Rimuovi"}
-                  </Button>
-                )}
               </ListGroup.Item>
               <ListGroup.Item>{resource.author}</ListGroup.Item>
               <ListGroup.Item>{resource.title}</ListGroup.Item>
