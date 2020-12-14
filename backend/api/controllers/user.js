@@ -144,7 +144,6 @@ export const user_update = (req, res, next) => {
   )
     .exec()
     .then((result) => {
-      console.log(result);
       res.status(200).json({
         message: "user updated",
       });
@@ -173,7 +172,6 @@ export const user_add = (req, res, next) => {
   )
     .exec()
     .then((result) => {
-      console.log(result);
       res.status(200).json({
         message: "user updated",
       });

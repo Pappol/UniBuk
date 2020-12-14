@@ -58,10 +58,7 @@ export const queryUniversity = async (req, res) => {
   for (const content of contents) {
     for (const validFor of content.validFor) {
       if (validFor.university === university) {
-        console.log("SAME")
         newContents.push(content)
-      } else {
-        console.log("DIFF");
       }
     }
   }

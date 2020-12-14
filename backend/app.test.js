@@ -35,6 +35,13 @@ describe("API tests", () => {
         answers: ["5fab1591d9fe8e536c4df415"],
       },
     ],
+    validFor: [
+      {
+        _id: "5fab1591d9fe8e536c4df793",
+        university: "University of Trento",
+        course: "Software engineering 2"
+      },
+    ],
   });
   const contentExample = new Content({
     _id: new mongoose.Types.ObjectId(),
@@ -49,6 +56,13 @@ describe("API tests", () => {
         _id: "5fab1591d9fe8e536c4df798",
         quest: "Sample quest",
         answers: ["5fab1591d9fe8e536c4df414"],
+      },
+    ],
+    validFor: [
+      {
+        _id: "5fab1591d9fe8e536c4df793",
+        university: "University of Trento",
+        course: "Software engineering 2"
       },
     ],
   });
@@ -163,9 +177,7 @@ describe("API tests", () => {
   });
 
   test("Get a user", async () => {
-    // console.log("users", await User.find({}))
     const user = await User.findOne({ email: userExample.email });
-    // console.log("user", user)
     const response = await request.get(`/user/${user._id}`);
     const body = JSON.parse(response.text);
     expect(body.user.username == userExample.username).toBeTruthy();
@@ -510,5 +522,38 @@ describe("API tests", () => {
     expect(responsedue.status).toBe(200);
 
     expect(userUpdatedone).not.toEqual(userUpdatedtwo);
+  });
+
+  test("Search content by university", async () => {
+    const response = await request.get(
+      `/search/university/contents/${encodeURI(contentExample.validFor[0].university)}`
+    );
+    // Request body from string to object
+    const body = JSON.parse(response.text);
+    const { contents } = body;
+    expect(contents).toBeTruthy();
+    expect(response.status).toBe(200);
+  });
+
+  test("Search content by university with kind not existing", async () => {
+    const response = await request.get(
+      `/search/university/THISKINDDOESNOTEXIST/${encodeURI(contentExample.validFor[0].university)}`
+    );
+    // Request body from string to object
+    const body = JSON.parse(response.text);
+    const { contents } = body;
+    expect(contents).not.toBeTruthy();
+    expect(response.status).toBe(404);
+  });
+
+  test("Search content by university with university not existing", async () => {
+    const response = await request.get(
+      `/search/university/contents/THISUNIVERSITYDOESNOTEXIST`
+    );
+    // Request body from string to object
+    const body = JSON.parse(response.text);
+    const { contents } = body;
+    expect(contents).toHaveLength(0);
+    expect(response.status).toBe(200);
   });
 });
