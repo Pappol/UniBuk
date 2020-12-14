@@ -44,14 +44,14 @@ export default class LoggedButton extends Component {
   render() {
     return (
       <Form inline>
+        <Nav.Link as={NavLink} to={`/users/${localStorage.myId}`}>
         <img
-          style={{ width: "30px", height: "30px", borderRadius: "80px" }}
+          style={{ width: "35px", height: "35px", borderRadius: "80px" }}
           src={this.state.profileImage}
           alt={this.state.profileImage}
         ></img>
-        <Nav.Link as={NavLink} to={`/users/${localStorage.myId}`}>
           {" "}
-          <Form.Label> {this.state.userName} </Form.Label>{" "}
+          <Form.Label style={{padding:'5px',float: 'left'}}> {this.state.userName} </Form.Label>{" "}
         </Nav.Link>
         <Link to="/">
           {" "}
