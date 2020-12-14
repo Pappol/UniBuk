@@ -279,6 +279,44 @@ paths:
                   error: 
                     type: string
                     example: database error type
+
+  /user/{id}/contents:
+    get: 
+      description: Obtain all contents related to a user
+      parameters:
+        - in: path
+          name: id
+          required: true
+          description: The id of the user
+          schema: 
+            type: string
+            example: mongoose auto generated
+      responses:
+        '200':
+          description: array with related contents
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  count: 
+                    type: number
+                    example: 1
+                  books: 
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Content'
+        '500':
+          description: find failed in the database
+          content: 
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error: 
+                    type: string
+                    example: database error type
+
   /user/add/{id}:
     patch:
       description: Adds something to a specific user from the database
@@ -720,7 +758,56 @@ paths:
                   error: 
                     type: string
                     example: database error type
-                    
+
+  /contents/{id}/addview:
+    post:
+      description: Increment by 1 the views of a given content
+      requestBody:
+        required: true
+        content:
+          applicationn/json:
+            schema:
+              type: array
+              items: 
+                type: object
+                properties:
+                  propName:
+                    type: string
+                    example: username
+                  value:
+                    type: object #could be other than object (object is the most generic allowed)
+                    example: salt bae
+      parameters:
+        - in: path
+          name: id
+          required: true
+          description: The id of the content
+          schema:
+            type: string
+            example: mongoose auto generated
+      responses:
+        '200':
+          description: The view counter has been successfully updated
+          content: 
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+              example: 
+                message: content updated
+        '500':
+          description: Error in updating counter
+          content: 
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error: 
+                    type: string
+                    example: database error type
+       
   /contents/{cId}/questions/{qId}:
     patch:
       description: Add an answer to a question {id} for a content with provided {id}
@@ -789,7 +876,7 @@ paths:
 #        '500':
 #          $ref: '#/components/responses/DbError'
 
-  /search/{query}:
+  /search/all/{query}:
   
     get:
       description: Find the books, contents and users
@@ -831,7 +918,47 @@ paths:
                   error:
                     type: string
                     example: database error type
+
+  /search/university/{kind}/university:
+  
+    get:
+      description: Find the books, contents and users
+      parameters:
+        - in: path
+          name: kind
+          required: true
+          description: Any field of content, book or user except for password and objects keys
+          schema:
+            type: string
+            example: myBook
+      responses:
+        '200':
+          description: Successful search of university contents
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  books:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Book'
+                  contents:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Content'
+        '404':
+          description: university does not exist
+          content: 
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    example: kind not found
     
+
 components:
   schemas:
     User:
