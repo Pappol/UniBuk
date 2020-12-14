@@ -208,7 +208,7 @@ describe("API tests", () => {
 
 
 
-  test("edit a user details", async () => {
+  test("Edit a user details", async () => {
     let header = {
       Authorization: token,
     };

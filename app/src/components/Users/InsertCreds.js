@@ -56,7 +56,8 @@ export default class InsertCreds extends Component {
       .catch((err) => {
         console.log(err);
       });
-  };
+      
+    };
 
   render() {
     return (
@@ -67,6 +68,7 @@ export default class InsertCreds extends Component {
             <Form.Group>
               <Form.Label>Profile picture</Form.Label>
               <Form.Control
+                required
                 type="text"
                 defaultValue={this.props.user.profileImage}
                 onChange={(e) => (this.image = e.target.value)}
@@ -76,6 +78,7 @@ export default class InsertCreds extends Component {
             <Form.Group>
               <Form.Label>University</Form.Label>
               <Form.Control
+              required
                 as="select"
                 defaultValue={this.props.user.university}
                 onChange={(e) => (this.uni = e.target.value)}
@@ -92,6 +95,7 @@ export default class InsertCreds extends Component {
             <Form.Group>
               <Form.Label>Course</Form.Label>
               <Form.Control
+              required
                 as="select"
                 defaultValue={this.props.user.course}
                 onChange={(e) =>
@@ -112,6 +116,7 @@ export default class InsertCreds extends Component {
             <Form.Group>
               <Form.Label>Year</Form.Label>
               <Form.Control
+              required
                 as="select"
                 defaultValue={this.props.user.year}
                 onChange={(e) => (this.year = e.target.value || e.defaultValue)}
@@ -128,6 +133,7 @@ export default class InsertCreds extends Component {
             <Form.Group>
               <Form.Label>Website</Form.Label>
               <Form.Control
+              required
                 type="text"
                 defaultValue={this.props.user.links.website}
                 placeholder="Website"
@@ -135,6 +141,7 @@ export default class InsertCreds extends Component {
               />
               <Form.Label>Contact Email</Form.Label>
               <Form.Control
+              required
                 type="email"
                 defaultValue={this.props.user.links.contactEmail}
                 placeholder="Contact email"
@@ -142,6 +149,7 @@ export default class InsertCreds extends Component {
               />
               <Form.Label>Linkedin</Form.Label>
               <Form.Control
+              required
                 type="text"
                 defaultValue={this.props.user.links.linkedin}
                 placeholder="linkedin"
@@ -149,6 +157,7 @@ export default class InsertCreds extends Component {
               />
               <Form.Label>GitHub</Form.Label>
               <Form.Control
+              required
                 type="text"
                 defaultValue={this.props.user.links.gitHub}
                 placeholder="github"

@@ -254,10 +254,12 @@ class UserDetails extends Component {
                         userId={this.props.match.params.userId}
                         user={this.state.user}
                       />
+                      <Button onClick={() => window.location.reload(false)}>Confirm</Button>                      
                     </Card.Body>
                   </Accordion.Collapse>
                 </Card>
               </Accordion>
+              
 
               <br />
               <Button variant="primary" onClick={this.showAdd}>
