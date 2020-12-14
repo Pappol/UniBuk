@@ -183,6 +183,8 @@ describe("API tests", () => {
     expect(response.status).toBe(200);
   });
 
+  
+
   test("Adding a review to a book", async () => {
     let header = {
       Authorization: token,
@@ -203,6 +205,65 @@ describe("API tests", () => {
     expect(bookUpdated.comments.length).not.toEqual(0);
     expect(response.status).toBe(200);
   });
+
+
+
+  test("edit a user details", async () => {
+    let header = {
+      Authorization: token,
+    };
+    const data = [
+      {
+        propName: "studentCreds",
+        value: {
+          university: "Università di Trento",
+          course: "Informatica",
+          year: "3",
+        },
+      },
+      {
+        propName: "links",
+        value: {
+          website: "https://github.com/Pappol/UniBuk",
+          contactEmail: "riccardo.parol@gmail.com",
+          linkedin: "https://www.linkedin.com/in/riccardo-parola-37397b196/",
+          gitHub: "https://github.com/Pappol",
+        },
+      },
+      {
+        propName: "profileImage",
+        value: "https://thispersondoesnotexist.com/image",
+      },
+    ];
+    const user = await User.findOne({ email: userExample.email });
+    const response = await request
+      .patch(`/user/${user._id}`)
+      .send(data)
+      .set(header);
+    expect(response.status).toBe(200);
+  });
+
+  test("Adding a review to a content", async () => {
+    let header = {
+      Authorization: token,
+    };
+    let data = [
+      {
+        propName: "comments",
+        value: {
+          quest: "Sample review",
+        },
+      },
+    ];
+    const response = await request
+      .patch(`/contents/add/${contentExample._id}`)
+      .send(data)
+      .set(header);
+    const contentUpdated = await Content.findOne({ _id: contentExample._id });
+    expect(contentUpdated.comments.length).not.toEqual(0);
+    expect(response.status).toBe(200);
+  });
+
 
   test("Adding a review to a content", async () => {
     let header = {
@@ -351,3 +412,4 @@ describe("API tests", () => {
 });
 
 
+ 
