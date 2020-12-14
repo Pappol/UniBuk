@@ -170,7 +170,7 @@ class UserDetails extends Component {
               <>
                 {this.state.myFollow.indexOf(this.state.user._id) === -1 ? (
                   <Form onSubmit={this.subscribe}>
-                    <Button type="submit">Segui</Button>
+                    <Button variant = 'light' type="submit">Segui</Button>
                   </Form>
                 ) : (
                   <Form onSubmit={this.unSubscribe}>
