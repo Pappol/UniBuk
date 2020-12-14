@@ -556,4 +556,24 @@ describe("API tests", () => {
     expect(contents).toHaveLength(0);
     expect(response.status).toBe(200);
   });
+
+  test("Search contents related to the user", async () => {
+    const response = await request.get(`/user/${contentExample.creator}/contents`);
+    // Request body from string to object
+    const body = await JSON.parse(response.text);
+    const { resources } = body;
+    // Test if array has at least 1 resource
+    expect(resources).toBeTruthy();
+    expect(response.status).toBe(200);
+  });
+
+  test("Search contents on a user that does not have related contents", async () => {
+    const response = await request.get(`/user/000000000000000000000000/contents`);
+    // Request body from string to object
+    const body = await JSON.parse(response.text);
+    const { resources } = body;
+    expect(resources).toHaveLength(0);
+    // Test if array has at least 1 resource
+    expect(response.status).toBe(200);
+  });
 });
