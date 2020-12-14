@@ -52,6 +52,7 @@ export const editFavourites = async (id) => {
 };
 
 export const isInFavs = (id) => {
+  
   if(localStorage.myId == null || localStorage.myId  == ''){
     return false
   } else {
