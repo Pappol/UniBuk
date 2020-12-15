@@ -12,32 +12,33 @@ export default class InsertCreds extends Component {
 
   handleSubmit = (e) => {
     e.preventDefault();
+    console.log(this.props.user)
     const token = "Bearer " + localStorage.token;
     const headers = {
       "Content-type": "application/json",
       Authorization: token,
     };
     const data = [
-      {
+      { 
         propName: "studentCreds",
         value: {
-          university: this.uni,
-          course: this.course,
-          year: this.year,
+          university: this.uni || '',
+          course: this.course || '',
+          year: this.year || '',
         },
       },
       {
         propName: "links",
         value: {
-          website: this.website,
-          contactEmail: this.contactEmail,
-          linkedin: this.linkedin,
-          gitHub: this.gitHub,
+          website: this.website || this.props.user.links.website,
+          contactEmail: this.contactEmail || this.props.user.links.contactEmail,
+          linkedin: this.linkedin || this.props.user.links.linkedin,
+          gitHub: this.gitHub || this.props.user.links.gitHub,
         },
       },
       {
         propName: "profileImage",
-        value: this.image,
+        value: this.image || this.props.user.profileImage,
       },
     ];
     console.table(data);
@@ -80,9 +81,10 @@ export default class InsertCreds extends Component {
               <Form.Control
               required
                 as="select"
-                defaultValue={this.props.user.university}
+                defaultValue={this.props.user.studentCreds.university || ''}
                 onChange={(e) => (this.uni = e.target.value)}
               >
+                <option>Scegli</option>
                 <option>Università di Trento</option>
                 <option>Università di Padova</option>
                 <option>Università di Roma</option>
@@ -97,11 +99,12 @@ export default class InsertCreds extends Component {
               <Form.Control
               required
                 as="select"
-                defaultValue={this.props.user.course}
+                defaultValue={this.props.user.course || ''}
                 onChange={(e) =>
                   (this.course = e.target.value || e.defaultValue)
                 }
               >
+                <option>Scegli</option>
                 <option>Informatica</option>
                 <option>Economia</option>
                 <option>Giurisprudenza</option>
@@ -118,9 +121,10 @@ export default class InsertCreds extends Component {
               <Form.Control
               required
                 as="select"
-                defaultValue={this.props.user.year}
+                defaultValue={this.props.user.year || ''}
                 onChange={(e) => (this.year = e.target.value || e.defaultValue)}
               >
+                <option>Scegli</option>
                 <option>1</option>
                 <option>2</option>
                 <option>3</option>
