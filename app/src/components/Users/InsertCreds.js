@@ -98,7 +98,7 @@ export default class InsertCreds extends Component {
               <Form.Control
                 required
                 as="select"
-                defaultValue={this.props.user.studentCreds.university || ""}
+                defaultValue={this.props.user.university || ""}
                 onChange={(e) => (this.uni = e.target.value)}
               >
                 <option>Scegli</option>
