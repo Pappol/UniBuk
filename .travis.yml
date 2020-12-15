@@ -18,8 +18,8 @@ script:
   - cd ..
 after_success:
   - |
-    if [[ "$TRAVIS_BRANCH" != "develop" ]]; then
-      echo "We're not on the develop branch"
+    if [[ "$TRAVIS_BRANCH" != "master" ]]; then
+      echo "We're not on the master branch"
       exit 0
     fi
     docker build -t registry.heroku.com/unibuk/web app
