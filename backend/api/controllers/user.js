@@ -88,13 +88,13 @@ export const user_login = (req, res, next) => {
     .then((user) => {
       if (user.length < 1) {
         return res.status(403).json({
-          message: "Auth failed",
+          message: "Auth failed:no mail found",
         });
       }
       bcrypt.compare(req.body.password, user[0].password, (err, result) => {
         if (err) {
           return res.status(402).json({
-            message: "Auth failed",
+            message: "Auth failed:failed to compare hash",
           });
         }
         if (result) {

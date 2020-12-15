@@ -50,7 +50,7 @@ paths:
                 properties:
                   message: 
                     type: string
-                    example: mail exists
+                    example: Mail exists
         '500':
           description: dabase error
           content: 
@@ -119,7 +119,7 @@ paths:
                 id: 5fab15fdd9fe8e536c4df414
                 university: Università di Trento
         '401':
-          description: wrong credentials
+          description: generic failure
           content: 
             application/json:
               schema:
@@ -137,7 +137,7 @@ paths:
                 properties:
                   message: 
                     type: string
-                    example: Auth failed
+                    example: Auth failed:failed to compare hash
         '403':
           description: user doesn't exists
           content: 
@@ -147,7 +147,7 @@ paths:
                 properties:
                   message: 
                     type: string
-                    example: Auth failed
+                    example: Auth failed:no mail found
         '500':
           description: database error
           content: 
@@ -762,21 +762,21 @@ paths:
   /contents/{id}/addview:
     post:
       description: Increment by 1 the views of a given content
-      requestBody:
-        required: true
-        content:
-          applicationn/json:
-            schema:
-              type: array
-              items: 
-                type: object
-                properties:
-                  propName:
-                    type: string
-                    example: username
-                  value:
-                    type: object #could be other than object (object is the most generic allowed)
-                    example: salt bae
+      # requestBody:
+      #   required: true
+      #   content:
+      #     applicationn/json:
+      #       schema:
+      #         type: array
+      #         items: 
+      #           type: object
+      #           properties:
+      #             propName:
+      #               type: string
+      #               example: username
+      #             value:
+      #               type: object #could be other than object (object is the most generic allowed)
+      #               example: salt bae
       parameters:
         - in: path
           name: id
