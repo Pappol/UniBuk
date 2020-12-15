@@ -11,6 +11,7 @@ import {
   Spinner,
 } from "react-bootstrap";
 import StarRatings from "react-star-ratings";
+import "./ResourceCard.css";
 
 import Review from "./Review";
 import QA from "./QA";
@@ -260,8 +261,7 @@ class ResourceDetails extends Component {
               <ListGroup.Item>
                 <Row>
                   <Col className="col-xs-12 col-sm-12 col-md-4 col-lg-4">
-                    <Image
-                      style={{ height: "25vw", width: "auto" }}
+                    <Image class='ResoureCard'
                       src={
                         `${resource.image}`.startsWith("http://") ||
                         `${resource.image}`.startsWith("https://")
