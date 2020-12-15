@@ -602,7 +602,7 @@ describe("API tests", () => {
     let data = {
       _id: new mongoose.Types.ObjectId(),
       creator: "5fab1591d9fe8e536c4df412",
-      name: "MyBestContent",
+      name: "MyBestContent2",
       url: "another.example.com",
       description: "another DescriptionExample",
       image: "another pathExample",
@@ -834,6 +834,27 @@ describe("API tests", () => {
   });
 
   test("Adding a review to a non existing book", async () => {
+    let header = {
+      Authorization: token,
+    };
+    let data = [
+      {
+        propName: "comments",
+        value: {
+          quest: "Sample review",
+        },
+      },
+    ];
+    const response = await request
+      .patch(`/books/add/notexisting`)
+      .send(data)
+      .set(header);
+    expect(response.body).toHaveProperty("error");
+    expect(response.status).toBe(500);
+  });
+
+  test("Adding a review to a non existing content", async () => {
+    
     let header = {
       Authorization: token,
     };
