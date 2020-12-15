@@ -1,7 +1,21 @@
 import mongoose from 'mongoose';
 import Book from '../models/book.js';
 
-export const books_get_all = (req, res, next) => {
+export const books_get_all = async (req, res, next) => {
+  const university = req.query.query;
+  if (university == "books"){
+    let contents;
+    contents = await Content.find({});
+    const newContents = []
+    for (const content of contents) {
+      for (const validFor of content.validFor) {
+        if (validFor.university === university) {
+          newContents.push(content)
+        }
+      }
+    }
+    return res.status(200).json({ contents: newContents });
+  }
   Book.find()
     // .select("isbn title author description _id")
     .exec()

@@ -20,7 +20,7 @@ export class Signup extends Component {
       lastName: this.lastName,
     };
     console.table(data);
-    axios.post(`${process.env.REACT_APP_BACKEND_URL}/v1/user/signup`, data)
+    axios.post(`${process.env.REACT_APP_BACKEND_URL}/v1/users/signup`, data)
       .then((res) => {
         console.log(res);
       })

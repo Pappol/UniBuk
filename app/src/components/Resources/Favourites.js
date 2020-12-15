@@ -10,7 +10,7 @@ export const getFavourites = async () => {
     return;
   }
   const usrRes = await fetch(
-    `${process.env.REACT_APP_BACKEND_URL}/v1/user/${localStorage.myId}`
+    `${process.env.REACT_APP_BACKEND_URL}/v1/users/${localStorage.myId}`
   );
   const json = await usrRes.json();
   favs = await json.user.favourites;
@@ -37,7 +37,7 @@ export const editFavourites = async (id) => {
   };
   axios
     .patch(
-      `${process.env.REACT_APP_BACKEND_URL}/v1/user/${localStorage.myId}`,
+      `${process.env.REACT_APP_BACKEND_URL}/v1/users/${localStorage.myId}`,
       data,
       {
         headers: headers,

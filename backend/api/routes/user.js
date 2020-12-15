@@ -9,7 +9,7 @@ router.get('/:userId/contents', user_get_contents);
 router.post('/signup', user_signup);
 router.post('/login', user_login);
 router.patch('/:userId', checkAuth, user_update);
-router.patch('/add/:userId', checkAuth, user_add);
+router.patch('/:userId/follow', checkAuth, user_add);
 router.delete('/:userId', checkAuth, user_delete);
 
 export default router;

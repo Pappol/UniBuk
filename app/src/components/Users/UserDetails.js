@@ -29,7 +29,7 @@ class UserDetails extends Component {
   async componentDidMount() {
     const { match } = this.props;
     const res = await fetch(
-      `${process.env.REACT_APP_BACKEND_URL}/v1/user/${match.params.userId}`
+      `${process.env.REACT_APP_BACKEND_URL}/v1/users/${match.params.userId}`
     );
     const json = await res.json();
     this.setState({
@@ -39,7 +39,7 @@ class UserDetails extends Component {
       this.getFollow();
     }
     const resContents = await fetch(
-      `${process.env.REACT_APP_BACKEND_URL}/v1/user/${match.params.userId}/contents`
+      `${process.env.REACT_APP_BACKEND_URL}/v1/users/${match.params.userId}/contents`
     );
     const jsonContents = await resContents.json();
     this.setState({
@@ -49,7 +49,7 @@ class UserDetails extends Component {
 
   getFollow = async () => {
     const res = await fetch(
-      `${process.env.REACT_APP_BACKEND_URL}/v1/user/${localStorage.myId}`
+      `${process.env.REACT_APP_BACKEND_URL}/v1/users/${localStorage.myId}`
     );
     const json = await res.json();
     this.setState({
@@ -84,7 +84,7 @@ class UserDetails extends Component {
     ];
     await axios
       .patch(
-        `${process.env.REACT_APP_BACKEND_URL}/v1/user/add/${localStorage.myId}`,
+        `${process.env.REACT_APP_BACKEND_URL}/v1/users/${localStorage.myId}/follow`,
         data,
         {
           headers: headers,
@@ -120,7 +120,7 @@ class UserDetails extends Component {
     ];
     await axios
       .patch(
-        `${process.env.REACT_APP_BACKEND_URL}/v1/user/${localStorage.myId}`,
+        `${process.env.REACT_APP_BACKEND_URL}/v1/users/${localStorage.myId}`,
         data,
         {
           headers: headers,

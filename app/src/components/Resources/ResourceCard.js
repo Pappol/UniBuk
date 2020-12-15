@@ -26,7 +26,7 @@ class ResourceCard extends Component {
 
   getCreatorName = async () => {
     if(this.props.resource.creator) {
-      const res = await fetch(`${process.env.REACT_APP_BACKEND_URL}/v1/user/${this.props.resource.creator}`);
+      const res = await fetch(`${process.env.REACT_APP_BACKEND_URL}/v1/users/${this.props.resource.creator}`);
       const json = await res.json();
       this.setState({
         creatorName: json.user.username,

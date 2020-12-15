@@ -1,7 +1,6 @@
 import express from "express";
-import { queryAll, queryUniversity} from '../controllers/search.js';
- 
+import { queryAll } from "../controllers/search.js";
+
 const router = express.Router();
-router.get('/all/:query', queryAll);
-router.get('/university/:kind/:university', queryUniversity)
+router.get("/all/:query", queryAll);
 export default router;

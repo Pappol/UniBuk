@@ -17,7 +17,7 @@ servers:
 
 paths: 
   
-  /user/signup:
+  /users/signup:
     
     post: 
       description: Creates a new user in the database
@@ -80,7 +80,7 @@ paths:
                     type: string
                     example: Hashing error type
           
-  /user/login:
+  /users/login:
     
     post:
       description: Checks if a user already exists in the database and returns a valid access token
@@ -167,7 +167,7 @@ paths:
                     type: string
                     example: Database error type
   
-  /user/{id}:
+  /users/{id}:
   
     get: 
       description: Obtains information about a specific user
@@ -294,7 +294,7 @@ paths:
                     type: string
                     example: Database error type
 
-  /user/{id}/contents:
+  /users/{id}/contents:
     get: 
       description: Obtains all contents related to a user
       parameters:
@@ -331,7 +331,7 @@ paths:
                     type: string
                     example: Database error type
 
-  /user/add/{id}:
+  /users/{id}/follow:
     patch:
       description: Adds something to a specific user in the database
       security:
@@ -452,7 +452,7 @@ paths:
                     type: string
                     example: Database error type
 
-  /books/add/{id}:
+  /books/{id}/review:
   
     patch:
       description: Updates a book information; useful for adding a new comment/review to a book with provided {id}
@@ -561,6 +561,13 @@ paths:
   
     get:
       description: Obtains the information of the contents in database
+      parameters:
+        - in: query
+          name: university
+          description: Filter by university
+          schema: 
+            type: string
+            example: Università di Trento
       responses:
         '200':
           description: Successful pull of one book
@@ -726,7 +733,7 @@ paths:
                     example: Database error type
     
                     
-  /contents/add/{id}:
+  /contents/{id}/review:
     patch:
       description: Updates a content information; useful for adding a new comment/review to a content with provided {id}
       security:
@@ -777,7 +784,7 @@ paths:
                     type: string
                     example: Database error type
 
-  /contents/{id}/addview:
+  /contents/{id}/view:
     post:
       description: Increments by 1 the views of a given content
       parameters:
@@ -863,10 +870,10 @@ paths:
                   error: 
                     type: string
                     example: Database error type
-  /search/all/{query}:
+  /search:
   
     get:
-      description: Finds the books, contents and users
+      description: Filter by name books, contents and users
       parameters:
         - in: path
           name: query
@@ -905,46 +912,13 @@ paths:
                   error:
                     type: string
                     example: Database error type
-
-  /search/university/{kind}/university:
-  
-    get:
-      description: Finds the books, contents and users
-      parameters:
-        - in: path
-          name: kind
-          required: true
-          description: Any field of content, book or user except for password and objects keys
-          schema:
-            type: string
-            example: myBook
-      responses:
-        '200':
-          description: Successful search of university contents
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  books:
-                    type: array
-                    items:
-                      $ref: '#/components/schemas/Book'
-                  contents:
-                    type: array
-                    items:
-                      $ref: '#/components/schemas/Content'
-        '404':
-          description: University does not exist
-          content: 
-            application/json:
-              schema:
-                type: object
-                properties:
-                  error:
-                    type: string
-                    example: Kind not found
 components:
+
+  securitySchemes:
+    jwtAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
   schemas:
     User:
       description: Model containing user info
@@ -1131,7 +1105,7 @@ components:
               $ref: '#/components/schemas/User'
         date:
           type: number
-          example: 17/11/2020
+          example: 2020
         name:
           type: string
           example: Dispensa Calcolatori

@@ -1,6 +1,22 @@
 import mongoose from "mongoose";
 import Content from "../models/content.js";
-export const contents_get_all = (req, res, next) => {
+
+export const contents_get_all = async (req, res, next) => {
+  const university = req.query.query;
+  if (university == "contents"){
+    let contents;
+    contents = await Content.find({});
+    const newContents = []
+    for (const content of contents) {
+      for (const validFor of content.validFor) {
+        if (validFor.university === university) {
+          newContents.push(content)
+        }
+      }
+    }
+  
+    return res.status(200).json({ contents: newContents });
+  }
   Content.find()
     // .select("_id")
     .exec()

@@ -43,25 +43,3 @@ export const queryAll = async (req, res) => {
   });
 };
 
-export const queryUniversity = async (req, res) => {
-  const { university, kind } = req.params;
-  
-  let contents;
-  if (kind === "books") {
-    contents = await Book.find({});
-  } else if (kind === "contents") {
-    contents = await Content.find({});
-  } else {
-    return res.status(404).json({ error: "Kind not found" });
-  }
-  const newContents = []
-  for (const content of contents) {
-    for (const validFor of content.validFor) {
-      if (validFor.university === university) {
-        newContents.push(content)
-      }
-    }
-  }
-
-  return res.status(200).json({ contents: newContents });
-};

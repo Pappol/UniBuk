@@ -48,7 +48,7 @@ app.use((req, res, next) => {
 // main routes
 app.use('/v1/contents', contentsRoutes);
 app.use('/v1/books', booksRoutes);
-app.use('/v1/user', userRoutes);
+app.use('/v1/users', userRoutes);
 app.use('/v1/search', searchRoutes);
 
 // default route

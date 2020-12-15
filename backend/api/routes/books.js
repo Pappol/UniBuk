@@ -35,7 +35,7 @@ import { books_get_all, books_get_book, books_update_book, books_add_answer } fr
 
 router.get('/', books_get_all);
 router.get('/:bookId', books_get_book);
-router.patch('/add/:bookId', checkAuth, books_update_book);
+router.patch('/:bookId/review', checkAuth, books_update_book);
 router.patch('/:bookId/questions/:questionId/', checkAuth, books_add_answer);
 
 export default router;

@@ -67,7 +67,7 @@ class ResourceDetails extends Component {
         reviewsDisplay: json.content.comments,
       });
       axios.post(
-        `${process.env.REACT_APP_BACKEND_URL}/v1/contents/${match.params.resourceId}/addView`
+        `${process.env.REACT_APP_BACKEND_URL}/v1/contents/${match.params.resourceId}/view`
       );
       await this.getCreatorName(this.state.resource.creator);
     }
@@ -151,7 +151,7 @@ class ResourceDetails extends Component {
     ];
     axios
       .patch(
-        `${process.env.REACT_APP_BACKEND_URL}/v1/${localStorage.kind}/add/${this.props.match.params.resourceId}`,
+        `${process.env.REACT_APP_BACKEND_URL}/v1/${localStorage.kind}/${this.props.match.params.resourceId}/review`,
         data,
         {
           headers: headers,
@@ -178,7 +178,7 @@ class ResourceDetails extends Component {
       console.log(this.state.reviewsDisplay);
       for (const review of this.state.reviewsDisplay) {
         let res = await fetch(
-          `${process.env.REACT_APP_BACKEND_URL}/v1/user/${review.author}`
+          `${process.env.REACT_APP_BACKEND_URL}/v1/users/${review.author}`
         );
         let json = await res.json();
         if (
@@ -212,7 +212,7 @@ class ResourceDetails extends Component {
     ];
     axios
       .patch(
-        `${process.env.REACT_APP_BACKEND_URL}/v1/${localStorage.kind}/add/${this.props.match.params.resourceId}`,
+        `${process.env.REACT_APP_BACKEND_URL}/v1/${localStorage.kind}/${this.props.match.params.resourceId}/review`,
         data,
         {
           headers: headers,
@@ -237,7 +237,7 @@ class ResourceDetails extends Component {
   getCreatorName = async (creator) => {
     if (creator) {
       const res = await fetch(
-        `${process.env.REACT_APP_BACKEND_URL}/v1/user/${creator}`
+        `${process.env.REACT_APP_BACKEND_URL}/v1/users/${creator}`
       );
       const json = await res.json();
       this.setState({
