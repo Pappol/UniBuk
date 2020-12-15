@@ -10,9 +10,9 @@ info:
     name: 'team #10'
     url: 'https://github.com/Pappol/UniBuk'
 servers:
-  # - url: http://localhost:3000
+  # - url: http://localhost:8080/api/v1/
   #   description: Localhost
-  - url: https://unibuk.herokuapp.com
+  - url: https://unibuk-backend.herokuapp.com
     description: Heroku server
 
 paths: 
@@ -780,21 +780,6 @@ paths:
   /contents/{id}/addview:
     post:
       description: Increments by 1 the views of a given content
-      # requestBody:
-      #   required: true
-      #   content:
-      #     application/json:
-      #       schema:
-      #         type: array
-      #         items: 
-      #           type: object
-      #           properties:
-      #             propName:
-      #               type: string
-      #               example: username
-      #             value:
-      #               type: object #could be other than object (object is the most generic allowed)
-      #               example: salt bae
       parameters:
         - in: path
           name: id
@@ -814,7 +799,7 @@ paths:
                   message:
                     type: string
               example: 
-                message: Content updated
+                message: Views counter has been incremented0
         '500':
           description: Error in updating counter
           content: 
@@ -878,24 +863,6 @@ paths:
                   error: 
                     type: string
                     example: Database error type
-    
-    
-#    delete:
-#      description: Delete a specific content from the database
-#      parameters:
-#        - in: path
-#          name: id
-#          required: true
-#          description: The id of the book
-#          schema:
-#            type: string
-#            example: mongose auto generated
-#      responses:
-#        '404':
-#          $ref: '#/components/responses/NotFound'
-#        '500':
-#          $ref: '#/components/responses/DbError'
-
   /search/all/{query}:
   
     get:

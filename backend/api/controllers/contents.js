@@ -215,6 +215,6 @@ export const content_add_view = async (req, res, next) => {
     return;
   }
   res.status(200).json({
-    user: resources,
+    message: "Views counter has been incremented"
   });
 };
