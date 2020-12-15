@@ -53,7 +53,7 @@ class ResourceEdit extends Component {
       }
     ];
 
-    await axios.patch(`${process.env.REACT_APP_BACKEND_URL}/${localStorage.kind}/${this.props.genProps.match.params.resourceId}`, data, {
+    await axios.patch(`${process.env.REACT_APP_BACKEND_URL}/v1/${localStorage.kind}/${this.props.genProps.match.params.resourceId}`, data, {
       headers: headers
     });
 

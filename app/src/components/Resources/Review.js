@@ -15,7 +15,7 @@ class Review extends Component {
 
   getAuthorName = async () => {
     const res = await fetch(
-      `${process.env.REACT_APP_BACKEND_URL}/user/${this.props.review.author}`
+      `${process.env.REACT_APP_BACKEND_URL}/v1/user/${this.props.review.author}`
     );
     const json = await res.json();
     this.setState({

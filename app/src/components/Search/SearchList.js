@@ -16,7 +16,7 @@ class SearchList extends Component {
 
   async componentDidMount() {
     const { query } = this.props.match.params;
-    const res = await fetch(`${process.env.REACT_APP_BACKEND_URL}/search/all/${query}`);
+    const res = await fetch(`${process.env.REACT_APP_BACKEND_URL}/v1/search/all/${query}`);
     const json = await res.json();
     this.setState({
       contents: json.contents,

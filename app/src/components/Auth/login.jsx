@@ -17,7 +17,7 @@ export class Login extends Component {
     let res;
     try {
       res = await axios.post(
-        `${process.env.REACT_APP_BACKEND_URL}/user/login`,
+        `${process.env.REACT_APP_BACKEND_URL}/v1/user/login`,
         data
       );
     } catch {

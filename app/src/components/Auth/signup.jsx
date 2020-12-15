@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { Link } from "react-router-dom";
-import Axios from "axios";
+import axios from "axios";
 
 import Form from "react-bootstrap/Form";
 import Jumbotron from "react-bootstrap/Jumbotron";
@@ -20,7 +20,7 @@ export class Signup extends Component {
       lastName: this.lastName,
     };
     console.table(data);
-    Axios.post(`${process.env.REACT_APP_BACKEND_URL}/user/signup`, data)
+    axios.post(`${process.env.REACT_APP_BACKEND_URL}/v1/user/signup`, data)
       .then((res) => {
         console.log(res);
       })

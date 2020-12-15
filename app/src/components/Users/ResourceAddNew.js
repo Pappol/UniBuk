@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import Axios from 'axios'
+import axios from 'axios'
 
 import Col from 'react-bootstrap/Col'
 import Button from 'react-bootstrap/Button'
@@ -51,7 +51,7 @@ class ResourceAddNew extends Component {
       image: this.state.image,
     };
 
-   Axios.post(`${process.env.REACT_APP_BACKEND_URL}/contents`, content)
+   axios.post(`${process.env.REACT_APP_BACKEND_URL}/v1/contents`, content)
     .then(res => {
       alert(res.data.message);
     })

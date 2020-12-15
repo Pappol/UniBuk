@@ -1,7 +1,5 @@
 import React, { Component } from "react";
 import { withRouter, Link } from "react-router-dom";
-
-import axios from "axios";
 import {
   Jumbotron,
   ListGroup,
@@ -19,7 +17,7 @@ import QA from "./QA";
 import ResourceTag from "./ResourceTag";
 import ResourceShow from "./ResourceShow";
 import ResourceEdit from "./ResourceEdit";
-import Axios from "axios";
+import axios from "axios";
 
 import { isInFavs, editFavourites } from "./Favourites";
 class ResourceDetails extends Component {
@@ -47,7 +45,7 @@ class ResourceDetails extends Component {
     });
     const { match } = this.props;
     let res = await fetch(
-      `${process.env.REACT_APP_BACKEND_URL}/books/${match.params.resourceId}`
+      `${process.env.REACT_APP_BACKEND_URL}/v1/books/${match.params.resourceId}`
     );
     let json = await res.json();
     if (json.book) {
@@ -59,7 +57,7 @@ class ResourceDetails extends Component {
     }
     // If no book is found
     res = await fetch(
-      `${process.env.REACT_APP_BACKEND_URL}/contents/${match.params.resourceId}`
+      `${process.env.REACT_APP_BACKEND_URL}/v1/contents/${match.params.resourceId}`
     );
     json = await res.json();
     if (json.content) {
@@ -67,8 +65,8 @@ class ResourceDetails extends Component {
         resource: json.content,
         reviewsDisplay: json.content.comments,
       });
-      Axios.post(
-        `${process.env.REACT_APP_BACKEND_URL}/contents/${match.params.resourceId}/addView`
+      axios.post(
+        `${process.env.REACT_APP_BACKEND_URL}/v1/contents/${match.params.resourceId}/addView`
       );
       await this.getCreatorName(this.state.resource.creator);
     }
@@ -92,7 +90,7 @@ class ResourceDetails extends Component {
     ];
 
     await axios.patch(
-      `${process.env.REACT_APP_BACKEND_URL}/${localStorage.kind}/${match.params.resourceId}`,
+      `${process.env.REACT_APP_BACKEND_URL}/v1/${localStorage.kind}/${match.params.resourceId}`,
       data,
       {
         headers: headers,
@@ -152,7 +150,7 @@ class ResourceDetails extends Component {
     ];
     axios
       .patch(
-        `${process.env.REACT_APP_BACKEND_URL}/${localStorage.kind}/add/${this.props.match.params.resourceId}`,
+        `${process.env.REACT_APP_BACKEND_URL}/v1/${localStorage.kind}/add/${this.props.match.params.resourceId}`,
         data,
         {
           headers: headers,
@@ -179,7 +177,7 @@ class ResourceDetails extends Component {
       console.log(this.state.reviewsDisplay);
       for (const review of this.state.reviewsDisplay) {
         let res = await fetch(
-          `${process.env.REACT_APP_BACKEND_URL}/user/${review.author}`
+          `${process.env.REACT_APP_BACKEND_URL}/v1/user/${review.author}`
         );
         let json = await res.json();
         if (
@@ -213,7 +211,7 @@ class ResourceDetails extends Component {
     ];
     axios
       .patch(
-        `${process.env.REACT_APP_BACKEND_URL}/${localStorage.kind}/add/${this.props.match.params.resourceId}`,
+        `${process.env.REACT_APP_BACKEND_URL}/v1/${localStorage.kind}/add/${this.props.match.params.resourceId}`,
         data,
         {
           headers: headers,
@@ -238,7 +236,7 @@ class ResourceDetails extends Component {
   getCreatorName = async (creator) => {
     if (creator) {
       const res = await fetch(
-        `${process.env.REACT_APP_BACKEND_URL}/user/${creator}`
+        `${process.env.REACT_APP_BACKEND_URL}/v1/user/${creator}`
       );
       const json = await res.json();
       this.setState({

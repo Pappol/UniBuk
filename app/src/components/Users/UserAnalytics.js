@@ -16,7 +16,7 @@ class UserDetails extends Component {
   async componentDidMount() {
     const { match } = this.props;
     const res = await fetch(
-      `${process.env.REACT_APP_BACKEND_URL}/user/${match.params.userId}`
+      `${process.env.REACT_APP_BACKEND_URL}/v1/user/${match.params.userId}`
     );
     const json = await res.json();
     this.setState({
@@ -24,7 +24,7 @@ class UserDetails extends Component {
     });
 
     const resContents = await fetch(
-      `${process.env.REACT_APP_BACKEND_URL}/user/${match.params.userId}/contents`
+      `${process.env.REACT_APP_BACKEND_URL}/v1/user/${match.params.userId}/contents`
     );
     const jsonContents = await resContents.json();
     this.setState({

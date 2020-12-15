@@ -39,7 +39,7 @@ class Resources extends Component {
     if (localStorage.myId) {
       this.getResources("contents");
       const res = await fetch(
-        `${process.env.REACT_APP_BACKEND_URL}/user/${localStorage.myId}`
+        `${process.env.REACT_APP_BACKEND_URL}/v1/user/${localStorage.myId}`
       );
       const json = await res.json();
       console.log(json);
@@ -51,7 +51,7 @@ class Resources extends Component {
   };
 
   getResources = async (kind) => {
-    const res = await fetch(`${process.env.REACT_APP_BACKEND_URL}/${kind}`);
+    const res = await fetch(`${process.env.REACT_APP_BACKEND_URL}/v1/${kind}`);
     const json = await res.json();
     if (kind === "books") {
       this.setState({
@@ -88,7 +88,7 @@ class Resources extends Component {
   fileterByUniversity = async (university) => {
     const kind = localStorage.kind;
     const res = await fetch(
-      `${process.env.REACT_APP_BACKEND_URL}/search/university/${kind}/${university}`
+      `${process.env.REACT_APP_BACKEND_URL}/v1/search/university/${kind}/${university}`
     );
     const json = await res.json();
     this.setState({

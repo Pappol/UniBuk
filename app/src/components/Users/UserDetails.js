@@ -7,7 +7,7 @@ import "./User.css";
 
 import Jumbotron from "react-bootstrap/esm/Jumbotron";
 import { Form, Table, Card, Accordion, Button } from "react-bootstrap";
-import Axios from "axios";
+import axios from "axios";
 import { Login } from "../Auth/login";
 import { ListGroup, Spinner } from "react-bootstrap";
 
@@ -29,7 +29,7 @@ class UserDetails extends Component {
   async componentDidMount() {
     const { match } = this.props;
     const res = await fetch(
-      `${process.env.REACT_APP_BACKEND_URL}/user/${match.params.userId}`
+      `${process.env.REACT_APP_BACKEND_URL}/v1/user/${match.params.userId}`
     );
     const json = await res.json();
     this.setState({
@@ -39,7 +39,7 @@ class UserDetails extends Component {
       this.getFollow();
     }
     const resContents = await fetch(
-      `${process.env.REACT_APP_BACKEND_URL}/user/${match.params.userId}/contents`
+      `${process.env.REACT_APP_BACKEND_URL}/v1/user/${match.params.userId}/contents`
     );
     const jsonContents = await resContents.json();
     this.setState({
@@ -49,7 +49,7 @@ class UserDetails extends Component {
 
   getFollow = async () => {
     const res = await fetch(
-      `${process.env.REACT_APP_BACKEND_URL}/user/${localStorage.myId}`
+      `${process.env.REACT_APP_BACKEND_URL}/v1/user/${localStorage.myId}`
     );
     const json = await res.json();
     this.setState({
@@ -82,8 +82,8 @@ class UserDetails extends Component {
         value: this.state.user._id,
       },
     ];
-    await Axios.patch(
-      `${process.env.REACT_APP_BACKEND_URL}/user/add/${localStorage.myId}`,
+    await axios.patch(
+      `${process.env.REACT_APP_BACKEND_URL}/v1/user/add/${localStorage.myId}`,
       data,
       {
         headers: headers,
@@ -117,8 +117,8 @@ class UserDetails extends Component {
         value: newFollow,
       },
     ];
-    await Axios.patch(
-      `${process.env.REACT_APP_BACKEND_URL}/user/${localStorage.myId}`,
+    await axios.patch(
+      `${process.env.REACT_APP_BACKEND_URL}/v1/user/${localStorage.myId}`,
       data,
       {
         headers: headers,

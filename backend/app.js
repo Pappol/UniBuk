@@ -46,10 +46,10 @@ app.use((req, res, next) => {
 });
 
 // main routes
-app.use('/contents', contentsRoutes);
-app.use('/books', booksRoutes);
-app.use('/user', userRoutes);
-app.use('/search', searchRoutes);
+app.use('/v1/contents', contentsRoutes);
+app.use('/v1/books', booksRoutes);
+app.use('/v1/user', userRoutes);
+app.use('/v1/search', searchRoutes);
 
 // default route
 app.use((req, res, next) => {

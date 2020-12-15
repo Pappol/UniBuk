@@ -31,7 +31,7 @@ export default class QA extends Component {
     };
     axios
       .patch(
-        `${process.env.REACT_APP_BACKEND_URL}/${localStorage.kind}/${this.props.rId}/questions/${question._id}`,
+        `${process.env.REACT_APP_BACKEND_URL}/v1/${localStorage.kind}/${this.props.rId}/questions/${question._id}`,
         data,
         {
           headers: headers,
