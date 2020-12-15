@@ -82,13 +82,14 @@ class UserDetails extends Component {
         value: this.state.user._id,
       },
     ];
-    await axios.patch(
-      `${process.env.REACT_APP_BACKEND_URL}/v1/user/add/${localStorage.myId}`,
-      data,
-      {
-        headers: headers,
-      }
-    )
+    await axios
+      .patch(
+        `${process.env.REACT_APP_BACKEND_URL}/v1/user/add/${localStorage.myId}`,
+        data,
+        {
+          headers: headers,
+        }
+      )
       .then((res) => {
         console.log(res);
       })
@@ -117,13 +118,14 @@ class UserDetails extends Component {
         value: newFollow,
       },
     ];
-    await axios.patch(
-      `${process.env.REACT_APP_BACKEND_URL}/v1/user/${localStorage.myId}`,
-      data,
-      {
-        headers: headers,
-      }
-    )
+    await axios
+      .patch(
+        `${process.env.REACT_APP_BACKEND_URL}/v1/user/${localStorage.myId}`,
+        data,
+        {
+          headers: headers,
+        }
+      )
       .then((res) => {
         console.log(res);
       })
@@ -134,6 +136,26 @@ class UserDetails extends Component {
     this.setState({
       myFollow: newFollow,
     });
+  };
+
+  reloadCreds = (newCreds) => {
+    this.setState((prevState) => ({
+      user: {
+        ...prevState.user,
+        studentCreds: {
+          university: newCreds.studentCreds.university,
+          course: newCreds.studentCreds.course,
+          year: newCreds.studentCreds.year,
+        },
+        links: {
+          contactEmail: newCreds.links.contactEmail,
+          website: newCreds.links.website,
+          linkedin: newCreds.links.linkedin,
+          gitHub: newCreds.links.gitHub,
+        },
+        profileImage: newCreds.profileImage,
+      },
+    }));
   };
 
   render() {
@@ -280,25 +302,19 @@ class UserDetails extends Component {
               </i>
               <p>Clicca il bottone sotto per aggiornare le tue credenziali</p>
               <Accordion className="mt-3">
-                <Card>
-                  <Card.Header>
-                    <Accordion.Toggle
-                      as={Button}
-                      variant="primary"
-                      eventKey="0"
-                    >
-                      Cambia credenziali
-                    </Accordion.Toggle>
-                  </Card.Header>
-                  <Accordion.Collapse eventKey="0">
-                    <Card.Body>
-                      <InsertCreds
-                        userId={this.props.match.params.userId}
-                        user={this.state.user}
-                      />
-                    </Card.Body>
-                  </Accordion.Collapse>
-                </Card>
+                <Accordion.Toggle as={Button} variant="primary" eventKey="0">
+                  Cambia credenziali
+                </Accordion.Toggle>
+                <br />
+                {"  "}
+                <br />
+                <Accordion.Collapse eventKey="0">
+                  <InsertCreds
+                    userId={this.props.match.params.userId}
+                    user={this.state.user}
+                    reload={this.reloadCreds}
+                  />
+                </Accordion.Collapse>
               </Accordion>
             </>
           ) : null}

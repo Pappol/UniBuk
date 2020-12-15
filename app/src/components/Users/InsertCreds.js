@@ -12,19 +12,35 @@ export default class InsertCreds extends Component {
 
   handleSubmit = (e) => {
     e.preventDefault();
-    console.log(this.props.user)
+    console.log(this.props.user);
     const token = "Bearer " + localStorage.token;
+
+    const toReload = {
+      links: {
+        website: this.website || this.props.user.links.website,
+        contactEmail: this.contactEmail || this.props.user.links.contactEmail,
+        linkedin: this.linkedin || this.props.user.links.linkedin,
+        gitHub: this.gitHub || this.props.user.links.gitHub,
+      },
+      studentCreds: {
+        university: this.uni || "",
+        course: this.course || "",
+        year: this.year || "",
+      },
+      profileImage: this.image || this.props.user.profileImage,
+    };
+
     const headers = {
       "Content-type": "application/json",
       Authorization: token,
     };
     const data = [
-      { 
+      {
         propName: "studentCreds",
         value: {
-          university: this.uni || '',
-          course: this.course || '',
-          year: this.year || '',
+          university: this.uni || "",
+          course: this.course || "",
+          year: this.year || "",
         },
       },
       {
@@ -57,13 +73,14 @@ export default class InsertCreds extends Component {
       .catch((err) => {
         console.log(err);
       });
-      window.location.reload(false)
-    };
+    this.props.reload(toReload);
+    //window.location.reload(false)
+  };
 
   render() {
     return (
       <div>
-        <Jumbotron>
+        <>
           <Form onSubmit={this.handleSubmit}>
             <h4>Inserisci la tua immagine profilo tramite link</h4>
             <Form.Group>
@@ -79,9 +96,9 @@ export default class InsertCreds extends Component {
             <Form.Group>
               <Form.Label>University</Form.Label>
               <Form.Control
-              required
+                required
                 as="select"
-                defaultValue={this.props.user.studentCreds.university || ''}
+                defaultValue={this.props.user.studentCreds.university || ""}
                 onChange={(e) => (this.uni = e.target.value)}
               >
                 <option>Scegli</option>
@@ -97,9 +114,9 @@ export default class InsertCreds extends Component {
             <Form.Group>
               <Form.Label>Corso</Form.Label>
               <Form.Control
-              required
+                required
                 as="select"
-                defaultValue={this.props.user.course || ''}
+                defaultValue={this.props.user.course || ""}
                 onChange={(e) =>
                   (this.course = e.target.value || e.defaultValue)
                 }
@@ -119,9 +136,9 @@ export default class InsertCreds extends Component {
             <Form.Group>
               <Form.Label>Anno</Form.Label>
               <Form.Control
-              required
+                required
                 as="select"
-                defaultValue={this.props.user.year || ''}
+                defaultValue={this.props.user.year || ""}
                 onChange={(e) => (this.year = e.target.value || e.defaultValue)}
               >
                 <option>Scegli</option>
@@ -137,15 +154,17 @@ export default class InsertCreds extends Component {
             <Form.Group>
               <Form.Label>Sito web</Form.Label>
               <Form.Control
-              required
+                required
                 type="text"
                 defaultValue={this.props.user.links.website}
                 placeholder="Website"
-                onChange={(e) => (this.website = e.target.value || e.defaultValue)}
+                onChange={(e) =>
+                  (this.website = e.target.value || e.defaultValue)
+                }
               />
               <Form.Label>Email</Form.Label>
               <Form.Control
-              required
+                required
                 type="email"
                 defaultValue={this.props.user.links.contactEmail}
                 placeholder="Contact email"
@@ -153,7 +172,7 @@ export default class InsertCreds extends Component {
               />
               <Form.Label>Linkedin</Form.Label>
               <Form.Control
-              required
+                required
                 type="text"
                 defaultValue={this.props.user.links.linkedin}
                 placeholder="linkedin"
@@ -161,7 +180,7 @@ export default class InsertCreds extends Component {
               />
               <Form.Label>GitHub</Form.Label>
               <Form.Control
-              required
+                required
                 type="text"
                 defaultValue={this.props.user.links.gitHub}
                 placeholder="github"
@@ -173,7 +192,7 @@ export default class InsertCreds extends Component {
               Aggiorna Credenziali
             </Button>
           </Form>
-        </Jumbotron>
+        </>
       </div>
     );
   }
