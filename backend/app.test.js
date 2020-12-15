@@ -109,8 +109,8 @@ describe("API tests", () => {
     // Insert each object in the database
     await Book.insertMany(bookExample);
     await Content.insertMany(contentExample);
-    await request.post("/user/signup").send(userExample);
-    let response = await request.post("/user/login").send(userCredentials);
+    await request.post("/v1/user/signup").send(userExample);
+    let response = await request.post("/v1/user/login").send(userCredentials);
     let body = JSON.parse(response.text);
     token = `Bearer ${body.token}`;
   });
@@ -128,12 +128,12 @@ describe("API tests", () => {
   });
 
   test("Root page", async () => {
-    const response = await request.get("/");
+    const response = await request.get("/v1/");
     expect(response.status).toBe(404);
   });
 
   test("Get books", async () => {
-    const response = await request.get("/books");
+    const response = await request.get("/v1/books");
     // Request body from string to object
     const body = JSON.parse(response.text);
     const { books } = body;
@@ -149,7 +149,7 @@ describe("API tests", () => {
 
   test("Get all books but there is actually 0", async () => {
     await Book.deleteOne({ _id: bookExample._id });
-    const response = await request.get("/books");
+    const response = await request.get("/v1/books");
     // Request body from string to object
     const body = JSON.parse(response.text);
     const { books } = body;
@@ -158,7 +158,7 @@ describe("API tests", () => {
   });
 
   test("Get contents", async () => {
-    const response = await request.get("/contents");
+    const response = await request.get("/v1/contents");
     // Request body from string to object
     const body = JSON.parse(response.text);
     const { contents } = body;
@@ -174,7 +174,7 @@ describe("API tests", () => {
 
   test("Get all contents but there is actually 0", async () => {
     await Content.deleteOne({ _id: contentExample._id });
-    const response = await request.get("/contents");
+    const response = await request.get("/v1/contents");
     // Request body from string to object
     const body = JSON.parse(response.text);
     const { contents } = body;
@@ -183,14 +183,14 @@ describe("API tests", () => {
   });
 
   test("Get a content", async () => {
-    const response = await request.get(`/contents/${contentExample._id}`);
+    const response = await request.get(`/v1/contents/${contentExample._id}`);
     const body = JSON.parse(response.text);
     expect(body.content._id == contentExample._id).toBeTruthy();
     expect(response.status).toBe(200);
   });
 
   test("Get a content but ID does not exist", async () => {
-    const response = await request.get(`/contents/000000000000000000000000`);
+    const response = await request.get(`/v1/contents/000000000000000000000000`);
     const body = JSON.parse(response.text);
     expect(body).toHaveProperty("message");
     expect(body.message == "No valid entry found for provided ID").toBeTruthy();
@@ -198,14 +198,14 @@ describe("API tests", () => {
   });
 
   test("Get a book", async () => {
-    const response = await request.get(`/books/${bookExample._id}`);
+    const response = await request.get(`/v1/books/${bookExample._id}`);
     const body = JSON.parse(response.text);
     expect(body.book._id == bookExample._id).toBeTruthy();
     expect(response.status).toBe(200);
   });
 
   test("Get a book but ID does not exist", async () => {
-    const response = await request.get(`/books/000000000000000000000000`);
+    const response = await request.get(`/v1/books/000000000000000000000000`);
     const body = JSON.parse(response.text);
     expect(body).toHaveProperty("message");
     expect(body.message == "No valid entry found for provided ID").toBeTruthy();
@@ -213,7 +213,7 @@ describe("API tests", () => {
   });
 
   test("Search existing", async () => {
-    const response = await request.get(`/search/all/${bookExample.title}`);
+    const response = await request.get(`/v1/search/all/${bookExample.title}`);
     const body = JSON.parse(response.text);
     // Check if there at least one element that has been found
     expect(body.books.length).not.toEqual(0);
@@ -221,7 +221,7 @@ describe("API tests", () => {
   });
 
   test("Search not existing", async () => {
-    const response = await request.get(`/search/all/thiselementdoesnotexist`);
+    const response = await request.get(`/v1/search/all/thiselementdoesnotexist`);
     const body = JSON.parse(response.text);
     // Check if there are no elements found
     expect(body.books.length).toEqual(0);
@@ -230,14 +230,14 @@ describe("API tests", () => {
 
   test("Get a user", async () => {
     const user = await User.findOne({ email: userExample.email });
-    const response = await request.get(`/user/${user._id}`);
+    const response = await request.get(`/v1/user/${user._id}`);
     const body = JSON.parse(response.text);
     expect(body.user.username == userExample.username).toBeTruthy();
     expect(response.status).toBe(200);
   });
 
   test("Get a user that doesn't exist", async () => {
-    const response = await request.get(`/user/5fab1591d9fe8e536c4df412`);
+    const response = await request.get(`/v1/user/5fab1591d9fe8e536c4df412`);
     const body = JSON.parse(response.text);
     expect(body.user).toBe(null || undefined);
     expect(body).toHaveProperty("message");
@@ -246,7 +246,7 @@ describe("API tests", () => {
   });
 
   test("Get a user without providing a valid ID value", async () => {
-    const response = await request.get(`/user/thisisnotauserid`);
+    const response = await request.get(`/v1/user/thisisnotauserid`);
     const body = JSON.parse(response.text);
     expect(body.user).toBe(null || undefined);
     expect(body).toHaveProperty("error");
@@ -254,7 +254,7 @@ describe("API tests", () => {
   });
 
   test("User login", async () => {
-    const response = await request.post(`/user/login`).send({
+    const response = await request.post(`/v1/user/login`).send({
       email: userExample.email,
       password: userExample.password,
     });
@@ -265,7 +265,7 @@ describe("API tests", () => {
   });
 
   test("User login with wrong credentials", async () => {
-    const response = await request.post(`/user/login`).send({
+    const response = await request.post(`/v1/user/login`).send({
       email: "wrongmail",
       password: userExample.password,
     });
@@ -277,7 +277,7 @@ describe("API tests", () => {
   });
 
   test("User login but password hash does not match", async () => {
-    const response = await request.post(`/user/login`).send({
+    const response = await request.post(`/v1/user/login`).send({
       email: userExample.email,
       password: "wrongpassword",
     });
@@ -289,7 +289,7 @@ describe("API tests", () => {
   });
 
   test("User signup", async () => {
-    const response = await request.post(`/user/signup`).send(userExampleBis);
+    const response = await request.post(`/v1/user/signup`).send(userExampleBis);
     const user = await User.findOne({ email: userExampleBis.email });
     console.log(user);
     expect(user.username == userExampleBis.username).toBeTruthy();
@@ -297,7 +297,7 @@ describe("API tests", () => {
   });
 
   test("User signup but mail already exists", async () => {
-    const response = await request.post(`/user/signup`).send(userExample);
+    const response = await request.post(`/v1/user/signup`).send(userExample);
     const body = JSON.parse(response.text);
     expect(body).toHaveProperty("message");
     expect(body.message).toEqual("Mail exists");
@@ -309,7 +309,7 @@ describe("API tests", () => {
       Authorization: token,
     };
     const user = await User.findOne({ email: userExample.email });
-    const response = await request.delete(`/user/${user._id}`).set(header);
+    const response = await request.delete(`/v1/user/${user._id}`).set(header);
     const deletedUser = await User.findOne({ email: userExample.email });
     expect(deletedUser).not.toBeTruthy();
     expect(response.status).toBe(200);
@@ -328,7 +328,7 @@ describe("API tests", () => {
       },
     ];
     const response = await request
-      .patch(`/books/add/${bookExample._id}`)
+      .patch(`/v1/books/add/${bookExample._id}`)
       .send(data)
       .set(header);
     const bookUpdated = await Book.findOne({ _id: bookExample._id });
@@ -365,7 +365,7 @@ describe("API tests", () => {
     ];
     const user = await User.findOne({ email: userExample.email });
     const response = await request
-      .patch(`/user/${user._id}`)
+      .patch(`/v1/user/${user._id}`)
       .send(data)
       .set(header);
     expect(response.status).toBe(200);
@@ -384,7 +384,7 @@ describe("API tests", () => {
       },
     ];
     const response = await request
-      .patch(`/contents/add/${contentExample._id}`)
+      .patch(`/v1/contents/add/${contentExample._id}`)
       .send(data)
       .set(header);
     const contentUpdated = await Content.findOne({ _id: contentExample._id });
@@ -405,7 +405,7 @@ describe("API tests", () => {
       },
     ];
     const response = await request
-      .patch(`/contents/add/${contentExample._id}`)
+      .patch(`/v1/contents/add/${contentExample._id}`)
       .send(data)
       .set(header);
     const contentUpdated = await Content.findOne({ _id: contentExample._id });
@@ -427,7 +427,7 @@ describe("API tests", () => {
       },
     ];
     const response = await request
-      .patch(`/books/add/${bookExample._id}`)
+      .patch(`/v1/books/add/${bookExample._id}`)
       .send(data)
       .set(header);
     const bookUpdated = await Book.findOne({ _id: bookExample._id });
@@ -449,7 +449,7 @@ describe("API tests", () => {
       },
     ];
     const response = await request
-      .patch(`/contents/add/${contentExample._id}`)
+      .patch(`/v1/contents/add/${contentExample._id}`)
       .send(data)
       .set(header);
     const contentUpdated = await Content.findOne({ _id: contentExample._id });
@@ -473,7 +473,7 @@ describe("API tests", () => {
       },
     ];
     const response = await request
-      .patch(`/books/add/${bookExample._id}`)
+      .patch(`/v1/books/add/${bookExample._id}`)
       .send(data)
       .set(header);
     const bookUpdated = await Book.findOne({ _id: bookExample._id });
@@ -490,7 +490,7 @@ describe("API tests", () => {
     };
     const response = await request
       .patch(
-        `/books/${bookExample._id}/questions/${bookExample.questions[0]._id}`
+        `/v1/books/${bookExample._id}/questions/${bookExample.questions[0]._id}`
       )
       .send(data)
       .set(header);
@@ -508,7 +508,7 @@ describe("API tests", () => {
     };
     const response = await request
       .patch(
-        `/contents/${contentExample._id}/questions/${contentExample.questions[0]._id}`
+        `/v1/contents/${contentExample._id}/questions/${contentExample.questions[0]._id}`
       )
       .send(data)
       .set(header);
@@ -529,7 +529,7 @@ describe("API tests", () => {
       },
     ];
     const response = await request
-      .patch(`/user/add/${user._id}`)
+      .patch(`/v1/user/add/${user._id}`)
       .send(data)
       .set(header);
     let userUpdated = await User.findOne({ email: userExample.email });
@@ -548,7 +548,7 @@ describe("API tests", () => {
       },
     ];
     const response = await request
-      .patch(`/user/add/invaliduserid`)
+      .patch(`/v1/user/add/invaliduserid`)
       .send(data)
       .set(header);
     const body = JSON.parse(response.text);
@@ -573,7 +573,7 @@ describe("API tests", () => {
         },
       ],
     };
-    const response = await request.post("/contents").send(data);
+    const response = await request.post("/v1/contents").send(data);
     expect(response.status).toBe(201);
   });
 
@@ -594,7 +594,7 @@ describe("API tests", () => {
         },
       ],
     };
-    const response = await request.post("/contents").send(data);
+    const response = await request.post("/v1/contents").send(data);
     expect(response.status).toBe(409);
   });
 
@@ -614,7 +614,7 @@ describe("API tests", () => {
         },
       ],
     };
-    const response = await request.post("/contents").send(data);
+    const response = await request.post("/v1/contents").send(data);
     expect(response.status).toBe(500);
   });
 
@@ -629,7 +629,7 @@ describe("API tests", () => {
       Authorization: token,
     };
     const response = await request
-      .patch(`/contents/${contentExample._id}`)
+      .patch(`/v1/contents/${contentExample._id}`)
       .send(data)
       .set(header);
     let contentUpdated = await Content.findOne({
@@ -653,7 +653,7 @@ describe("API tests", () => {
       },
     ];
     const response = await request
-      .patch(`/user/${user._id}`)
+      .patch(`/v1/user/${user._id}`)
       .send(data)
       .set(header);
     let userUpdatedone = await User.findOne({ email: userExample.email });
@@ -668,7 +668,7 @@ describe("API tests", () => {
       },
     ];
     const responsedue = await request
-      .patch(`/user/${user._id}`)
+      .patch(`/v1/user/${user._id}`)
       .send(data)
       .set(header);
     let userUpdatedtwo = await User.findOne({ email: userExample.email });
@@ -680,7 +680,7 @@ describe("API tests", () => {
 
   test("Search content by university", async () => {
     const response = await request.get(
-      `/search/university/contents/${encodeURI(
+      `/v1/search/university/contents/${encodeURI(
         contentExample.validFor[0].university
       )}`
     );
@@ -693,7 +693,7 @@ describe("API tests", () => {
 
   test("Search content by university with kind not existing", async () => {
     const response = await request.get(
-      `/search/university/THISKINDDOESNOTEXIST/${encodeURI(
+      `/v1/search/university/THISKINDDOESNOTEXIST/${encodeURI(
         contentExample.validFor[0].university
       )}`
     );
@@ -706,7 +706,7 @@ describe("API tests", () => {
 
   test("Search content by university with university not existing", async () => {
     const response = await request.get(
-      `/search/university/contents/THISUNIVERSITYDOESNOTEXIST`
+      `/v1/search/university/contents/THISUNIVERSITYDOESNOTEXIST`
     );
     // Request body from string to object
     const body = JSON.parse(response.text);
@@ -717,7 +717,7 @@ describe("API tests", () => {
 
   test("Search contents related to the user", async () => {
     const response = await request.get(
-      `/user/${contentExample.creator}/contents`
+      `/v1/user/${contentExample.creator}/contents`
     );
     // Request body from string to object
     const body = await JSON.parse(response.text);
@@ -729,7 +729,7 @@ describe("API tests", () => {
 
   test("Search contents on a user that does not have related contents", async () => {
     const response = await request.get(
-      `/user/000000000000000000000000/contents`
+      `/v1/user/000000000000000000000000/contents`
     );
     // Request body from string to object
     const body = await JSON.parse(response.text);
@@ -742,7 +742,7 @@ describe("API tests", () => {
   test("Increment view count", async () => {
     const content = await Content.findOne({ _id: contentExample._id });
     const response = await request.post(
-      `/contents/${contentExample._id}/addView`
+      `/v1/contents/${contentExample._id}/addView`
     );
     const contentUpdated = await Content.findOne({ _id: contentExample._id });
     expect(content.views == contentUpdated.views).not.toBeTruthy();
@@ -750,7 +750,7 @@ describe("API tests", () => {
   });
 
   test("Increment view count for not existing content", async () => {
-    const response = await request.post(`/contents/notexisting/addView`);
+    const response = await request.post(`/v1/contents/notexisting/addView`);
     expect(response.body).toHaveProperty("error");
     expect(response.status).toBe(500);
   });
@@ -761,7 +761,7 @@ describe("API tests", () => {
     };
     const user = await User.findOne({ email: userExample.email });
     const response = await request
-      .post(`/contents`)
+      .post(`/v1/contents`)
       .send({
         creator: user._id,
         date: 2020,
@@ -785,7 +785,7 @@ describe("API tests", () => {
     const creator = await User.findOne({ email: userExample.email });
     // first create
     await request
-      .post(`/contents`)
+      .post(`/v1/contents`)
       .send({
         creator: creator._id,
         date: 2020,
@@ -797,7 +797,7 @@ describe("API tests", () => {
       .set(header);
     // duplicate save
     const response = await request
-      .post(`/contents`)
+      .post(`/v1/contents`)
       .send({
         creator: creator._id,
         date: 2020,
@@ -826,7 +826,7 @@ describe("API tests", () => {
       },
     ];
     const response = await request
-      .patch(`/contents/add/notexisting`)
+      .patch(`/v1/contents/add/notexisting`)
       .send(data)
       .set(header);
     expect(response.body).toHaveProperty("error");
@@ -846,7 +846,7 @@ describe("API tests", () => {
       },
     ];
     const response = await request
-      .patch(`/books/add/notexisting`)
+      .patch(`/v1/books/add/notexisting`)
       .send(data)
       .set(header);
     expect(response.body).toHaveProperty("error");
@@ -867,7 +867,7 @@ describe("API tests", () => {
       },
     ];
     const response = await request
-      .patch(`/books/add/notexisting`)
+      .patch(`/v1/books/add/notexisting`)
       .send(data)
       .set(header);
     expect(response.body).toHaveProperty("error");
@@ -883,7 +883,7 @@ describe("API tests", () => {
     };
     const response = await request
       .patch(
-        `/contents/notexisting/questions/${contentExample.questions[0]._id}`
+        `/v1/contents/notexisting/questions/${contentExample.questions[0]._id}`
       )
       .send(data)
       .set(header);
