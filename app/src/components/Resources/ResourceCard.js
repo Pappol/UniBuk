@@ -62,7 +62,6 @@ class ResourceCard extends Component {
         </Card.Header>
         <Card.Img
           className="cimg"
-          variant="top"
           src={
             `${resource.image}`.startsWith("http://") ||
             `${resource.image}`.startsWith("https://")
