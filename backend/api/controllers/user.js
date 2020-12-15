@@ -1,19 +1,18 @@
-const mongoose = require("mongoose");
-const bcrypt = require("bcrypt");
-const jwt = require("jsonwebtoken");
+import mongoose from "mongoose";
+import bcrypt from "bcrypt";
+import jwt from "jsonwebtoken";
+import User from "../models/user.js";
+import Content from "../models/content.js";
 
-const User = require("../models/user");
-
-exports.users_get_user = (req, res, next) => {
+export const users_get_user = (req, res, next) => {
   const id = req.params.userId;
   User.findById(id)
     // .select("firstName lastName _id validFor")
     .exec()
     .then((doc) => {
-      console.log("Gathered from database", doc);
       if (doc) {
         res.status(200).json({
-          user: doc
+          user: doc,
         });
       } else {
         res.status(404).json({
@@ -29,7 +28,7 @@ exports.users_get_user = (req, res, next) => {
     });
 };
 
-exports.user_signup = (req, res, next) => {
+export const user_signup = (req, res, next) => {
   User.find({ email: req.body.email })
     .exec()
     .then((user) => {
@@ -58,8 +57,8 @@ exports.user_signup = (req, res, next) => {
                   university: req.body.studentCreds.university,
                   course: req.body.studentCreds.course,
                   year: req.body.studentCreds.year,
-                }
-              })
+                },
+              });
             }
 
             user
@@ -83,19 +82,19 @@ exports.user_signup = (req, res, next) => {
     .catch();
 };
 
-exports.user_login = (req, res, next) => {
+export const user_login = (req, res, next) => {
   User.find({ email: req.body.email })
     .exec()
     .then((user) => {
       if (user.length < 1) {
         return res.status(403).json({
-          message: "Auth failed",
+          message: "Auth failed:no mail found",
         });
       }
       bcrypt.compare(req.body.password, user[0].password, (err, result) => {
         if (err) {
           return res.status(402).json({
-            message: "Auth failed",
+            message: "Auth failed:failed to compare hash",
           });
         }
         if (result) {
@@ -112,6 +111,8 @@ exports.user_login = (req, res, next) => {
           return res.status(200).json({
             message: "Auth successful",
             token: token,
+            id: user[0]._id,
+            university: user[0].studentCreds.university,
           });
         }
         res.status(401).json({
@@ -127,7 +128,7 @@ exports.user_login = (req, res, next) => {
     });
 };
 
-exports.user_update = (req, res, next) => {
+export const user_update = (req, res, next) => {
   const id = req.params.userId;
   const updateOps = {};
   for (const ops of req.body) {
@@ -143,7 +144,6 @@ exports.user_update = (req, res, next) => {
   )
     .exec()
     .then((result) => {
-      console.log(result);
       res.status(200).json({
         message: "user updated",
       });
@@ -156,7 +156,35 @@ exports.user_update = (req, res, next) => {
     });
 };
 
-exports.user_delete = (req, res, next) => {
+export const user_add = (req, res, next) => {
+  const id = req.params.userId;
+  const updateOps = {};
+  for (const ops of req.body) {
+    updateOps[ops.propName] = ops.value;
+  }
+  User.update(
+    {
+      _id: id,
+    },
+    {
+      $push: updateOps,
+    }
+  )
+    .exec()
+    .then((result) => {
+      res.status(200).json({
+        message: "User updated",
+      });
+    })
+    .catch((err) => {
+      console.log(err);
+      res.status(500).json({
+        error: err,
+      });
+    });
+};
+
+export const user_delete = (req, res, next) => {
   User.remove({ _id: req.params.userId })
     .exec()
     .then((result) => {
@@ -170,4 +198,19 @@ exports.user_delete = (req, res, next) => {
         error: err,
       });
     });
+};
+
+export const user_get_contents = async (req, res, next) => {
+  const userId = req.params.userId;
+  let resources;
+  try {
+    resources = await Content.find({ creator: userId });
+  } catch (err) {
+    res.status(500).json({
+      error: err,
+    });
+  }
+  res.status(200).json({
+    resources: resources,
+  });
 };

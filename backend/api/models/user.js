@@ -1,4 +1,4 @@
-const mongoose = require("mongoose");
+import mongoose from 'mongoose';
 
 // This is the model page for the users in the database
     /*
@@ -57,7 +57,33 @@ const userSchema = mongoose.Schema({
       ref: 'Books'
     }
   ],
-  contacts: [String]
+  links:{
+      website: {
+        type: String,
+        default: ""
+      },
+      contactEmail: {
+        type: String,
+        default: ""
+      },
+      linkedin: {
+        type: String,
+        default: ""
+      },
+      gitHub: {
+        type: String,
+        default: ""
+      },
+    },
+  profileImage:{
+    type: String
+  },
+  follow: [
+    {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'User'
+    }
+  ]
 });
 
-module.exports = mongoose.model("User", userSchema);
+export default mongoose.model("User", userSchema);

@@ -1,4 +1,4 @@
-const mongoose = require("mongoose");
+import mongoose from 'mongoose';
 
 
 // This is the model page for the content in the database
@@ -17,6 +17,10 @@ const contentSchema = mongoose.Schema({
     ref: "User",
     required: true
   },
+  co_creators:[{
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "User"
+  }],
   date: {
     type: Number,
     required: true
@@ -36,6 +40,10 @@ const contentSchema = mongoose.Schema({
   image: {
     type: String,
     required: true
+  },
+  views: {
+    type: Number,
+    default: 0
   },
   validFor: [
     {
@@ -59,7 +67,13 @@ const contentSchema = mongoose.Schema({
         ref: 'User'
       }
     }
+  ],
+  questions: [
+    {
+      quest: String,
+      answers: [String]
+    }
   ]
 });
 
-module.exports = mongoose.model("Content", contentSchema);
+export default mongoose.model("Content", contentSchema);

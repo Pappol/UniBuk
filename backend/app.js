@@ -1,13 +1,14 @@
-const express = require("express");
-const morgan = require("morgan");
-const bodyParser = require("body-parser");
-const mongoose = require("mongoose");
+import express from "express";
+import morgan from "morgan";
+import bodyparser from "body-parser";
+import mongoose from "mongoose";
 
 const app = express();
 
 // DB connection setup
-mongoose.connect(`mongodb+srv://dbadmin:${process.env.MONGO_ATLAS_PW}@cluster0.lgrig.mongodb.net/${process.env.MONGO_ATLAS_NAME}?retryWrites=true&w=majority`,
+mongoose.connect(process.env.MONGO_CONN_STRING,
   {
+    useFindAndModify: false,
     useNewUrlParser: true,
     useUnifiedTopology: true,
     useCreateIndex: true
@@ -16,18 +17,19 @@ mongoose.connect(`mongodb+srv://dbadmin:${process.env.MONGO_ATLAS_PW}@cluster0.l
 mongoose.Promise = global.Promise;
 
 // importing routes
-const contentsRoutes = require('./api/routes/contents');
-const booksRoutes = require('./api/routes/books');
-const userRoutes = require('./api/routes/user');
+import contentsRoutes from './api/routes/contents.js';
+import booksRoutes from './api/routes/books.js';
+import userRoutes from './api/routes/user.js';
+import searchRoutes from './api/routes/search.js';
 
 app.use(morgan("dev"));
 app.use('/uploads', express.static('uploads'));
 app.use(
-  bodyParser.urlencoded({
+  bodyparser.urlencoded({
     extended: false,
   })
 );
-app.use(bodyParser.json());
+app.use(bodyparser.json());
 
 // middleware to prevent CORS errors.
 app.use((req, res, next) => {
@@ -44,9 +46,10 @@ app.use((req, res, next) => {
 });
 
 // main routes
-app.use('/contents', contentsRoutes);
-app.use('/books', booksRoutes);
-app.use('/user', userRoutes);
+app.use('/v1/contents', contentsRoutes);
+app.use('/v1/books', booksRoutes);
+app.use('/v1/user', userRoutes);
+app.use('/v1/search', searchRoutes);
 
 // default route
 app.use((req, res, next) => {
@@ -65,4 +68,4 @@ app.use((error, req, res, next) => {
   });
 });
 
-module.exports = app;
+export default app;

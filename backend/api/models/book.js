@@ -1,4 +1,4 @@
-const mongoose = require("mongoose");
+import mongoose from 'mongoose';
 
 // This is the model page for the books in the database
     /*
@@ -64,7 +64,13 @@ const bookSchema = mongoose.Schema({
         ref: 'User'
       }
     }
+  ],
+  questions: [
+    {
+      quest: String,
+      answers: [String]
+    }
   ]
 });
 
-module.exports = mongoose.model("Book", bookSchema);
+export default mongoose.model("Book", bookSchema);

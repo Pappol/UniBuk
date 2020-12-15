@@ -5,12 +5,12 @@ services:
     ports:
       - "8080:8080"
     environment:
-      - MONGO_ATLAS_PW=arara
-      - MONGO_ATLAS_NAME=se2-draft
+      - MONGO_CONN_STRING=mongodb+srv://dbadmin:arara@cluster0.lgrig.mongodb.net/se2-draft?retryWrites=true&w=majority
       - JWT_KEY=mpk
+      - PORT=8080
   frontend:
     build: app
     ports:
-      - "3000:3000"
+      - "80:80"
     environment:
-      - REACT_APP_BACKEND_URL=https://localhost:8080
+      - REACT_APP_BACKEND_URL=http://localhost:8080

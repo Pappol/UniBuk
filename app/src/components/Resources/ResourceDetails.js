@@ -1,102 +1,604 @@
-import React, { Component } from 'react';
-import Row from 'react-bootstrap/esm/Row';
-import ReactDOM from 'react-dom';
-import { withRouter } from 'react-router-dom';
+import React, { Component } from "react";
+import { withRouter, Link } from "react-router-dom";
+import {
+  Jumbotron,
+  ListGroup,
+  Image,
+  Form,
+  Button,
+  Col,
+  Row,
+  Spinner,
+} from "react-bootstrap";
+import StarRatings from "react-star-ratings";
+import "./ResourceCard.css";
 
-import Jumbotron from 'react-bootstrap/Jumbotron'
-import ListGroup from 'react-bootstrap/ListGroup'
-import Image from 'react-bootstrap/Image'
+import Review from "./Review";
+import QA from "./QA";
+import ResourceTag from "./ResourceTag";
+import ResourceShow from "./ResourceShow";
+import ResourceEdit from "./ResourceEdit";
+import axios from "axios";
 
-class Navbar extends Component {
+import { isInFavs, editFavourites } from "./Favourites";
+class ResourceDetails extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      newTag: "",
+      edit: false,
       resource: {
         tags: [],
-        comments: []
-      }
-    }
+        comments: [],
+        questions: [],
+      },
+      reviewsDisplay: [],
+      rate: 0,
+      myUniOnly: false,
+      isFav: Boolean,
+      creatorName: String,
+    };
   }
 
   async componentDidMount() {
+    this.setState({
+      isFav: isInFavs(this.state.resource._id),
+    });
     const { match } = this.props;
-    const res = await fetch(`${process.env.REACT_APP_BACKEND_URL}/${this.props.resourceType}s/${match.params.resourceId}`);
-    const json = await res.json();
-    if(this.props.resourceType === 'book'){
+    let res = await fetch(
+      `${process.env.REACT_APP_BACKEND_URL}/v1/books/${match.params.resourceId}`
+    );
+    let json = await res.json();
+    if (json.book) {
       this.setState({
         resource: json.book,
+        reviewsDisplay: json.book.comments,
       });
+      return;
     }
-    else if(this.props.resourceType === 'content'){
+    // If no book is found
+    res = await fetch(
+      `${process.env.REACT_APP_BACKEND_URL}/v1/contents/${match.params.resourceId}`
+    );
+    json = await res.json();
+    if (json.content) {
       this.setState({
         resource: json.content,
+        reviewsDisplay: json.content.comments,
       });
+      axios.post(
+        `${process.env.REACT_APP_BACKEND_URL}/v1/contents/${match.params.resourceId}/addView`
+      );
+      await this.getCreatorName(this.state.resource.creator);
     }
   }
-  
+
+  handleSubmit = async (e) => {
+    e.preventDefault();
+    const { match } = this.props;
+    let taggg = this.state.newTag.split(",");
+
+    const token = "Bearer " + localStorage.token;
+    const headers = {
+      "Content-type": "application/json",
+      Authorization: token,
+    };
+    const data = [
+      {
+        propName: "tags",
+        value: taggg,
+      },
+    ];
+
+    await axios.patch(
+      `${process.env.REACT_APP_BACKEND_URL}/v1/${localStorage.kind}/${match.params.resourceId}`,
+      data,
+      {
+        headers: headers,
+      }
+    );
+
+    this.setState((prevState) => ({
+      resource: {
+        ...prevState.resource,
+        tags: taggg,
+      },
+    }));
+  };
+
+  showEdit = () => {
+    this.setState({
+      edit: !this.state.edit,
+    });
+  };
+
+  changeState = (newState) => {
+    this.setState((prevState) => ({
+      resource: {
+        ...prevState.resource,
+        image: newState.image,
+        link: newState.link,
+        creator: newState.creator,
+        date: newState.date,
+        name: newState.name,
+        description: newState.description,
+      },
+    }));
+  };
+
+  changeRating = (newRating, name) => {
+    this.setState({
+      rate: newRating,
+    });
+  };
+
+  addReview = async (e) => {
+    e.preventDefault();
+    const token = "Bearer " + localStorage.token;
+    const headers = {
+      "Content-type": "application/json",
+      Authorization: token,
+    };
+    const data = [
+      {
+        propName: "comments",
+        value: {
+          author: localStorage.myId,
+          rank: this.state.rate,
+          text: this.reviewText,
+        },
+      },
+    ];
+    axios
+      .patch(
+        `${process.env.REACT_APP_BACKEND_URL}/v1/${localStorage.kind}/add/${this.props.match.params.resourceId}`,
+        data,
+        {
+          headers: headers,
+        }
+      )
+      .then((res) => {
+        console.log(res);
+        window.location.reload(false);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+
+  showMyUni = async (e) => {
+    if (this.state.myUniOnly) {
+      this.state.myUniOnly = false;
+      this.setState({
+        reviewsDisplay: this.state.resource.comments,
+      });
+    } else {
+      this.state.myUniOnly = true;
+      let temp_review = [];
+      console.log(this.state.reviewsDisplay);
+      for (const review of this.state.reviewsDisplay) {
+        let res = await fetch(
+          `${process.env.REACT_APP_BACKEND_URL}/v1/user/${review.author}`
+        );
+        let json = await res.json();
+        if (
+          json.user.studentCreds !== undefined &&
+          localStorage.myUni === json.user.studentCreds.university
+        ) {
+          temp_review = await [...temp_review, review];
+        }
+        
+      }
+      this.setState({
+        reviewsDisplay: temp_review,
+      });
+    }
+  };
+
+  addQuestion = async (e) => {
+    e.preventDefault();
+    const token = "Bearer " + localStorage.token;
+    const headers = {
+      "Content-type": "application/json",
+      Authorization: token,
+    };
+    const data = [
+      {
+        propName: "questions",
+        value: {
+          quest: this.myQuestion,
+        },
+      },
+    ];
+    axios
+      .patch(
+        `${process.env.REACT_APP_BACKEND_URL}/v1/${localStorage.kind}/add/${this.props.match.params.resourceId}`,
+        data,
+        {
+          headers: headers,
+        }
+      )
+      .then((res) => {
+        console.log(res);
+        window.location.reload(false);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+
+  setFav = () => {
+    editFavourites(this.state.resource._id);
+    this.setState({
+      isFav: isInFavs(this.state.resource._id),
+    });
+  };
+
+  getCreatorName = async (creator) => {
+    if (creator) {
+      const res = await fetch(
+        `${process.env.REACT_APP_BACKEND_URL}/v1/user/${creator}`
+      );
+      const json = await res.json();
+      this.setState({
+        creatorName: json.user.username,
+      });
+    } else {
+      this.setState({
+        creatorName: null,
+      });
+    }
+  };
 
   render() {
     const { resource } = this.state;
-    if(this.props.resourceType === 'book'){
+    if (resource.kind === "book") {
       return (
-        <Jumbotron className = 'mx-5 my-5'>
-          <ListGroup variant = 'flush' className = 'bg-transparent text-dark'> 
-          <h3>Book Info</h3>
-            <ListGroup.Item><Image src={`${process.env.REACT_APP_BACKEND_URL}/${resource.image}`} thumbnail></Image></ListGroup.Item>
-            <ListGroup.Item>author: {resource.author}</ListGroup.Item>
-            <ListGroup.Item>description: {resource.description}</ListGroup.Item>
-            <ListGroup.Item>isbn: {resource.isbn}</ListGroup.Item>
-            <ListGroup.Item>title: {resource.title}</ListGroup.Item>
-            <p></p>
-    
-            <h3>Tag</h3>
-            {
-              resource.tags.map(tag => (
-                <ListGroup.Item>{tag}</ListGroup.Item>
-              ))
-            }
-            <p></p>
-            <h3>Commenti</h3>
-            {
-              resource.comments.map(comment => (
-                <ListGroup>
-                  <ListGroup.Item>author: {comment.author}</ListGroup.Item>
-                  <ListGroup.Item>{comment.text}</ListGroup.Item>
-                </ListGroup>
-              ))
-            }
-          </ListGroup>
-        </Jumbotron>
-      );
-    } else if(this.props.resourceType === 'content'){
-      return (
-       <Jumbotron>
-         <ListGroup>
-          <h3>Content Info</h3>
-          <ListGroup.Item><Image src={`${process.env.REACT_APP_BACKEND_URL}/${resource.image}`} thumbnail></Image></ListGroup.Item>
-          <ListGroup.Item>creator: {resource.creator}</ListGroup.Item>
-          <ListGroup.Item>date: {resource.date}</ListGroup.Item>
-          <ListGroup.Item>name: {resource.name}</ListGroup.Item>
-          <ListGroup.Item>description: {resource.description}</ListGroup.Item>
-          <p/>
-          <h3>Questi sono i miei commentiiii</h3>
-          {
-            resource.comments.map(comment => (
-              <ListGroup>
-                <ListGroup.Item>author: {comment.author}</ListGroup.Item>
-                <ListGroup.Item>rank: {comment.rank}</ListGroup.Item>
-                <ListGroup.Item>{comment.text}</ListGroup.Item>
-                <p></p>
+        <div>
+          <Jumbotron className="mx-md-5 my-4 pt-3">
+            <ListGroup variant="flush" className="bg-transparent text-dark">
+              <h2>{resource.title}</h2>
+              <ListGroup.Item>
+                <Row>
+                  <Col className="col-xs-12 col-sm-12 col-md-4 col-lg-4">
+                    <Image class='resurceImg'
+                      src={
+                        `${resource.image}`.startsWith("http://") ||
+                        `${resource.image}`.startsWith("https://")
+                          ? resource.image
+                          : `${process.env.REACT_APP_BACKEND_URL}/${resource.image}`
+                      }
+                      thumbnail
+                    ></Image>
+                  </Col>
+                  <Col className="col-xs-12 col-sm-12 col-md-8 col-lg-8">
+                    <ListGroup.Item>Autore: {resource.author}</ListGroup.Item>
+                    <ListGroup.Item>ISBN: {resource.isbn}</ListGroup.Item>
+                    <br />
+                  </Col>
+                </Row>
+              </ListGroup.Item>
+              <ListGroup.Item>{resource.author}</ListGroup.Item>
+              <ListGroup.Item>{resource.title}</ListGroup.Item>
+              <ListGroup.Item>{resource.description}</ListGroup.Item>
+              <br />
+
+              <h3>Tag</h3>
+              <ListGroup horizontal>
+                {this.state.resource.tags.map((tag) => (
+                  <ResourceTag text={tag}> </ResourceTag>
+                ))}
               </ListGroup>
-            ))
-          }
-         </ListGroup>
-       </Jumbotron>
+              <p></p>
+              <h3>Domande e risposte dagli utenti</h3>
+              <ListGroup variant="flush">
+                {resource.questions.map((question) => (
+                  <ListGroup.Item>
+                    <QA
+                      question={question}
+                      rId={this.props.match.params.resourceId}
+                    />
+                  </ListGroup.Item>
+                ))}
+                {localStorage.token ? (
+                  <>
+                    <ListGroup.Item>
+                      <Form onSubmit={this.addQuestion}>
+                        <Form.Row>
+                          <Col>
+                            <Form.Group controlId="question">
+                              <Form.Control
+                                type="text"
+                                placeholder="Fai una domanda"
+                                onChange={(e) =>
+                                  (this.myQuestion = e.target.value)
+                                }
+                                required
+                              />
+                            </Form.Group>
+                          </Col>
+                          <Col>
+                            <Button
+                              className="btn btn-primary btn-large centerButton"
+                              type="submit"
+                            >
+                              Chiedi
+                            </Button>
+                          </Col>
+                        </Form.Row>
+                      </Form>
+                    </ListGroup.Item>
+                  </>
+                ) : (
+                  <ListGroup.Item>
+                    <p>
+                      Effettua il{" "}
+                      <Link to="/user/login" className="text-primary">
+                        login
+                      </Link>{" "}
+                      per fare una domanda
+                    </p>
+                  </ListGroup.Item>
+                )}
+              </ListGroup>
+              <h3 className="mt-2">Commenti</h3>
+              {localStorage.token ? (
+                <>
+                  <Form onSubmit={this.addReview}>
+                    <Form.Group controlId="addReviewArea">
+                      <Form.Label>Scrivi un commento</Form.Label>
+                      <br />
+                      <StarRatings
+                        rating={this.state.rate}
+                        starRatedColor="blue"
+                        starHoverColor="blue"
+                        starDimension="30px"
+                        changeRating={this.changeRating}
+                        numberOfStars={5}
+                        name="rating"
+                      />
+                      <Form.Control
+                        className="mt-3"
+                        as="textarea"
+                        rows={2}
+                        onChange={(e) => (this.reviewText = e.target.value)}
+                        required
+                      />
+                      <Button
+                        variant="primary"
+                        type="submit"
+                        size="sm"
+                        className="mt-2"
+                      >
+                        Commenta
+                      </Button>
+                    </Form.Group>
+                  </Form>
+                  {resource.comments.length > 0 ? (
+                    <Form>
+                      <div key="myUni" className="mb-3">
+                        <Form.Check
+                          custom
+                          id="myUni"
+                          label="Mostra solo commenti per la mia università"
+                          onChange={this.showMyUni}
+                        />
+                      </div>
+                    </Form>
+                  ) : (
+                    false
+                  )}
+                </>
+              ) : (
+                <>
+                  <p>
+                    Effettua il
+                    <Link to="/user/login" className="text-primary">
+                      login
+                    </Link>
+                    per scrivere una recensione
+                  </p>
+                </>
+              )}
+              <ListGroup variant="flush">
+                {this.state.reviewsDisplay.map((review) => (
+                  <ListGroup.Item>
+                    <Review review={review} />
+                  </ListGroup.Item>
+                ))}
+              </ListGroup>
+            </ListGroup>
+          </Jumbotron>
+        </div>
+      );
+    } else if (resource.name) {
+      return (
+        <div>
+          <Jumbotron className="mx-md-5 my-4 pt-3">
+            <ListGroup>
+              <h3>{resource.name}</h3>
+              {this.state.edit ? (
+                <ResourceEdit
+                  toggle={this.showEdit}
+                  change={this.changeState}
+                  genProps={this.props}
+                  image={resource.image}
+                  link={resource.url}
+                  creator={resource.creator}
+                  date={resource.date}
+                  name={resource.name}
+                  description={resource.description}
+                />
+              ) : (
+                <ResourceShow
+                  creatorName={this.state.creatorName}
+                  toggle={this.showEdit}
+                  image={resource.image}
+                  link={resource.url}
+                  creator={resource.creator}
+                  date={resource.date}
+                  name={resource.name}
+                  description={resource.description}
+                />
+              )}
+              <p />
+              <br />
+              <h3>Tag</h3>
+              <ListGroup horizontal>
+                {resource.tags.map((tag) => (
+                  <ResourceTag text={tag} />
+                ))}
+                {/* <ResourceTag text = 'add' option = '+' variant = 'info' onClick = { () => this.showForm()} /> */}
+              </ListGroup>
+              {localStorage.myId === resource.creator ? (
+                <Form onSubmit={this.handleSubmit}>
+                  <Form.Row>
+                    <Col>
+                      <Form.Control
+                        placeholder="I tuoi tag sono vuoti :("
+                        defaultValue={this.state.resource.tags}
+                        onChange={(e) => (this.state.newTag = e.target.value)}
+                      />
+                    </Col>
+                    <Col>
+                      <Button variant="primary" type="submit">
+                        {" "}
+                        Aggiungi{" "}
+                      </Button>
+                    </Col>
+                  </Form.Row>
+                </Form>
+              ) : null}
+              <p />
+              <h3>Domande e risposte dagli utenti</h3>
+              <ListGroup variant="flush">
+                {resource.questions.map((question) => (
+                  <ListGroup.Item>
+                    <QA
+                      question={question}
+                      rId={this.props.match.params.resourceId}
+                    />
+                  </ListGroup.Item>
+                ))}
+                {localStorage.token ? (
+                  <>
+                    <ListGroup.Item>
+                      <Form onSubmit={this.addQuestion}>
+                        <Form.Row>
+                          <Col>
+                            <Form.Group controlId="question">
+                              <Form.Control
+                                type="text"
+                                placeholder="Fai una domanda"
+                                onChange={(e) =>
+                                  (this.myQuestion = e.target.value)
+                                }
+                                required
+                              />
+                            </Form.Group>
+                          </Col>
+                          <Col>
+                            <Button
+                              className="btn btn-primary btn-large centerButton"
+                              type="submit"
+                            >
+                              Chiedi
+                            </Button>
+                          </Col>
+                        </Form.Row>
+                      </Form>
+                    </ListGroup.Item>
+                  </>
+                ) : (
+                  <ListGroup.Item>
+                    <p>
+                      Effettua il{" "}
+                      <Link to="/user/login" className="text-primary">
+                        login
+                      </Link>{" "}
+                      per fare una domanda
+                    </p>
+                  </ListGroup.Item>
+                )}
+              </ListGroup>
+              <h3 className="mt-3">Commenti</h3>
+              {localStorage.token ? (
+                <>
+                  <Form onSubmit={this.addReview}>
+                    <Form.Group controlId="addReviewArea">
+                      <Form.Label>Scrivi un commento</Form.Label>
+                      <br />
+                      <StarRatings
+                        rating={this.state.rate}
+                        starRatedColor="blue"
+                        starHoverColor="blue"
+                        starDimension="30px"
+                        changeRating={this.changeRating}
+                        numberOfStars={5}
+                        name="rating"
+                      />
+                      <Form.Control
+                        className="mt-3"
+                        as="textarea"
+                        rows={2}
+                        onChange={(e) => (this.reviewText = e.target.value)}
+                        required
+                      />
+                      <Button
+                        variant="primary"
+                        type="submit"
+                        size="sm"
+                        className="mt-2"
+                      >
+                        Commenta
+                      </Button>
+                    </Form.Group>
+                  </Form>
+                  {resource.comments.length > 0 ? (
+                    <Form>
+                      <div key="myUni" className="mb-3">
+                        <Form.Check
+                          custom
+                          id="myUni"
+                          label="Mostra solo commenti per la mia università"
+                          onChange={this.showMyUni}
+                        />
+                      </div>
+                    </Form>
+                  ) : (
+                    false
+                  )}
+                </>
+              ) : (
+                <>
+                  <p>
+                    Effettua il{" "}
+                    <Link to="/user/login" className="text-primary">
+                      login
+                    </Link>{" "}
+                    per scrivere una recensione
+                  </p>
+                </>
+              )}
+              <ListGroup variant="flush">
+                {resource.comments.map((comment) => (
+                  <ListGroup.Item>
+                    <Review review={comment} />
+                  </ListGroup.Item>
+                ))}
+              </ListGroup>
+            </ListGroup>
+          </Jumbotron>
+        </div>
       );
     } else {
-      return (<div><p>Resource type undefined</p></div>);
+      return (
+        <Spinner animation="border" role="status">
+          <span className="sr-only">Loading...</span>
+        </Spinner>
+      );
     }
   }
 }
 
-export default withRouter(Navbar);
+export default withRouter(ResourceDetails);
