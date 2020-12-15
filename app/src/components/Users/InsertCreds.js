@@ -57,7 +57,7 @@ export default class InsertCreds extends Component {
       .catch((err) => {
         console.log(err);
       });
-      
+      window.location.reload(false)
     };
 
   render() {
@@ -170,7 +170,7 @@ export default class InsertCreds extends Component {
             </Form.Group>
 
             <Button variant="primary" type="submit" block>
-              Change
+              Aggiorna Credenziali
             </Button>
           </Form>
         </Jumbotron>
