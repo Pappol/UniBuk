@@ -3,9 +3,17 @@ info:
   version: '2.0.0'
   title: UniBuk
   description: We need to develop an online service for University book suggestions and content sharing that will allow University students ton get information about  books, notes and resources they can use in their courses, as well as donwload contents shared by other users. We want to deliver a web version of this service and a client application.
+  license:
+    name: MIT
+    url: https://github.com/apiaryio/polls-api/blob/master/LICENSE
   contact:
     name: 'team #10'
     url: 'https://github.com/Pappol/UniBuk'
+servers:
+  # - url: http://localhost:3000
+  #   description: Localhost
+  - url: https://unibuk.herokuapp.com
+    description: Heroku server
 
 paths: 
   
@@ -40,7 +48,7 @@ paths:
                 properties:
                   message: 
                     type: string
-                    example: user created
+                    example: User created
         '409':
           description: Mail altrady exists
           content: 
@@ -52,7 +60,7 @@ paths:
                     type: string
                     example: Mail exists
         '500':
-          description: dabase error
+          description: Database error
           content: 
             application/json:
               schema:
@@ -62,7 +70,7 @@ paths:
                     type: string
                     example: database error type
         '501':
-          description: password hashing error
+          description: Password hashing error
           content: 
             application/json:
               schema:
@@ -70,16 +78,16 @@ paths:
                 properties:
                   error: 
                     type: string
-                    example: hashing error type
+                    example: Hashing error type
           
   /user/login:
     
     post:
-      description: Control if an user already exists in the database
+      description: Checks if a user already exists in the database and returns a valid access token
       requestBody:
         required: true
         content:
-          applicationn/json:
+          application/json:
             schema:
               type: object
               properties:
@@ -94,17 +102,17 @@ paths:
                 - password
       responses:
         '200':
-          description: login success
+          description: Login success
           content: 
             application/json:
               schema:
                 type: object
                 properties:
+                  message:
+                    type: string
                   token: 
                     type: string
                   id:
-                    type: string
-                  message:
                     type: string
                   university:
                     type: string
@@ -119,7 +127,7 @@ paths:
                 id: 5fab15fdd9fe8e536c4df414
                 university: Università di Trento
         '401':
-          description: generic failure
+          description: Generic failure
           content: 
             application/json:
               schema:
@@ -129,7 +137,7 @@ paths:
                     type: string
                     example: Auth failed
         '402':
-          description: error in compairing password with hash
+          description: Error in compairing password with hash
           content: 
             application/json:
               schema:
@@ -139,7 +147,7 @@ paths:
                     type: string
                     example: Auth failed:failed to compare hash
         '403':
-          description: user doesn't exists
+          description: User doesn't exists
           content: 
             application/json:
               schema:
@@ -149,7 +157,7 @@ paths:
                     type: string
                     example: Auth failed:no mail found
         '500':
-          description: database error
+          description: Database error
           content: 
             application/json:
               schema:
@@ -157,12 +165,14 @@ paths:
                 properties:
                   error: 
                     type: string
-                    example: database error type
+                    example: Database error type
   
   /user/{id}:
   
     get: 
-      description: Obtain information about a specific user
+      description: Obtains information about a specific user
+      security:
+        - jwtAuth: []
       parameters:
         - in: path
           name: id
@@ -179,7 +189,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/User'
         '404':
-          description: user with this id doesn't exists 
+          description: User with this id doesn't exists 
           content: 
             application/json:
               schema:
@@ -189,7 +199,7 @@ paths:
                     type: string
                     example: No valid entry found for provided ID
         '500':
-          description: find failed in the database
+          description: Find failed in the database
           content: 
             application/json:
               schema:
@@ -197,10 +207,12 @@ paths:
                 properties:
                   error: 
                     type: string
-                    example: database error type
+                    example: Database error type
 
     patch:
       description: Edits a specific user from the database
+      security:
+        - jwtAuth: []
       requestBody:
         required: true
         content:
@@ -226,7 +238,7 @@ paths:
             example: mongoose auto generated
       responses:
         '200':
-          description: user update
+          description: User update
           content: 
             application/json:
               schema:
@@ -237,7 +249,7 @@ paths:
               example: 
                 message: User updated
         '500':
-          description: update failed in the database
+          description: Update failed in the database
           content: 
             application/json:
               schema:
@@ -245,10 +257,12 @@ paths:
                 properties:
                   error: 
                     type: string
-                    example: database error type
+                    example: Database error type
 
     delete:
-      description: Delete a specific user from the database
+      description: Deletes a specific user from the database
+      security:
+        - jwtAuth: []
       parameters:
         - in: path
           name: id
@@ -259,7 +273,7 @@ paths:
             example: mongoose auto generated
       responses:
         '200':
-          description: user delete
+          description: User delete
           content: 
             application/json:
               schema:
@@ -270,7 +284,7 @@ paths:
               example: 
                 message: User deleted
         '500':
-          description: update failed in the database
+          description: Update failed in the database
           content: 
             application/json:
               schema:
@@ -278,11 +292,11 @@ paths:
                 properties:
                   error: 
                     type: string
-                    example: database error type
+                    example: Database error type
 
   /user/{id}/contents:
     get: 
-      description: Obtain all contents related to a user
+      description: Obtains all contents related to a user
       parameters:
         - in: path
           name: id
@@ -293,7 +307,7 @@ paths:
             example: mongoose auto generated
       responses:
         '200':
-          description: array with related contents
+          description: An array with related contents
           content:
             application/json:
               schema:
@@ -307,7 +321,7 @@ paths:
                     items:
                       $ref: '#/components/schemas/Content'
         '500':
-          description: find failed in the database
+          description: Find failed in database
           content: 
             application/json:
               schema:
@@ -315,11 +329,13 @@ paths:
                 properties:
                   error: 
                     type: string
-                    example: database error type
+                    example: Database error type
 
   /user/add/{id}:
     patch:
-      description: Adds something to a specific user from the database
+      description: Adds something to a specific user in the database
+      security:
+        - jwtAuth: []
       requestBody:
         required: true
         content:
@@ -331,10 +347,10 @@ paths:
                 properties:
                   propName:
                     type: string
-                    example: username
+                    example: follow
                   value:
                     type: object #could be other than object (object is the most generic allowed)
-                    example: salt bae
+                    example: mongoose auto generated
       parameters:
         - in: path
           name: id
@@ -345,7 +361,7 @@ paths:
             example: mongoose auto generated
       responses:
         '200':
-          description: user update
+          description: User update
           content: 
             application/json:
               schema:
@@ -356,7 +372,7 @@ paths:
               example: 
                 message: User updated
         '500':
-          description: update failed in the database
+          description: Update failed in the database
           content: 
             application/json:
               schema:
@@ -364,12 +380,12 @@ paths:
                 properties:
                   error: 
                     type: string
-                    example: database error type
+                    example: Database error type
   
   /books:
   
     get:
-      description: Obtain the information of all the books in our database
+      description: Obtains the information of all the books in database
       responses: 
         '200':
           description: Successful pull of all the books
@@ -386,7 +402,7 @@ paths:
                     items:
                       $ref: '#/components/schemas/Book'
         '500':
-          description: find failed in the database
+          description: Find failed in the database
           content: 
             application/json:
               schema:
@@ -394,12 +410,12 @@ paths:
                 properties:
                   error: 
                     type: string
-                    example: database error type
+                    example: Database error type
   
   /books/{id}:
   
     get: 
-      description: Obtain information about a specific book
+      description: Obtains information about a specific book
       parameters:
         - in: path
           name: id
@@ -416,7 +432,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/Book'
         '404':
-          description: book with this id doesn't exists 
+          description: Book with this id doesn't exists 
           content: 
             application/json:
               schema:
@@ -426,7 +442,7 @@ paths:
                     type: string
                     example: No valid entry found for provided ID
         '500':
-          description: find failed in the database
+          description: Find failed in the database
           content: 
             application/json:
               schema:
@@ -434,16 +450,18 @@ paths:
                 properties:
                   error: 
                     type: string
-                    example: database error type
+                    example: Database error type
 
   /books/add/{id}:
   
     patch:
-      description: Update a book information; useful for adding a new comment/review to a book with provided {id}
+      description: Updates a book information; useful for adding a new comment/review to a book with provided {id}
+      security:
+        - jwtAuth: []
       requestBody:
         required: true
         content:
-          applicationn/json:
+          application/json:
             schema:
               type: array
               items: 
@@ -451,10 +469,10 @@ paths:
                 properties:
                   propName:
                     type: string
-                    example: username
+                    example: comments
                   value:
                     type: object #could be other than object (object is the most generic allowed)
-                    example: salt bae
+                    example: Sample review
       parameters:
         - in: path
           name: id
@@ -474,9 +492,9 @@ paths:
                   message:
                     type: string
               example: 
-                message: book updated
+                message: Book updated
         '500':
-          description: update failed in the database
+          description: Update failed in the database
           content: 
             application/json:
               schema:
@@ -484,21 +502,23 @@ paths:
                 properties:
                   error: 
                     type: string
-                    example: database error type
+                    example: Database error type
                     
   /books/{bId}/questions/{qId}:
     patch:
-      description: Add an answer to a question {id} for a book with provided {id}
+      description: Adds an answer to a question {id} for a book with provided {id}
+      security:
+        - jwtAuth: []
       requestBody:
         required: true
         content:
-          applicationn/json:
+          application/json:
             schema:
               type: object
               properties:
                 text: 
                   type: string
-                  example: tranquillo, è molto buono
+                  example: Tranquillo, è molto buono
       parameters:
         - in: path
           name: bId
@@ -527,7 +547,7 @@ paths:
               example: 
                 message: Added answer
         '500':
-          description: update failed in the database
+          description: Update failed in the database
           content: 
             application/json:
               schema:
@@ -535,12 +555,12 @@ paths:
                 properties:
                   error: 
                     type: string
-                    example: database error type
+                    example: Database error type
   
   /contents:
   
     get:
-      description: Obtain the information of the contents in the database
+      description: Obtains the information of the contents in database
       responses:
         '200':
           description: Successful pull of one book
@@ -548,18 +568,8 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Content'
-        '404':
-          description: content with this id doesn't exists 
-          content: 
-            application/json:
-              schema:
-                type: object
-                properties:
-                  message: 
-                    type: string
-                    example: No valid entry found for provided ID
         '500':
-          description: find failed in the database
+          description: Find failed in the database
           content: 
             application/json:
               schema:
@@ -567,7 +577,7 @@ paths:
                 properties:
                   error: 
                     type: string
-                    example: database error type
+                    example: Database error type
 
     post: 
       description: Creates a new content in the database
@@ -580,19 +590,25 @@ paths:
               properties:
                 creator: 
                   type: string
+                  example: mongoose auto generated
                 date: 
                   type: number
+                  example: 2020
                 name: 
                   type: string
+                  example: MyNewCoolContent
                 url: 
                   type: string
+                  example: myWebsite.com/MyNewCoolContent
                 dscription: 
                   type: string
+                  example: This is my new cool content
                 image:
                   type: string
+                  example: myWebsite.com/MyNewCoolContent/image
       responses:
         '201':
-          description: success
+          description: POST Success
           content: 
             application/json:
               schema:
@@ -612,7 +628,7 @@ paths:
                     type: string
                     example: Content with that name already exists
         '500':
-          description: dabase error
+          description: Database error
           content: 
             application/json:
               schema:
@@ -620,12 +636,12 @@ paths:
                 properties:
                   error: 
                     type: string
-                    example: database error type
+                    example: Database error type
   
   /contents/{id}:
     
     get:
-      description: Obtain information about a specific content
+      description: Obtains information about a specific content
       parameters:
         - in: path
           name: id
@@ -642,7 +658,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/Content'
         '404':
-          description: content with this id doesn't exists 
+          description: Content with this id doesn't exists 
           content: 
             application/json:
               schema:
@@ -652,7 +668,7 @@ paths:
                     type: string
                     example: No valid entry found for provided ID
         '500':
-          description: find failed in the database
+          description: Find failed in the database
           content: 
             application/json:
               schema:
@@ -660,13 +676,13 @@ paths:
                 properties:
                   error: 
                     type: string
-                    example: database error type
+                    example: Database error type
     patch:
       description: Edits a specific content from the database
       requestBody:
         required: true
         content:
-          applicationn/json:
+          application/json:
             schema:
               type: array
               items: 
@@ -677,7 +693,7 @@ paths:
                     example: name
                   value:
                     type: object #could be other than object (object is the most generic allowed)
-                    example: the best paper of the world
+                    example: The best paper in the world
       parameters:
         - in: path
           name: id
@@ -688,7 +704,7 @@ paths:
             example: mongoose auto generated
       responses:
         '200':
-          description: content update
+          description: Content update
           content: 
             application/json:
               schema:
@@ -699,7 +715,7 @@ paths:
               example: 
                 message: Content updated
         '500':
-          description: update failed in the database
+          description: Update failed in the database
           content: 
             application/json:
               schema:
@@ -707,16 +723,18 @@ paths:
                 properties:
                   error: 
                     type: string
-                    example: database error type
+                    example: Database error type
     
                     
   /contents/add/{id}:
     patch:
-      description: Update a content information; useful for adding a new comment/review to a content with provided {id}
+      description: Updates a content information; useful for adding a new comment/review to a content with provided {id}
+      security:
+        - jwtAuth: []
       requestBody:
         required: true
         content:
-          applicationn/json:
+          application/json:
             schema:
               type: array
               items: 
@@ -724,10 +742,10 @@ paths:
                 properties:
                   propName:
                     type: string
-                    example: username
+                    example: comments
                   value:
                     type: object #could be other than object (object is the most generic allowed)
-                    example: salt bae
+                    example: Sample review
       parameters:
         - in: path
           name: id
@@ -738,7 +756,7 @@ paths:
             example: mongoose auto generated
       responses:
         '200':
-          description: The content has been successfully updated
+          description: Content has been successfully updated
           content: 
             application/json:
               schema:
@@ -747,9 +765,9 @@ paths:
                   message:
                     type: string
               example: 
-                message: content updated
+                message: Content updated
         '500':
-          description: update failed in the database
+          description: Update failed in the database
           content: 
             application/json:
               schema:
@@ -757,15 +775,15 @@ paths:
                 properties:
                   error: 
                     type: string
-                    example: database error type
+                    example: Database error type
 
   /contents/{id}/addview:
     post:
-      description: Increment by 1 the views of a given content
+      description: Increments by 1 the views of a given content
       # requestBody:
       #   required: true
       #   content:
-      #     applicationn/json:
+      #     application/json:
       #       schema:
       #         type: array
       #         items: 
@@ -787,7 +805,7 @@ paths:
             example: mongoose auto generated
       responses:
         '200':
-          description: The view counter has been successfully updated
+          description: View counter has been successfully updated
           content: 
             application/json:
               schema:
@@ -796,7 +814,7 @@ paths:
                   message:
                     type: string
               example: 
-                message: content updated
+                message: Content updated
         '500':
           description: Error in updating counter
           content: 
@@ -810,17 +828,19 @@ paths:
        
   /contents/{cId}/questions/{qId}:
     patch:
-      description: Add an answer to a question {id} for a content with provided {id}
+      description: Adds an answer to a question {id} for a content with provided {id}
+      security:
+        - jwtAuth: []
       requestBody:
         required: true
         content:
-          applicationn/json:
+          application/json:
             schema:
               type: object
               properties:
                 text: 
                   type: string
-                  example: tranquillo, è molto buono
+                  example: Tranquillo, è molto buono
       parameters:
         - in: path
           name: cId
@@ -849,7 +869,7 @@ paths:
               example: 
                 message: Added answer
         '500':
-          description: update failed in the database
+          description: Update failed in the database
           content: 
             application/json:
               schema:
@@ -857,7 +877,7 @@ paths:
                 properties:
                   error: 
                     type: string
-                    example: database error type
+                    example: Database error type
     
     
 #    delete:
@@ -879,7 +899,7 @@ paths:
   /search/all/{query}:
   
     get:
-      description: Find the books, contents and users
+      description: Finds the books, contents and users
       parameters:
         - in: path
           name: query
@@ -909,7 +929,7 @@ paths:
                     items:
                       $ref: '#/components/schemas/User'
         '500':
-          description: search failed in the database
+          description: Search failed in the database
           content: 
             application/json:
               schema:
@@ -917,12 +937,12 @@ paths:
                 properties:
                   error:
                     type: string
-                    example: database error type
+                    example: Database error type
 
   /search/university/{kind}/university:
   
     get:
-      description: Find the books, contents and users
+      description: Finds the books, contents and users
       parameters:
         - in: path
           name: kind
@@ -948,7 +968,7 @@ paths:
                     items:
                       $ref: '#/components/schemas/Content'
         '404':
-          description: university does not exist
+          description: University does not exist
           content: 
             application/json:
               schema:
@@ -956,9 +976,7 @@ paths:
                 properties:
                   error:
                     type: string
-                    example: kind not found
-    
-
+                    example: Kind not found
 components:
   schemas:
     User:
@@ -970,7 +988,7 @@ components:
           example: mongoose auto generated
         email:
           type: string
-          example: myemali@example.com
+          example: myemail@example.com
         username:
           type: string
           example: th3h4ck3r
@@ -991,7 +1009,7 @@ components:
               example: University of Trento
             course:
               type: string
-              example: SE II
+              example: Software Engineering II
             year: 
               type: number
               example: 3
@@ -1017,15 +1035,19 @@ components:
             website: 
               type: string
               example: www.mywebsite.com
+              default: ""
             contactEmail:
               type: string
               example: myemail@gmail.com
+              default: ""
             linkedin:
               type: string
               example: www.linkedin.com/mypage
+              default: ""
             gitHub:
               type: string
               example: www.github.com/mypage
+              default: ""
         profileImage:
           type: string
           example: https://thispersondoesnotexist.com/image
@@ -1033,6 +1055,7 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/User'
+            example: mongoose auto generated
 
       required:
         - _id
@@ -1066,7 +1089,7 @@ components:
           example: Mondadori
         description:
           type: string
-          example: the storic book for LFC course
+          example: The almighty book of LFC
         image:
           type: string
           example: /uploads/books/photo.jpg
@@ -1100,7 +1123,7 @@ components:
                 example: 4
               text: 
                 type: string
-                example: so useful!!
+                example: Wow! So useful!
               author:
                 $ref: '#/components/schemas/User'
         questions:
@@ -1110,12 +1133,12 @@ components:
             properties:
               quest:
                 type: string
-                example: Quande pagine ha?
+                example: Are the authors nice people?
               answers:
                 type: array
                 items:
                   type: string
-                  example: non troppe dai
+                  example: I know them, they are
       required:
         - _id
         - isbn
@@ -1141,7 +1164,7 @@ components:
               $ref: '#/components/schemas/User'
         date:
           type: number
-          example: 17.11.2020
+          example: 17/11/2020
         name:
           type: string
           example: Dispensa Calcolatori
@@ -1154,6 +1177,10 @@ components:
         image:
           type: string
           example: imgurl.com/contentphoto
+        views:
+          type: number
+          example: 313
+          default: 0
         validFor:
           type: array
           items:
@@ -1184,7 +1211,7 @@ components:
                 example: 4
               text: 
                 type: string
-                example: so useful!!
+                example: Wow! So useful!!
               author:
                 $ref: '#/components/schemas/User' 
         questions:
@@ -1194,12 +1221,12 @@ components:
             properties:
               quest:
                 type: string
-                example: Quande pagine ha?
+                example: Are the authors nice people?
               answers:
                 type: array
                 items:
                   type: string
-                  example: non troppe dai
+                  example: I know them, they are
       required:
         - _id
         - creator

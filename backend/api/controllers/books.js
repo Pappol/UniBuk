@@ -75,7 +75,7 @@ export const books_update_book = (req, res, next) => {
     .exec()
     .then((result) => {
       res.status(200).json({
-        message: "book updated",
+        message: "Book updated",
       });
     })
     .catch((err) => {
@@ -107,7 +107,7 @@ export const books_add_answer = (req, res, next) => {
     .exec()
     .then((result) => {
       res.status(200).json({
-        message: "added answer",
+        message: "Added answer",
       });
     })
     .catch((err) => {

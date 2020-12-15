@@ -71,7 +71,7 @@ export const contents_update_content = (req, res, next) => {
     .exec()
     .then((result) => {
       res.status(200).json({
-        message: "content updated",
+        message: "Content updated",
       });
     })
     .catch((err) => {
@@ -103,7 +103,7 @@ export const contents_add_answer = (req, res, next) => {
     .exec()
     .then((result) => {
       res.status(200).json({
-        message: "added answer",
+        message: "Added answer",
       });
     })
     .catch((err) => {
@@ -133,7 +133,7 @@ export const edit_content = (req, res, next) => {
       //console.log('NEW CONTENT');
       //console.log(result);
       res.status(200).json({
-        message: "content updated",
+        message: "Content updated",
       });
     })
     .catch((err) => {

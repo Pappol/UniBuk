@@ -173,7 +173,7 @@ export const user_add = (req, res, next) => {
     .exec()
     .then((result) => {
       res.status(200).json({
-        message: "user updated",
+        message: "User updated",
       });
     })
     .catch((err) => {
