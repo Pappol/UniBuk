@@ -297,7 +297,7 @@ class UserDetails extends Component {
 
               <h3 className="my-3">Dati personali</h3>
               <i>
-                Visualizzi questa sezione perchè sei il propietario di questo
+                Visualizzi questa sezione perché sei il propietario di questo
                 profilo
               </i>
               <p>Clicca il bottone sotto per aggiornare le tue credenziali</p>
