@@ -6,10 +6,7 @@ export default class Navbar extends Component {
     return (
       <>
         <h1>Su di noi</h1>
-        We need to develop an online service for e-commerce that will allow
-        University students to sell, buy and search for used books, notes and
-        resources. We want to deliver a web version of this service and a client
-        application.
+        <p>We need to develop an online service for University book suggestions and content sharing that will allow University students ton get information about  books, notes and resources they can use in their courses, as well as donwload contents shared by other users. We want to deliver a web version of this service and a client application.</p>
         <br /> <br />
         <Row>
           <Col className="col-sm-12 col-md-6 col-lg-3">

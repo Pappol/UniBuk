@@ -158,7 +158,7 @@ class Resources extends Component {
             <h1>Feed</h1>
             {!myFollow.length
               ? "Non stai seguendo alcun autore!"
-              : "Quì sotto trovi i contenuti degli autori che stai seguendo"}
+              : "Qui sotto trovi i contenuti degli autori che stai seguendo"}
             <br />
             <br />
 

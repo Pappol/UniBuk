@@ -54,7 +54,7 @@ export default class Navbar extends Component {
                 Feed
               </Nav.Link>
               <Nav.Link as={NavLink} to="/about" className="mr-2">
-                Chi siamo?
+                Chi siamo
               </Nav.Link>
             </Nav>
 
