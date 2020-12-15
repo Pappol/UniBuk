@@ -99,7 +99,6 @@ export default class Navbar extends Component {
           </Col>
           <br />
           <br />
-        <h1 class='credits'><br /><br />THIS IS US</h1>
         </Row>
       </>
     );
