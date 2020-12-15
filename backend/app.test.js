@@ -67,6 +67,14 @@ describe("API tests", () => {
       },
     ],
   });
+  const contentExampleBis = {
+    creator: "toberetrieved",
+    date: 2020,
+    name: "MyBestContentBis",
+    url: "exampleBis.com",
+    description: "DescriptionExampleBis",
+    image: "pathExampleBis",
+  };
   const userExample = {
     email: "email@example.com",
     username: "Username",
@@ -139,6 +147,16 @@ describe("API tests", () => {
     expect(response.status).toBe(200);
   });
 
+  test("Get all books but there is actually 0", async () => {
+    await Book.deleteOne({ _id: bookExample._id });
+    const response = await request.get("/books");
+    // Request body from string to object
+    const body = JSON.parse(response.text);
+    const { books } = body;
+    expect(books).toHaveLength(0);
+    expect(response.status).toBe(200);
+  });
+
   test("Get contents", async () => {
     const response = await request.get("/contents");
     // Request body from string to object
@@ -154,6 +172,16 @@ describe("API tests", () => {
     expect(response.status).toBe(200);
   });
 
+  test("Get all contents but there is actually 0", async () => {
+    await Content.deleteOne({ _id: contentExample._id });
+    const response = await request.get("/contents");
+    // Request body from string to object
+    const body = JSON.parse(response.text);
+    const { contents } = body;
+    expect(contents).toHaveLength(0);
+    expect(response.status).toBe(200);
+  });
+
   test("Get a content", async () => {
     const response = await request.get(`/contents/${contentExample._id}`);
     const body = JSON.parse(response.text);
@@ -161,11 +189,27 @@ describe("API tests", () => {
     expect(response.status).toBe(200);
   });
 
+  test("Get a content but ID does not exist", async () => {
+    const response = await request.get(`/contents/000000000000000000000000`);
+    const body = JSON.parse(response.text);
+    expect(body).toHaveProperty("message");
+    expect(body.message == "No valid entry found for provided ID").toBeTruthy();
+    expect(response.status).toBe(404);
+  });
+
   test("Get a book", async () => {
     const response = await request.get(`/books/${bookExample._id}`);
     const body = JSON.parse(response.text);
     expect(body.book._id == bookExample._id).toBeTruthy();
     expect(response.status).toBe(200);
+  });
+
+  test("Get a book but ID does not exist", async () => {
+    const response = await request.get(`/books/000000000000000000000000`);
+    const body = JSON.parse(response.text);
+    expect(body).toHaveProperty("message");
+    expect(body.message == "No valid entry found for provided ID").toBeTruthy();
+    expect(response.status).toBe(404);
   });
 
   test("Search existing", async () => {
@@ -493,6 +537,25 @@ describe("API tests", () => {
     expect(response.status).toBe(200);
   });
 
+  test("Insert an element in invalid user follow", async () => {
+    let header = {
+      Authorization: token,
+    };
+    let data = [
+      {
+        propName: "follow",
+        value: "5fab1591d9fe8e536c4df412",
+      },
+    ];
+    const response = await request
+      .patch(`/user/add/invaliduserid`)
+      .send(data)
+      .set(header);
+    const body = JSON.parse(response.text);
+    expect(body).toHaveProperty("error");
+    expect(response.status).toBe(500);
+  });
+
   test("create a new content", async () => {
     let data = {
       _id: new mongoose.Types.ObjectId(),
@@ -670,5 +733,63 @@ describe("API tests", () => {
     const response = await request.post(`/contents/notexisting/addView`);
     expect(response.body).toHaveProperty("error");
     expect(response.status).toBe(500);
+  });
+
+  test("Create a new content", async () => {
+    let header = {
+      Authorization: token,
+    };
+    const user = await User.findOne({ email: userExample.email });
+    const response = await request
+      .post(`/contents`)
+      .send({
+        creator: user._id,
+        date: 2020,
+        name: "MyBestContentBis",
+        url: "exampleBis.com",
+        description: "DescriptionExampleBis",
+        image: "pathExampleBis",
+      })
+      .set(header);
+    // const newContent = await Content.findOne({ name: "MyBestContentBis" });
+    // console.log(newContent);
+    // console.log(user._id);
+    // expect(user._id == newContent.creator).toBeTruthy();
+    expect(response.status).toBe(201);
+  });
+
+  test("Create a duplicated content", async () => {
+    let header = {
+      Authorization: token,
+    };
+    const creator = await User.findOne({ email: userExample.email });
+    // first create
+    await request
+      .post(`/contents`)
+      .send({
+        creator: creator._id,
+        date: 2020,
+        name: "MyBestContentBis",
+        url: "exampleBis.com",
+        description: "DescriptionExampleBis",
+        image: "pathExampleBis",
+      })
+      .set(header);
+    // duplicate save
+    const response = await request
+      .post(`/contents`)
+      .send({
+        creator: creator._id,
+        date: 2020,
+        name: "MyBestContentBis",
+        url: "exampleBis.com",
+        description: "DescriptionExampleBis",
+        image: "pathExampleBis",
+      })
+      .set(header);
+    const body = JSON.parse(response.text);
+    expect(body).toHaveProperty("message");
+    expect(body.message).toEqual("Content with that name already exists");
+    expect(response.status).toBe(409);
   });
 });
