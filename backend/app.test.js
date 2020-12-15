@@ -577,7 +577,7 @@ describe("API tests", () => {
     expect(response.status).toBe(201);
   });
 
-  test("dont create a duplicate content", async () => {
+  test("Don't create a new content", async () => {
     let data = {
       _id: new mongoose.Types.ObjectId(),
       creator: "5fab1591d9fe8e536c4df412",
@@ -811,5 +811,62 @@ describe("API tests", () => {
     expect(body).toHaveProperty("message");
     expect(body.message).toEqual("Content with that name already exists");
     expect(response.status).toBe(409);
+  });
+
+  test("Adding a comment for not existing content", async () => {
+    let header = {
+      Authorization: token,
+    };
+    let data = [
+      {
+        propName: "comments",
+        value: {
+          quest: "Sample review",
+        },
+      },
+    ];
+    const response = await request
+      .patch(`/contents/add/notexisting`)
+      .send(data)
+      .set(header);
+    expect(response.body).toHaveProperty("error");
+    expect(response.status).toBe(500);
+  });
+
+  test("Adding a review to a non existing book", async () => {
+    let header = {
+      Authorization: token,
+    };
+    let data = [
+      {
+        propName: "comments",
+        value: {
+          quest: "Sample review",
+        },
+      },
+    ];
+    const response = await request
+      .patch(`/books/add/notexisting`)
+      .send(data)
+      .set(header);
+    expect(response.body).toHaveProperty("error");
+    expect(response.status).toBe(500);
+  });
+
+  test("Adding an answer to a question to a content that doesn't exist", async () => {
+    let header = {
+      Authorization: token,
+    };
+    let data = {
+      text: "Sample answer",
+    };
+    const response = await request
+      .patch(
+        `/contents/notexisting/questions/${contentExample.questions[0]._id}`
+      )
+      .send(data)
+      .set(header);
+    expect(response.body).toHaveProperty("error");
+    expect(response.status).toBe(500);
   });
 });
