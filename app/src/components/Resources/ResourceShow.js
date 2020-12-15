@@ -2,6 +2,8 @@ import React, { Component } from "react";
 import { withRouter, Link } from "react-router-dom";
 import { LinkExternalIcon } from "@primer/octicons-react";
 import { ListGroup, Button, Image, Row, Col } from "react-bootstrap";
+import "./ResourceCard.css";
+
 
 class ResourceShow extends Component {
   edit = () => {
@@ -14,8 +16,7 @@ class ResourceShow extends Component {
         <ListGroup.Item>
           <Row>
             <Col className="col-xs-12 col-sm-12 col-md-4 col-lg-4">
-              <Image
-                style={{ height: "25vw", width: "auto" }}
+              <Image class='ResoureCard'
                 src={
                   `${this.props.image}`.startsWith("http://") ||
                   `${this.props.image}`.startsWith("https://")

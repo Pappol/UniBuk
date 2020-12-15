@@ -261,7 +261,7 @@ class ResourceDetails extends Component {
               <ListGroup.Item>
                 <Row>
                   <Col className="col-xs-12 col-sm-12 col-md-4 col-lg-4">
-                    <Image class='ResoureCard'
+                    <Image class='resurceImg'
                       src={
                         `${resource.image}`.startsWith("http://") ||
                         `${resource.image}`.startsWith("https://")
