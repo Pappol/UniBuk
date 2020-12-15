@@ -12,7 +12,7 @@ info:
 servers:
   - url: http://localhost:8080/v1/
     description: Localhost
-  - url: https://unibuk-backend.herokuapp.com
+  - url: https://unibuk-backend.herokuapp.com/v1/
     description: Heroku server
 
 paths: 
