@@ -301,7 +301,7 @@ class UserDetails extends Component {
                 profilo
               </i>
               <p>Clicca il bottone sotto per aggiornare le tue credenziali</p>
-              <Accordion className="mt-3">
+              <Accordion className="mt-3 w-50">
                 <Accordion.Toggle as={Button} variant="primary" eventKey="0">
                   Cambia credenziali
                 </Accordion.Toggle>

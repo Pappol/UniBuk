@@ -17,6 +17,8 @@
     border-radius: 20px;
     background-color: #007BFF;
     float: right;
+    position: sticky;
+    top: 15vh;
 }
 .profileInfo{
     margin: 1vw;
