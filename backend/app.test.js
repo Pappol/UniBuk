@@ -577,7 +577,7 @@ describe("API tests", () => {
     expect(response.status).toBe(201);
   });
 
-  test("dont create a new content", async () => {
+  test("dont create a duplicate content", async () => {
     let data = {
       _id: new mongoose.Types.ObjectId(),
       creator: "5fab1591d9fe8e536c4df412",
@@ -596,6 +596,26 @@ describe("API tests", () => {
     };
     const response = await request.post("/contents").send(data);
     expect(response.status).toBe(409);
+  });
+
+  test("create a content with a missing field", async () => {
+    let data = {
+      _id: new mongoose.Types.ObjectId(),
+      creator: "5fab1591d9fe8e536c4df412",
+      name: "MyBestContent",
+      url: "another.example.com",
+      description: "another DescriptionExample",
+      image: "another pathExample",
+      questions: [
+        {
+          _id: "5fab1591d9fe8e536c4df798",
+          quest: "another Sample quest",
+          answers: ["5fab1591d9fe8e536c4df414"],
+        },
+      ],
+    };
+    const response = await request.post("/contents").send(data);
+    expect(response.status).toBe(500);
   });
 
   test("edit a content", async () => {
